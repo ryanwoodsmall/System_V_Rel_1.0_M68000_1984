@@ -1,0 +1,250 @@
+.\"	@(#)intro	1.11	
+'\"ntro       To get a copy of the front matter (intro, table of contents,
+'\"	  index), on your terminal, type:
+'\"              nroff [ intro ] [ tocin ] [ ptxin ]
+'\"	  To typeset a copy via GCAT, use:
+'\"		 troff [ -rs1 ] -g [ intro ] [ tocin ] [ ptxin ] | gcat
+'\"	  ("-rs1" forces small -- 6x9 inches -- format).
+'\"	  If typesetter is on-line, omit the "-g" and the "| gcat".
+.ds 5) \s-1UNIX System V\s+1
+.so /usr/lib/tmac/tmac.m
+.if \n()s \{.pl 9i
+.	     ll 4.75i
+.	     lt 4.75i
+.	     po .75i
+.	     ps 9
+.	     vs 10 \}
+.if \n()t \{.pl 11i
+.	     ll 6.5i
+.	     lt 6.5i
+.	     po 1.24i
+.	     ps 10
+.	     vs 12 \}
+.if n \{.pl 11i
+.	 ll 6.5i
+.	 lt 6.5i
+.	 po .463i
+'	 br \}
+.de PP
+.if n .sp
+.if t .sp .5v
+.ne 1.1v
+..
+.hw print-out photo-type-setter
+.tr ~
+.hy 0
+.if t \{.ds ` ``
+.	 ds ' ''
+.	 ds d \-
+'	 br \}
+.if n \{.ds ` ""
+.	 ds ' ""
+.	 ds d " -- \"
+.	 na
+.	 rm ad \}
+.ft
+.hy 14
+.ta .5i 1i 1.5i 2i 2.5i 3i 3.5i 4i 4.5i 5i 5.5i 6i 6.5i
+.if \n()s \{.pl 9i
+.	     ll 4.75i
+.	     lt 4.75i
+.	     po .75i
+.	     ps 9
+.	     vs 10 \}
+.if \n()t \{.pl 11i
+.	     ll 6.5i
+.	     lt 6.5i
+.	     po 1.24i
+.	     ps 10
+.	     vs 12 \}
+.if n \{.pl 11i
+.	 ll 6.5i
+.	 lt 6.5i
+.	 po .463i \}
+.PH ''''
+.PF ''''
+.sp 4
+.tl ''' December 1983'
+.sp 10
+.ce 1
+.B "UNIX System V"
+.sp 2
+.ce 1
+.B "ADMINISTRATOR'S MANUAL"
+.sp 5
+The information in this document has been carefully checked
+and is believed to be entirely reliable.  However, no
+responsibility is assumed for inaccuracies.  Furthermore,
+Motorola reserves the right to make changes to any products
+herein to improve reliability, function, or design.  Motorola
+does not assume any liability arising out of the application
+or use of any product or circuit described herein; neither does it
+convey any license under its patent rights or the rights of others.
+.sp 5
+EXORmacs and EXORterm are trademarks of Motorola Inc.
+UNIX is a trademark of Bell Laboratories, Incorporated.
+PDP, VAX, and DEC are trademarks of
+Digital Equipment Corporation.  PRINTRONIX is a trademark of
+Printronix, Inc.  CENTRONICS is a trademark of Data Computer
+Corporation.  LARK is a trademark of Control Data Corporation.
+.sp 5
+.ce 1
+First Edition
+.sp
+.ce 1
+Copyright 1983 by Motorola Inc.
+.sp
+.ce 1
+Portions of this document are reprinted
+.br
+.ce 1
+from copyrighted documents by permission of
+.br
+.ce 1
+Western Electric Company, Incorporated, 1983.
+.in -\n(}Iu
+.ll +\n(}Iu
+.bp
+.hy 14
+.ta .5i 1i 1.5i 2i 2.5i 3i 3.5i 4i 4.5i 5i 5.5i 6i 6.5i
+.PH ''''
+.PF ''\\\\nP''
+.sp 6
+.af P i
+.nr P 1
+.ce
+\f3INTRODUCTION\fP
+.sp 1
+.tr ~
+.H 1 "GENERAL"
+The 
+.I "Administrator's Manual"
+is intended to supplement the information contained in the
+.I "\*(6) User's Manual"
+and to provide an easy reference volume for those who must 
+administer \*(5).  Accordingly, only those commands and descriptions
+deemed appropriate for system administrators have been included here.
+.sp
+.H 1 "ADMINISTRATOR'S MANUAL ORGANIZATION"
+.P
+.H 2 "Description of Contents"
+.P
+The manual is divided into three sections:
+.P
+.B "Section 1"
+(``System Maintenance Commands and Application Programs'')
+contains system maintenance programs such as 
+.I "fsck, mkfs,"
+etc., which generally reside in the directory
+.B /etc;
+these entries carry a sub-class designation of ``1M'' for cross referencing
+reasons.
+.P
+.B "Section 7"
+(``Special Files'') 
+discusses the characteristics of each system file that actually refer
+to an input/output device.  The names in this section generally refer
+to device names for the hardware, rather than to the names of the
+special files themselves.
+.P
+.B "Section 8"
+(``System Maintenance Procedures'')
+discusses crash recovery and boot procedures, facility descriptions, etc.
+.sp
+.H 2 "Section Organization"
+.P
+Each section consists of a number of independent entries of a page or so
+each.  The name of the entry appears in the upper corners of its pages.
+Entries within each section are alphabetized, with the exception
+of the introductory entry that begins each section.  The page numbers
+of each entry start at 1.  Some entries may describe several routines,
+commands, etc.  In such cases, the entry appears only once,
+alphabetized under its major name.
+.P
+The
+.IR "\*(6) User's Manual" ,
+which contains sections 1 - 6, is organized
+in the same manner as this
+.IR "Administrator's Manual" .
+Throughout the documentation, references to the contents of either
+manual are given as 
+.BR name (section).
+For example, 
+.BR chroot (1M)
+is a reference to the \fIchroot\fP entry in section 1M of the
+.I "Administrator's Manual".
+.P
+A table of contents and a permuted index derived from that table
+precede Section 1M.  The permuted index contains entries from both the  
+.I "\*(6) User's Manual" 
+and this volume, and on each ``index'' line,
+the title of the entry to which that
+line refers is followed by the appropriate section number in
+parentheses.  This is important because there is considerable
+duplication of names among the sections, arising principally from
+commands that exist only to exercise a particular system call.
+.sp
+.H 2 "Entry Format"
+.P
+All entries are based on a common format, not all of whose parts
+always appear:
+.P
+.in +2m
+\f3NAME\f1 gives the name(s) of the entry and briefly states its
+purpose.
+.P
+\f3SYNOPSIS\f1 summarizes the use of the program being described.
+.P
+\f3DESCRIPTION\f1 provides additional information about the
+program or facility outlined in the ``Name'' and ``Synopsis'' parts.
+.P
+\f3EXAMPLE\f1 gives an example(s) of usage, where appropriate.
+.P
+\f3FILES\f1 gives the filenames that are built into the program.
+.P
+\f3SEE ALSO\f1 gives pointers to related information.
+.P
+\f3DIAGNOSTICS\f1 discusses the diagnostic indications that may be
+produced.  Messages that are self-explanatory are not
+listed.
+.P
+\f3WARNINGS\f1 points out potential pitfalls.
+.P
+\f3BUGS\f1 gives known bugs and sometimes deficiencies.  Occasionally,
+the suggested fix is also described.
+.in -2m
+.sp
+.H 2 "Conventions"
+.P
+A few conventions are used, particularly in Section 1 (``Commands''):
+.P
+.in +2m
+.B Boldface
+strings are literals and are to be typed just as they appear.
+.P
+.I Italic
+strings usually represent substitutable argument prototypes and
+program names found elsewhere in the manual.  Note that this
+convention is not used in the ``SYNOPSIS'' or ``SEE ALSO'' part.
+.P
+Square brackets [] around an argument prototype indicate that the
+argument is optional.  When an argument prototype is given as 
+.I name
+or
+.IR file ,
+it always refers to a
+.IR file name.
+.P
+Ellipses ... are used to show that the previous argument prototype
+may be repeated.
+.P
+A final convention is used by the commands themselves.  An argument
+beginning with a minus -, plus +, or equal sign = is often taken
+to be some type of flag argument, even if it appears in a position
+where a filename could appear.  Therefore, it is unwise to have
+files whose names begin with -, +, or =.
+.in -2m
+.sp
+On most systems, all entries are available online via the
+.IR man (1)
+command.       

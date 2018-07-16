@@ -1,0 +1,14 @@
+rm -f errform.t
+for each in errintro
+do
+	sed -e 's/\\fP/\\f1/g'	\
+	    -e 's/\\fR/\\f1/g'	\
+	    -e 's/\\fI/\\f2/g'	\
+	    -e 's/\\fB/\\f3/g'	\
+	    -e 's/_/\\(ru/g'	\
+	    -e 's/\\(ul/\\(ru/g'	\
+		$each
+done | \
+	tbl | \
+	eqn > errform.t
+qtroff -F cm -rQ2 -mm errmacs

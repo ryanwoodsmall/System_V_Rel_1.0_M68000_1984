@@ -1,0 +1,128 @@
+'\" t
+.TH ERRFILE 4
+.SH NAME
+errfile \- error-log file format
+.SH DESCRIPTION
+When hardware errors are detected by the system,
+an error record is generated and passed to the
+error-logging daemon for recording in the error log for
+later analysis.
+The default error log is
+.BR /usr/adm/errfile .
+.PP
+The format of an error record depends on the
+type of error that was encountered.
+Every record, however, has a header with the
+following format:
+.PP
+.ne 5
+.ta .5i 1.5i 2.5i
+.nf
+struct errhdr {
+	short	e_type;	/\(** record type \(**/
+	short	e_len;	/\(** bytes in record (inc hdr) \(**/
+	time_t	e_time;	/\(** time of day \(**/
+};
+.fi
+.PP
+The permissible record types are as follows:
+.PP
+.ne 10
+.ta 2i 2.5i
+.nf
+#define \s-1E_GOTS\s+1	010	/\(** start for the \s-1UNIX/TS\s+1\(**/
+#define \s-1E_GORT\s+1	011	/\(** start for the \s-1UNIX/RT\s+1\(**/
+#define \s-1E_STOP\s+1	012	/\(** stop \(**/
+#define \s-1E_TCHG\s+1	013	/\(** time change \(**/
+#define \s-1E_CCHG\s+1	014	/\(** configuration change \(**/
+#define \s-1E_BLK\s+1	020	/\(** block device error \(**/
+#define \s-1E_STRAY\s+1	030	/\(** stray interrupt \(**/
+#define \s-1E_PRTY\s+1	031	/\(** memory parity \(**/
+.fi
+.PP
+Some records in the error file are of
+an administrative nature.
+These include the startup record that is entered into
+the file when logging is activated,
+the stop record that is written if the daemon is
+terminated ``gracefully'',
+and the time-change record that is used to account for
+changes in the system's time-of-day.
+These records have the following formats:
+.PP
+.ne 12
+.ta .5i 2.5i 3.25i
+.nf
+struct estart {
+	short	e_cpu;	/\(** \s-1CPU\s+1 type \(**/
+	struct utsname	e_name;	/\(** system names \(**/
+};
+.fi
+.PP
+.ta .5i 2.5i 3.25i
+.nf
+#define eend errhdr		/\(** record header \(**/
+.fi
+.PP
+.nf
+struct etimchg {
+	time_t	e_ntime;	/\(** new time \(**/
+};
+.fi
+.br
+.ne 10
+.PP
+Stray interrupts cause a record with the
+following format to be logged:
+.PP
+.ne 4
+.ta .5i 2.25i 3.25i
+.nf
+struct estray {
+	uint	e_saddr;	/\(** stray loc or device addr \(**/
+};
+.fi
+.PP
+Generation of memory subsystem errors is not supported in this release.
+.PP
+Error records for block devices have the following format:
+.PP
+.ta .75i 1.0i 2.25i 3.25i
+.nf
+struct eblock {
+.ne 16
+	dev_t	e_dev;	/\(** "true" major + minor dev no \(**/
+	physadr	e_regloc;	/\(** controller address \(**/
+	short	e_bacty;	/\(** other block \s-1I/O\s+1 activity \(**/
+	struct iostat {
+   		long	io_ops;	/\(** number read/writes \(**/
+   		long	io_misc;	/\(** number "other" operations \(**/
+   		ushort	io_unlog;	/\(** number unlogged errors \(**/
+	}		e_stats;
+	short	e_bflags;	/\(** read/write, error, etc \(**/
+	short	e_cyloff;	/\(** logical dev start cyl \(**/
+	daddr_t	e_bnum;	/\(** logical block number \(**/
+	ushort	e_bytes;	/\(** number bytes to transfer \(**/
+	paddr_t	e_memadd;	/\(** buffer memory address \(**/
+	ushort	e_rtry;	/\(** number retries \(**/
+	short	e_nreg;	/\(** number device registers \(**/
+};
+.fi
+.PP
+The following values are used in the
+.I e_bflags\^
+word:
+.PP
+.ne 6
+.ta 2.0i 2.5i
+.nf
+#define \s-1E_WRITE\s+1	0	/\(** write operation \(**/
+#define \s-1E_READ\s+1	1	/\(** read operation \(**/
+#define \s-1E_NOIO\s+1	02	/\(** no \s-1I/O\s+1 pending \(**/
+#define \s-1E_PHYS\s+1	04	/\(** physical \s-1I/O\s+1 \(**/
+#define \s-1E_FORMAT\s+1	010	/\(** Formatting Disk\(**/
+#define \s-1E_ERROR\s+1	020	/\(** \s-1I/O\s+1 failed \(**/
+.fi
+.SH SEE ALSO
+errdemon(1M).
+.\"	@(#)errfile.4	1.5	

@@ -1,0 +1,94 @@
+.\"	@(#)errmacs	5.2 of 5/14/82
+.\"	@(#)errmacs	1.19	
+.PF ''\\\\nP''
+.PH ''''
+.de PP
+.if n .sp
+.if t .sp .5v
+.ne 1.1v
+..
+.hw print-out photo-type-setter
+.nr )s 0
+.if t .if \ns .nr )s 1\"register )s=1 iff troff and small format;0 otherwise
+.nr )t 0
+.if t .if !\ns .nr )t 1\"register )t=1 iff troff and large format; 0 otherwise
+.if \n()t \{.pl 11i
+.            ll 6.5i
+.            lt 6.5i
+.            po 1.0i
+.            ps 10
+.            vs 12p\}
+.if t \{.ds ` ``
+.	 ds ' ''
+.	 ds d \-
+'	 br \}
+.if n \{.ds ` ""
+.	 ds ' ""
+.	 ds d " -- \"
+.	 na
+.	 rm ad \}
+.de Nm
+.HU "\\s10\\$1"
+.VL 13 5
+.if \n()s .S 9 10
+..
+.de Ds
+.LI \s-1DESCRIPTION\s+1
+.br
+..
+.de Ac
+.LI \s-1ACTION\s+1
+.br
+..
+.de Rf
+.LI \s-1REFERENCES\s+1
+.br
+..
+.ds Rl V
+.ds Eo \f1(Processor(s))
+.ds Vo \f1(\s-1M68000\s+1 and \s-1VAX\s+1-11 only) 
+.ds Po \f1(\s-1M68000\s+1 and \s-1PDP\s+1-11 only)
+.ds Bo \f1(3B20S only)
+.ds So \f1(3B20S only - \s-1SYSBUF\s+1)
+.ds Ao \f1(\s-1M68000\s+1 and \s-1DEC\s+1 only)
+.ds Do \f1(\s-1M68000\s+1 and \s-1DEC\s+1 only)
+.ds Co \f1(\s-1M68000\s+1 and \s-1VAX\s+1-11/750 only) 
+.ds Xo \f1(\s-1M68000\s+1 and \s-1VAX\s+1-11/780 only)
+.ds Lo \f1(\s-1M68000\s+1 and \s-1VAX\s+1-11 only)
+.ds Mo \f1(\s-1M68000\s+1 and \s-1PDP\s+1-11 only)
+.ds Og \f2\*(5) Operator's Guide\f1
+.ds Am \f2\*(5) Administrator's Manual\f1
+.ds Ag \f2\*(5) Administrator's Guide\f1
+.ds Sb ``Setting Up \*(5)''
+.de NM
+.if '\\$2'' \{
+.nr Hs 1 \}
+.SK
+.HU "\\s10\\$1"
+.B
+.if !'x\\$2'x' \{ \\$2
+.br \}
+.if !'x\\$3'x' \{ \\$3
+.br \}
+.if !'x\\$4'x' \{ \\$4
+.br \}
+.if !'x\\$5'x' \{ \\$5
+.br \}
+.if !'x\\$6'x' \\$6
+.R
+.VL 13 5
+..
+.de Ds
+.LI DESCRIPTION
+.br
+..
+.de Ac
+.LI ACTION
+.br
+..
+.de Rf
+.LI REFERENCES
+.br
+..
+.rm BL DL AL CS MT AU ND TL
+.so errform.t

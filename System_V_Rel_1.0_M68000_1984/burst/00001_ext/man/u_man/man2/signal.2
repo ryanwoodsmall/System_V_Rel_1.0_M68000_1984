@@ -1,0 +1,420 @@
+.TH SIGNAL 2
+.SH NAME
+signal \- specify what to do upon receipt of a signal
+.SH SYNOPSIS
+.B #include <sys/signal.h>
+.PP
+.BR "int (\(**signal (" "sig, func" ))(\|)
+.br
+.BR int " sig" ;
+.br
+.BR "int (\(**" func )(\|);
+.SH DESCRIPTION
+.I Signal\^
+allows the calling process to choose one of three ways
+in which it is possible to handle the receipt of a specific signal.
+.I Sig\^
+specifies the signal and
+.I func\^
+specifies the choice.
+.PP
+.I Sig\^
+can be assigned any one of the following except
+.BR \s-1SIGKILL\s+1 : 
+.PP
+.DS
+.TS
+l l l.
+\fB\s-1SIGHUP\s+1\fR	01	hangup
+\fB\s-1SIGINT\s+1\fR	02	interrupt
+\fB\s-1SIGQUIT\s+1\fR	03*	quit
+\fB\s-1SIGILL\s+1\fR	04*	T{
+illegal instruction
+(not reset when caught)
+T}
+\fB\s-1SIGTRAP\s+1\fR	05*	T{
+trace trap
+(not reset when
+caught)
+T}
+\fB\s-1SIGIOT\s+1\fR	06*	\s-1IOT\s+1 instruction
+\fB\s-1SIGEMT\s+1\fR	07*	\s-1EMT\s+1 instruction
+\fB\s-1SIGFPE\s+1\fR	08*	floating point exception
+\fB\s-1SIGKILL\s+1\fR	09	T{
+kill (cannot be
+caught or ignored)
+T}
+\fB\s-1SIGBUS\s+1\fR	10*	bus error
+\fB\s-1SIGSEGV\s+1\fR	11*	segmentation violation
+\fB\s-1SIGSYS\s+1\fR	12*	bad argument to system call
+\fB\s-1SIGPIPE\s+1\fR	13	T{
+write on a pipe with
+no one to read it
+T}
+\fB\s-1SIGALRM\s+1\fR	14	alarm clock
+\fB\s-1SIGTERM\s+1\fR	15	software termination signal
+\fB\s-1SIGUSR1\s+1\fR	16	user defined signal 1
+\fB\s-1SIGUSR2\s+1\fR	17	user defined signal 2
+\fB\s-1SIGCLD\s+1\fR	18	T{
+death of a child
+(see \fIWARNING\fR
+below)
+T}
+\fB\s-1SIGPWR\s+1\fR	19	T{
+power fail
+(see \fIWARNING\fR
+below)
+T}
+.TE
+.PP
+See below for the significance of the asterisk
+.RB ( \(** )
+in the above list.
+.PP
+.I Func\^
+is assigned one of three values:
+.BR \s-1SIG\(ruDFL\s+1 ,
+.BR \s-1SIG\(ruIGN\s+1 ,
+or a
+.IR "function address" .
+The actions prescribed by these values are as follows: 
+.RS 2
+.PP
+.SM
+.B SIG\(ruDFL
+\&\-  terminate process upon receipt of a signal
+.RS 8
+Upon receipt of the signal
+.IR sig ,
+the receiving process is to be terminated with all of the consequences outlined
+in
+.IR exit (2);
+a ``core image'' is made in
+the current working directory of the receiving
+process if
+.I sig\^
+is one for which an asterisk appears in the above list
+and
+the following conditions are met:
+.RS 8
+.PP
+The effective user
+.SM ID
+and the real user
+.SM ID
+of the receiving 
+process are equal.
+.PP
+An ordinary file named
+.B core
+exists and is writable or can be created.
+If the file must be created, it will have the following properties:
+.RS 8
+.PP
+a mode of 0666 modified by the file creation mask
+.RI (see  " umask" (2))
+.PP
+a file owner
+.SM ID
+that is the same as the effective user
+.SM ID
+of the receiving process
+.PP
+a file group
+.SM ID
+that is the same as the effective group
+.SM ID
+of the receiving process
+.RE
+.RE
+.RE
+.RE
+.PP
+.SM
+.B SIG\(ruIGN
+\&\-  ignore signal
+.RS 8
+The signal 
+.I sig\^
+is to be ignored.
+.PP
+Note: the signal
+.B
+.SM SIGKILL
+cannot be ignored.
+.RE
+.PP
+.I function address\^
+\&\-  catch signal
+.RS 8
+Upon receipt of the signal
+.IR sig ,
+the receiving process is to execute the signal-catching function pointed to by
+.IR func .
+The signal number
+.I sig\^
+is passed as the first argument to the signal-catching function.
+A second argument, \fIsig\(rucode\fP, is also passed to the
+function.  \fISig\(rucode\fP has various contents, according to
+the value of \fIsig\fP.  These values are provided in the table
+below.
+Before entering the signal-catching function, the value of
+.I func\^
+for the caught signal is set to
+.SM
+.B SIG\(ruDFL
+unless the signal is
+.SM
+.BR SIGILL ,
+.SM
+.BR SIGTRAP ", or"
+.SM
+.BR SIGPWR .
+.PP
+Upon return from the signal-catching function, the receiving process 
+resumes execution at the point it was interrupted.  See the WARNINGS
+section below.
+.PP
+When a signal that is to be caught occurs during a 
+\fIread\fP(2), \fIwrite\fP(2), \fIopen\fP(2), or
+\fIioctl\fP(2)
+system call on a slow device (like a terminal; but not a file), during a
+.IR pause (2)
+system call, or during a
+.IR wait (2)
+system call that does not return immediately due to the existence of a
+previously stopped or zombie
+process, the signal catching function is executed; then the
+interrupted system call returns a \-1 to the calling process with
+.I errno\^
+set to
+.SM EINTR\*S.
+.PP
+Note: the signal
+.B
+.SM SIGKILL
+cannot be caught.
+.RE
+.RE
+.PP
+A call to
+.I signal\^
+cancels a pending signal
+.I sig\^
+except for a pending
+.B \s-1SIGKILL\s+1
+signal.
+.PP
+.I Signal\^
+fails if one or more of the following are true:
+.IP
+.I Sig\^
+is an illegal signal number, including
+.SM
+.BR SIGKILL .
+.SM
+\%[EINVAL]
+.IP
+.I Func\^
+points to an illegal address.
+.SM
+\%[EFAULT]
+.PP
+The table below shows how \*(5) handles M68000 traps.  Most
+traps result in signals being sent to the user process
+that caused the trap.
+All other traps are considered to be STRAYFT, spurious
+interrupts.
+.PP
+The following meanings apply to information in the "SIGNAL CODE"
+column of the table:
+.IP
+code \=\= address means the address causing the fault
+.IP
+code \=\= pc means the program counter value at the time
+of the trap
+.IP
+code \=\= (%d0) means the user parameter to the TRAP instruction
+.sp
+.in
+The definitions of KINTDIV, KINTOVF, and KSUBRNG are provided
+in the include file \f3<sys/signal.h>\f1.
+.DS
+.TS
+box center;
+l c l l l 
+l c l l l 
+l2 c2 l2 l2 l2.
+TRAP	TRAP	\&	\&	SIGNAL
+TYPE	NO.	ASSIGNMENT	SIGNAL	CODE
+\(ru
+BUSERR	2	bus error	SIGBUS	address
+ADDRERR	3	address error	SIGILL	address
+INSTERR	4	illegal instruction	SIGILL	pc
+ZDVDERR	5	zero divide fault	SIGFPE	KINTDIV
+CHKTRAP	6	CHK instruction fault	SIGFPE	KSUBRNG
+TRAPVFT	7	TRAPV instruction fault	SIGFPE	KINTOVF
+PRIVFLT	8	T{
+privileged instruction
+fault
+T}	SIGILL	pc
+TRCTRAP	9	trace trap	SIGTRAP	pc
+L1010FT	10	line 1010 emulator	SIGILL	pc
+L1111FT	11	line 1111 emulator	SIGILL	pc
+STRAYFT	24	spurious interrupt	n/a	n/a
+SYSCALL	32	TRAP 0 \- system call	n/a	(%d0)
+BPTFLT	33	TRAP 1 \- breakpoint	SIGTRAP	pc
+IOTTRAP	34	T{
+TRAP 2 \- simulate
+DEC IOT instruction
+T}	SIGIOT	(%d0)
+EMTTRAP	35	T{
+TRAP 3 \- simulate
+DEC EMT instruction
+T}	SIGEMT	(%d0)
+FPETRAP	36	T{
+TRAP 4 \- floating
+point exception
+T}	SIGFPE	(%d0)
+.TE
+.DE
+.PD
+.PP
+.SH RETURN VALUE
+Upon successful completion,
+.I signal\^
+returns the previous value of
+.I func\^
+for the specified signal
+.IR sig .
+Otherwise, a value of \-1 is returned and
+.I errno\^
+is set to indicate the error.
+.SH SEE ALSO
+kill(1), kill(2), pause(2), ptrace(2), wait(2), setjmp(3C).
+.SH WARNINGS
+Two other signals that behave differently than the signals described above
+exist in this release of the system.  They are:
+.PP
+.RS 8
+.nf
+.ta \w'SIGMMMM 'u +\w'15\(**  'u
+.BR \s-1SIGCLD\s+1 "	18	death of a child (reset when caught)"
+.BR \s-1SIGPWR\s+1 "	19	power fail (not reset when caught)"
+.fi
+.RE
+.PP
+There is no guarantee that, in future releases of the
+.SM UNIX
+System,
+these signals will continue to behave as described below;
+they are included only for compatibility with other versions of the
+.SM UNIX
+System.
+Their use in new programs is strongly discouraged.
+.PP
+For these signals,
+.I func\^
+is assigned one of three values:
+.BR \s-1SIG\(ruDFL\s+1 ,
+.BR \s-1SIG\(ruIGN\s+1 ,
+or a
+.IR "function address"  .
+The actions prescribed by these values are as follows: 
+.RS 2
+.PP
+.SM
+.B SIG\(ruDFL
+- ignore signal
+.RS 8
+The signal is to be ignored.
+.RE
+.PP
+.SM
+.B SIG\(ruIGN
+- ignore signal
+.RS 8
+The signal is to be ignored.
+If
+.I sig\^
+is
+.SM
+.BR SIGCLD ,
+the calling process's child processes do not create zombie processes when
+they terminate; see
+.IR exit (2).
+.RE
+.PP
+.I function address\^
+- catch signal
+.RS 8
+If the signal is
+.SM
+.BR SIGPWR ,
+the action to be taken is the same as that described above for
+.I func\^
+equal to
+.IR "function address" .
+The same is true if the signal is
+.SM
+.BR SIGCLD ,
+except that, while the process is executing
+the signal-catching function,
+any received
+.SM
+.B SIGCLD
+signals are queued and the signal-catching function is continually
+reentered until the queue is empty.
+.RE
+.PP
+The
+.SM
+.B SIGCLD
+affects two other system calls 
+.RI ( wait "(2) and " exit (2))
+in the following ways:
+.TP 8
+.I wait\^
+If the
+.I func\^
+value of
+.SM
+.B SIGCLD
+is set to
+.SM
+.B SIG\(ruIGN
+and a
+.I wait\^
+is executed, the
+.I wait\^
+blocks until all of the calling process's child processes terminate;
+it then returns a value of \-1 with
+.I errno\^
+set to
+.SM ECHILD.
+.TP 8
+.I exit\^
+If in the exiting process's parent process the
+.I func\^
+value of
+.SM
+.B SIGCLD
+is set to
+.SM
+.BR SIG\(ruIGN ,
+the exiting process does not create a zombie process.
+.PP
+When processing a pipeline, the shell
+makes the last process in the pipeline the parent of the preceding processes.
+A process that may be piped into in this manner (and thus become the parent
+of other processes) should take care not to set
+.SM
+.B SIGCLD
+to be caught.
+.sp
+The ability to resume execution upon return from the signal-catching
+function is machine-dependent.  For the M68000, resumption cannot
+occur after faults requiring instruction recovery.  These faults
+are bus errors and address errors.
+.\"	@(#)signal.2	1.9	
+

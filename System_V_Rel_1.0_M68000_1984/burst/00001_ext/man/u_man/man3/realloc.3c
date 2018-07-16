@@ -1,0 +1,2 @@
+.\"	@(#)realloc.3c	1.2	
+.so /usr/man/u_man/man3/malloc.3c

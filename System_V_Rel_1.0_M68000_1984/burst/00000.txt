@@ -1,0 +1,240 @@
+drwxr-xr-x 12 root     sys              0 Apr 30  1984 .
+drwxrwxr-x  2 root     daemon           0 Apr 30  1984 bck
+drwxrwxr-x  2 2        kmem             0 Apr 30  1984 bin
+-rwxrwxr-x  2 2        kmem         26058 Apr 30  1984 bin/STTY
+-rwxrwxr-x  1 2        kmem         33852 Apr 30  1984 bin/acctcom
+-rwxrwxr-x  1 2        kmem         36223 Apr 30  1984 bin/ar
+-rwxrwxr-t  2 2        kmem         73626 Apr 30  1984 bin/as
+-rwxrwxr-x  1 2        kmem            83 Apr 30  1984 bin/basename
+-rwxrwxr-x  1 2        kmem         49600 Apr 30  1984 bin/bs
+-rwxrwxr-x  1 2        kmem         12234 Apr 30  1984 bin/cat
+-rwxrwxr-x  1 2        kmem         19726 Apr 30  1984 bin/cc
+-rwxrwxr-x  1 2        kmem         13712 Apr 30  1984 bin/chgrp
+-rwxrwxr-x  1 2        kmem         11326 Apr 30  1984 bin/chmod
+-rwxrwxr-x  1 2        kmem         13992 Apr 30  1984 bin/chown
+-rwxrwxr-x  1 2        kmem         12252 Apr 30  1984 bin/cmp
+-rwxrwxr-x  2 2        kmem         13894 Apr 30  1984 bin/cp
+-rwxrwxr-x  1 2        kmem         31532 Apr 30  1984 bin/cpio
+-rwxrwxr-x  1 2        kmem         16480 Apr 30  1984 bin/date
+-rwxrwxr-x  1 2        kmem         15410 Apr 30  1984 bin/dd
+-rwsrwxr-x  1 root     kmem         12856 Apr 30  1984 bin/df
+-rwxrwxr-x  1 2        kmem         18340 Apr 30  1984 bin/diff
+-rwxrwxr-x  1 2        kmem           115 Apr 30  1984 bin/dirname
+-rwxrwxr-x  1 2        kmem         50736 Apr 30  1984 bin/dis
+-rwxrwxr-x  1 2        kmem         11978 Apr 30  1984 bin/du
+-rwxrwxr-x  1 2        kmem         49096 Apr 30  1984 bin/dump
+-rwxrwxr-x  1 2        kmem          3846 Apr 30  1984 bin/echo
+-rwxrwxr-x  2 2        kmem         32756 Apr 30  1984 bin/ed
+-rwxrwxr-x  1 2        kmem          6826 Apr 30  1984 bin/env
+-rwxrwxr-x  1 2        kmem          7130 Apr 30  1984 bin/expr
+-rwxrwxr-x  6 2        kmem            50 Apr 30  1984 bin/false
+-rwxrwxr-x  1 2        kmem         22304 Apr 30  1984 bin/file
+-rwxrwxr-x  1 2        kmem         24692 Apr 30  1984 bin/find
+-rwxrwxr-x  1 2        kmem         16260 Apr 30  1984 bin/grep
+-rwxrwxr-x  1 2        kmem         10878 Apr 30  1984 bin/kill
+-rwxrwxr-x  1 2        kmem         91770 Apr 30  1984 bin/ld
+-rwxrwxr-x  1 2        kmem           754 Apr 30  1984 bin/line
+-rwxrwxr-t  2 2        kmem         73626 Apr 30  1984 bin/ljas == bin/as
+-rwxrwxr-x  2 2        kmem         13894 Apr 30  1984 bin/ln == bin/cp
+-rwxrwxr-x  1 2        kmem         24078 Apr 30  1984 bin/login
+-rwxrwxr-x  1 2        kmem          1653 Apr 30  1984 bin/lorder
+-rwxrwxr-x  1 2        kmem         19630 Apr 30  1984 bin/ls
+-rwxrwxr-x  2 2        kmem            19 Apr 30  1984 bin/m68k
+-rwxrwsr-x  2 2        mail         28508 Apr 30  1984 bin/mail
+-rwxrwxrwx  1 2        kmem         46102 Apr 30  1984 bin/make
+-rwxrwxr-x  1 2        kmem         12526 Apr 30  1984 bin/mesg
+-rwsrwxr-x  1 root     kmem         11154 Apr 30  1984 bin/mkdir
+-rwsrwxr-x  1 root     kmem         13894 Apr 30  1984 bin/mv
+-rwsrwxr-x  1 root     kmem         18406 Apr 30  1984 bin/newgrp
+-rwxrwxr-x  1 2        kmem         12772 Apr 30  1984 bin/nice
+-rwxrwxr-x  1 2        kmem         36298 Apr 30  1984 bin/nm
+-rwxrwxr-x  1 2        kmem         13534 Apr 30  1984 bin/nohup
+-rwxrwxr-x  1 2        kmem         13934 Apr 30  1984 bin/od
+-rwsrwsr-x  1 root     kmem         19582 Apr 30  1984 bin/passwd
+-rwxrwxr-x  6 2        kmem            50 Apr 30  1984 bin/pdp11 == bin/false
+-rwxrwxr-x  1 2        kmem         20104 Apr 30  1984 bin/pr
+-rwxrwsr-x  1 2        sys          24842 Apr 30  1984 bin/ps
+-rwxrwxr-x  1 2        kmem         11162 Apr 30  1984 bin/pwd
+-rwxrwxr-x  2 2        kmem         32756 Apr 30  1984 bin/red == bin/ed
+-rwxrwxr-x  1 2        kmem         13868 Apr 30  1984 bin/rm
+-rwxrwsr-x  2 2        mail         28508 Apr 30  1984 bin/rmail == bin/mail
+-rwsrwxr-x  1 root     kmem         11472 Apr 30  1984 bin/rmdir
+-rwxr-xr-x  2 2        kmem         30828 Apr 30  1984 bin/rsh
+-rwxrwxr-x  1 2        kmem         12360 Apr 30  1984 bin/scat
+-rwxrwxr-x  1 2        kmem         24196 Apr 30  1984 bin/sed
+-rwxr-xr-x  2 2        kmem         30828 Apr 30  1984 bin/sh == bin/rsh
+-rwxrwxr-x  1 2        kmem         20190 Apr 30  1984 bin/size
+-rwxrwxr-x  1 2        kmem         10706 Apr 30  1984 bin/sleep
+-rwxrwxr-x  1 2        kmem         18968 Apr 30  1984 bin/sort
+-rwxrwxr-x  1 2        kmem         38601 Apr 30  1984 bin/strip
+-rwxrwxr-x  2 2        kmem         26058 Apr 30  1984 bin/stty == bin/STTY
+-rwsrwxr-x  1 root     sys          20726 Apr 30  1984 bin/su
+-rwxrwxr-x  1 2        kmem         11716 Apr 30  1984 bin/sum
+-rwxrwxr-x  1 2        kmem           520 Apr 30  1984 bin/sync
+-rwxrwxr-x  1 2        kmem         11950 Apr 30  1984 bin/tail
+-rwxrwxr-x  1 2        kmem          1730 Apr 30  1984 bin/tee
+-rwxrwxr-x  2 root     kmem         32878 Apr 30  1984 bin/telinit
+-rwxrwxr-x  1 2        kmem         13218 Apr 30  1984 bin/time
+-rwxrwxr-x  1 2        kmem         14858 Apr 30  1984 bin/touch
+-rwxrwxr-x  2 2        kmem            19 Apr 30  1984 bin/true == bin/m68k
+-rwxrwxr-x  1 2        kmem         12204 Apr 30  1984 bin/tty
+-rwxrwxr-x  6 2        kmem            50 Apr 30  1984 bin/u370 == bin/false
+-rwxrwxr-x  6 2        kmem            50 Apr 30  1984 bin/u3b == bin/false
+-rwxrwxr-x  6 2        kmem            50 Apr 30  1984 bin/u3b5 == bin/false
+-rwxrwxr-x  1 2        kmem         12228 Apr 30  1984 bin/uname
+-rwxrwxr-x  6 2        kmem            50 Apr 30  1984 bin/vax == bin/false
+-rwxrwxr-x  1 2        kmem         11102 Apr 30  1984 bin/wc
+-rwxrwxr-x  1 2        kmem         21314 Apr 30  1984 bin/who
+-rwxrwxr-x  1 2        kmem         18794 Apr 30  1984 bin/write
+drwxr-xr-x  2 root     sys              0 Apr 30  1984 dev
+crw--w--w-  4 root     daemon      0,   0 Apr 30  1984 dev/console
+brw-r--r--  1 root     wheel       0,   0 Apr 30  1984 dev/dk00
+brw-r--r--  1 root     wheel       0,   1 Apr 30  1984 dev/dk01
+brw-r--r--  1 root     wheel       0,   2 Apr 30  1984 dev/dk02
+brw-r--r--  1 root     wheel       0,   3 Apr 30  1984 dev/dk03
+brw-r--r--  1 root     wheel       0,   4 Apr 30  1984 dev/dk04
+brw-r--r--  1 root     wheel       0,   5 Apr 30  1984 dev/dk05
+brw-r--r--  2 3        sys         0,   6 Apr 30  1984 dev/dk06
+brw-r--r--  1 root     wheel       0,   7 Apr 30  1984 dev/dk07
+brw-r--r--  1 root     wheel       0,   8 Apr 30  1984 dev/dk10
+brw-r--r--  1 root     wheel       0,   9 Apr 30  1984 dev/dk11
+brw-r--r--  1 root     daemon      0,  12 Apr 30  1984 dev/dk14
+brw-r--r--  1 root     daemon      0,  13 Apr 30  1984 dev/dk15
+brw-r--r--  1 root     daemon      0,  14 Apr 30  1984 dev/dk16
+brw-r--r--  1 root     wheel       0,  15 Apr 30  1984 dev/dk17
+brw-r--r--  1 root     sys         0,  32 Apr 30  1984 dev/dk40
+brw-r--r--  1 root     wheel       0,  33 Apr 30  1984 dev/dk41
+brw-r--r--  1 root     wheel       0,  40 Apr 30  1984 dev/dk50
+brw-r--r--  1 root     wheel       0,  41 Apr 30  1984 dev/dk51
+crw-r--r--  1 root     sys         0,1024 Apr 30  1984 dev/error
+crw-r--r--  1 3        sys         0, 769 Apr 30  1984 dev/kmem
+crw-r--r--  1 _eppc    sys         0, 256 Apr 30  1984 dev/lp0
+crw-r--r--  1 _eppc    sys         0, 257 Apr 30  1984 dev/lp1
+crw-r--r--  1 3        sys         0, 768 Apr 30  1984 dev/mem
+crw-rw-rw-  1 root     sys         0, 770 Apr 30  1984 dev/null
+crw-r--r--  1 root     sys         0,1536 Apr 30  1984 dev/prf
+crw-r--r--  1 root     daemon      0,1280 Apr 30  1984 dev/rdk00
+crw-r--r--  1 root     sys         0,1281 Apr 30  1984 dev/rdk01
+crw-r--r--  1 root     sys         0,1282 Apr 30  1984 dev/rdk02
+crw-r--r--  1 root     sys         0,1283 Apr 30  1984 dev/rdk03
+crw-r--r--  1 root     sys         0,1284 Apr 30  1984 dev/rdk04
+crw-r--r--  1 root     sys         0,1285 Apr 30  1984 dev/rdk05
+crw-r--r--  1 root     sys         0,1286 Apr 30  1984 dev/rdk06
+crw-r--r--  1 root     sys         0,1287 Apr 30  1984 dev/rdk07
+crw-r--r--  1 root     daemon      0,1288 Apr 30  1984 dev/rdk10
+crw-r--r--  1 root     daemon      0,1312 Apr 30  1984 dev/rdk40
+crw-r--r--  1 root     daemon      0,1313 Apr 30  1984 dev/rdk41
+crw-r--r--  1 root     daemon      0,1320 Apr 30  1984 dev/rdk50
+crw-r--r--  1 root     daemon      0,1321 Apr 30  1984 dev/rdk51
+brw-r--r--  2 3        sys              0 Apr 30  1984 dev/swap == dev/dk06
+crw--w--w-  4 root     daemon           0 Apr 30  1984 dev/syscon == dev/console
+crw--w--w-  4 root     daemon           0 Apr 30  1984 dev/systty == dev/console
+crw-r--r--  1 root     sys         0, 512 Apr 30  1984 dev/tty
+crw--w--w-  4 root     daemon           0 Apr 30  1984 dev/tty00 == dev/console
+crw--w--w-  1 root     sys         0,   1 Apr 30  1984 dev/tty01
+crw--w--w-  1 root     sys         0,   2 Apr 30  1984 dev/tty02
+crw--w--w-  1 root     sys         0,   3 Apr 30  1984 dev/tty03
+crw--w--w-  1 root     sys         0,   4 Apr 30  1984 dev/tty04
+crw--w--w-  1 root     sys         0,   5 Apr 30  1984 dev/tty05
+crw--w--w-  1 root     sys         0,   6 Apr 30  1984 dev/tty06
+crw--w--w-  1 root     sys         0,   7 Apr 30  1984 dev/tty07
+crw--w--w-  1 root     sys         0,   8 Apr 30  1984 dev/tty08
+crw--w--w-  1 root     sys         0,   9 Apr 30  1984 dev/tty09
+drwxrwxr-x  3 root     sys              0 Apr 30  1984 etc
+-rwxr--r--  1 root     sys            712 Apr 30  1984 etc/bcheckrc
+-rwxrwxr-x  1 2        kmem         12314 Apr 30  1984 etc/bcopy
+-rwxrwxr-x  1 2        kmem           147 Apr 30  1984 etc/brc
+-rwxrwxr-x  1 2        kmem           119 Apr 30  1984 etc/checkall
+-rw-rw-r--  1 root     sys             10 Apr 30  1984 etc/checklist
+-rwxrwxr-x  1 2        kmem         11832 Apr 30  1984 etc/chroot
+-rwxrwxr-x  1 2        kmem         11412 Apr 30  1984 etc/clri
+-rwxrwxr-x  1 2        kmem         39914 Apr 30  1984 etc/config
+-rwxrwxr-x  1 2        kmem         47558 Apr 30  1984 etc/crash
+-rwxr--r--  1 2        kmem         10588 Apr 30  1984 etc/cron
+-rw-r--r--  1 root     daemon          23 Apr 30  1984 etc/d_passwd
+-rwxrwxr-x  1 2        kmem         21298 Apr 30  1984 etc/dcopy
+-rwxrwxr-x  1 2        kmem         11942 Apr 30  1984 etc/devnm
+-rwxrwxr-x  1 2        kmem         16794 Apr 30  1984 etc/dfsck
+-rw-r--r--  1 root     daemon           0 Apr 30  1984 etc/dialups
+-rwxrwxr-x  1 2        kmem         12980 Apr 30  1984 etc/errdead
+-rwxrwxr-x  1 2        kmem           303 Apr 30  1984 etc/errstop
+-rwxrwxr-x  1 2        kmem         23818 Apr 30  1984 etc/ff
+-rwxrwxr-x  1 2        kmem          2727 Apr 30  1984 etc/filesave
+-rwxrwxr-x  1 2        kmem         19092 Apr 30  1984 etc/finc
+-rwxrwxr-x  1 2        kmem         27860 Apr 30  1984 etc/frec
+-rwxrwxr-x  1 2        kmem         13034 Apr 30  1984 etc/fsba
+-rwxrwxr-x  1 2        kmem         43369 Apr 30  1984 etc/fsck
+-rwxrwxr-x  1 2        kmem         43315 Apr 30  1984 etc/fsck1b
+-rwxrwxr-x  1 2        kmem         22968 Apr 30  1984 etc/fscv
+-rwxrwxr-x  1 2        kmem         27418 Apr 30  1984 etc/fsdb
+-rwxrwxr-x  1 2        kmem         26104 Apr 30  1984 etc/fsdb1b
+-rwxrwxr-x  1 2        kmem         17152 Apr 30  1984 etc/fuser
+-rwxr--r--  1 root     kmem         25750 Apr 30  1984 etc/getty
+-rw-r--r--  1 root     daemon        1049 Apr 30  1984 etc/gettydefs
+-rw-rw-r--  1 root     daemon         133 Apr 30  1984 etc/group
+-rwxrwxr-x  1 2        kmem         13690 Apr 30  1984 etc/grpck
+-rwxrwxr-x  2 root     kmem         32878 Apr 30  1984 etc/init == bin/telinit
+-rw-rw-r--  1 2        kmem           663 Apr 30  1984 etc/inittab
+-rwxrwxr-x  1 2        kmem          4599 Apr 30  1984 etc/install
+-rw-r--r--  1 2        kmem            44 Apr 30  1984 etc/ioctl.syscon
+-rwxrwxr-x  1 2        kmem         13354 Apr 30  1984 etc/killall
+-rwxrwxr-x  1 2        kmem         14720 Apr 30  1984 etc/labelit
+-rwx------  1 root     sys            634 Apr 30  1984 etc/link
+drwxrwxr-x  2 root     sys              0 Apr 30  1984 etc/log
+-rw-r--r--  1 root     sys             95 Apr 30  1984 etc/log/filesave.log
+-rw-r--r--  1 2        kmem          1940 Apr 30  1984 etc/magic
+-rw-rw-r--  1 root     sys           2621 Apr 30  1984 etc/master
+-rwxrwxr-x  1 2        kmem         17316 Apr 30  1984 etc/mkfs
+-rwxrwxr-x  1 2        kmem         12118 Apr 30  1984 etc/mknod
+-rw-rw-rw-  1 root     wheel            0 Apr 30  1984 etc/mnttab
+-rw-rw-r--  1 root     sys             21 Apr 30  1984 etc/motd
+-rwxrwxr-x  1 2        kmem         15004 Apr 30  1984 etc/mount
+-rwxr--r--  1 root     sys            560 Apr 30  1984 etc/mvdir
+-rwxrwxr-x  1 2        kmem         14514 Apr 30  1984 etc/ncheck
+-rwxrwxr-x  1 2        kmem         17220 Apr 30  1984 etc/omkfs
+-rw-rw-r--  1 root     kmem           355 Apr 30  1984 etc/passwd
+-rwxrwxr-x  1 2        kmem           258 Apr 30  1984 etc/powerfail
+-rwxrwxr-x  1 2        kmem          3990 Apr 30  1984 etc/prfdc
+-rwxrwxr-x  1 2        kmem         13362 Apr 30  1984 etc/prfld
+-rwxrwxr-x  1 2        kmem         17426 Apr 30  1984 etc/prfpr
+-rwxrwxr-x  1 2        kmem          1206 Apr 30  1984 etc/prfsnap
+-rwxrwxr-x  1 2        kmem         10694 Apr 30  1984 etc/prfstat
+-rw-rw-r--  1 root     daemon         310 Apr 30  1984 etc/profile
+-rw-rw-r--  1 root     sys            714 Apr 30  1984 etc/ps_data
+-rwxrwxr-x  1 2        kmem         12672 Apr 30  1984 etc/pwck
+-rwxr--r--  1 root     sys           1328 Apr 30  1984 etc/rc
+-rwxrwxr-x  1 2        kmem          1058 Apr 30  1984 etc/setmnt
+-rwxr--r--  1 2        kmem          1706 Apr 30  1984 etc/shutdown
+-rwxrwxr-x  1 2        kmem         24300 Apr 30  1984 etc/sysdef
+-rwxrwxr-x  1 2        kmem          3264 Apr 30  1984 etc/tapesave
+-rw-r--r--  1 2        kmem         67275 Apr 30  1984 etc/termcap
+-rwxrwxr-x  1 2        kmem         11190 Apr 30  1984 etc/udfmt
+-rwxrwxr-x  1 2        kmem         11328 Apr 30  1984 etc/umount
+-rwx------  1 root     sys            620 Apr 30  1984 etc/unlink
+-rw-rw-rw-  1 2        kmem           288 Apr 30  1984 etc/utmp
+-rwxrwxr-x  1 2        kmem         25062 Apr 30  1984 etc/volcopy
+-rwxrwxr-x  1 2        kmem         18496 Apr 30  1984 etc/wall
+-rwxrwxr-x  1 2        kmem           596 Apr 30  1984 etc/whodo
+-rw-r--r--  1 _uucp    tty           6516 Apr 30  1984 etc/wtmp
+drwxrwxr-x  3 2        kmem             0 Apr 30  1984 lib
+-rwxr-xr-x  1 root     daemon      157720 Apr 30  1984 lib/ccom
+-rwxrwxr-x  1 2        kmem         29230 Apr 30  1984 lib/cpp
+-rw-rw-r--  1 2        kmem           482 Apr 30  1984 lib/crt0.o
+-rw-rw-r--  1 2        kmem         38568 Apr 30  1984 lib/libPW.a
+-rw-rw-r--  1 2        kmem        174132 Apr 30  1984 lib/libc.a
+-rw-rw-r--  1 2        kmem         55236 Apr 30  1984 lib/libm.a
+drwxrwxr-x  2 2        kmem             0 Apr 30  1984 lib/libp
+-rw-rw-r--  1 2        kmem        188196 Apr 30  1984 lib/libp/libc.a
+-rw-rw-r--  1 2        kmem         56964 Apr 30  1984 lib/libp/libm.a
+-rw-rw-r--  1 2        kmem           911 Apr 30  1984 lib/mcrt0.o
+-rwxrwxr-x  1 2        kmem         49820 Apr 30  1984 lib/optim
+drwxrwxrwx  2 2        kmem             0 Apr 30  1984 lost+found
+drwxrwxrwx  2 root     wheel            0 Apr 30  1984 mnt
+-rwxrwxr-x  3 2        kmem         89806 Apr 30  1984 unix
+drwxrwxr-x  2 2        kmem             0 Apr 30  1984 stand
+-rwxrwxr-x  3 2        kmem         89806 Apr 30  1984 stand/unix == unix
+drwxrwxrwx  2 root     sys              0 Apr 30  1984 tmp
+-rwxrwxr-x  1 2        kmem         89806 Apr 30  1984 unix16
+-rwxrwxr-x  3 2        kmem         89806 Apr 30  1984 unix80 == unix
+drwxrwxrwx  2 root     wheel            0 Apr 30  1984 usr
+715 blocks

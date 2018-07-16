@@ -1,0 +1,123 @@
+.TH FTYPE 3F
+.SH NAME
+int, ifix, idint, real, float, sngl, dble, cmplx, dcmplx, ichar, char \- explicit Fortran type conversion
+.SH SYNOPSIS
+.nf
+.BR "integer" " i, j"
+.BR "real" " r, s"
+.BR "double precision" " dp, dq"
+.BR "complex" " cx"
+.BR "double complex" " dcx"
+.BR "character \(**" "1 ch"
+.P
+.nf
+.RB "i" " = int(" "r" ")"
+.RB "i" " = int(" "dp" ")"
+.RB "i" " = int(" "cx" ")"
+.RB "i" " = int(" "dcx" ")"
+.RB "i" " = ifix(" "r" ")"
+.RB "i" " = idint(" "dp" ")"
+.P
+.nf
+.RB "r" " = real(" "i" ")"
+.RB "r" " = real(" "dp" ")"
+.RB "r" " = real(" "cx" ")"
+.RB "r" " = real(" "dcx" ")"
+.RB "r" " = float(" "i" ")"
+.RB "r" " = sngl(" "dp" ")"
+.P
+.nf
+.RB "dp" " = dble(" "i" ")"
+.RB "dp" " = dble(" "r" ")"
+.RB "dp" " = dble(" "cx" ")"
+.RB "dp" " = dble(" "dcx" ")"
+.P
+.nf
+.RB "cx" " = cmplx(" "i" ")"
+.RB "cx" " = cmplx(" "i, j" ")"
+.RB "cx" " = cmplx(" "r" ")"
+.RB "cx" " = cmplx(" "r, s" ")"
+.RB "cx" " = cmplx(" "dp" ")"
+.RB "cx" " = cmplx(" "dp, dq" ")"
+.RB "cx" " = cmplx(" "dcx" ")"
+.P
+.nf
+.RB "dcx" " = dcmplx(" "i" ")"
+.RB "dcx" " = dcmplx(" "i, j" ")"
+.RB "dcx" " = dcmplx(" "r" ")"
+.RB "dcx" " = dcmplx(" "r, s" ")"
+.RB "dcx" " = dcmplx(" "dp" ")"
+.RB "dcx" " = dcmplx(" "dp, dq" ")"
+.RB "dcx" " = dcmplx(" "cx" ")"
+.P
+.nf
+.RB "i" " = ichar(" "ch" ")"
+.RB "ch" " = char(" "i" ")"
+.SH DESCRIPTION
+.P
+These functions perform conversion from one data type to another.
+.P
+.B Int\^
+converts to \fIinteger\fP form its \fIreal\fP, \fIdouble precision\fP,
+\fIcomplex\fP, or \fIdouble complex\fP argument.
+If the argument is \fIreal\fP or \fIdouble precision\fP,
+.B int\^
+returns the integer whose magnitude is the largest integer that does
+not exceed the magnitude of the argument and whose sign is the same
+as the sign of the argument (i.e., truncation). For complex types,
+the above rule is applied to the real part.
+.B Ifix\^
+and
+.B idint\^
+convert only \fIreal\fP and \fIdouble precision\fP arguments respectively.
+.P
+.B Real\^
+converts to \fIreal\fP form an \fIinteger\fP, \fIdouble
+precision\fP, \fIcomplex\fP, or \fIdouble complex\fP argument.
+If the argument is \fIdouble precision\fP or \fIdouble complex\fP,
+as much precision is kept as is possible. If the argument is one of the
+complex types, the real part is returned.
+.B Float\^
+and
+.B sngl\^
+convert only \fIinteger\fP and \fIdouble precision\fP
+arguments, respectively.
+.P
+.B Dble\^
+converts any \fIinteger\fP, \fIreal\fP, \fIcomplex\fP, or \fIdouble complex\fP
+argument to \fIdouble precision\fP form.
+If the argument is of a complex type, the real part is returned.
+.P
+.B Cmplx\^
+converts its \fIinteger\fP, \fIreal\fP, \fIdouble precision\fP, or \fIdouble
+complex\fP argument(s) to \fIcomplex\fP form.
+.P
+.B Dcmplx\^
+converts its \fIinteger\fP, \fIreal\fP,
+\fIdouble precision\fP, or \fIcomplex\fP argument(s)
+to \fIdouble complex\fP form.
+.P
+Either one or two arguments may be supplied to
+.B cmplx\^
+and
+.B dcmplx .
+If there is only one
+argument, it is taken as the real part of the complex type and a imaginary
+part of zero is supplied. If two arguments are supplied, the first is
+taken as the real part and the second as the imaginary part.
+.P
+.B Ichar\^
+converts from a character to an integer depending on the character's
+position in the collating sequence.
+.P
+.B Char\^
+returns the character in the \fIi\fPth position in the processor
+collating sequence, where \fIi\fP is the supplied argument.
+.P
+For a processor capable of representing \fIn\fP characters,
+.DS
+.sp 1v
+\fBichar\fP(\fBchar\fP(i)) = i for 0 <= i < \fIn\fP, and
+.sp 1v
+\fBchar\fP(\fBichar\fP(ch)) = ch for any representable character \fIch\fP.
+.\"	@(#)ftype.3f	1.5	

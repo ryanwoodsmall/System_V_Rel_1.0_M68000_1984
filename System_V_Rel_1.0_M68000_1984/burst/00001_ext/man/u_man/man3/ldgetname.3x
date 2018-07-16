@@ -1,0 +1,65 @@
+.TH LDGETNAME 3X
+.SH NAME
+ldgetname \- retrieve symbol name for object file
+symbol table entry
+.SH SYNOPSIS
+.nf
+.B "#include <stdio.h>"
+.B "#include <filehdr.h>"
+.B "#include <syms.h>"
+.B "#include <ldfcn.h>"
+.fi
+.sp
+.nf
+.BR "char \**ldgetname (" "ldptr, symbol" )
+.BR "LDFILE \**" ldptr ;
+.BR "SYMENT \**" symbol ;
+.fi
+.SH DESCRIPTION
+.I Ldgetname
+returns a pointer to the name associated with \fIsymbol\fP
+as a string.  The string is contained in a static buffer
+local to \fIldgetname\fP.  Because the buffer is overwritten
+by each call to \fIldgetname\fP, it must be copied by the
+caller if the name is to be saved.
+.PP
+The common object file format has been extended to handle
+arbitrary length symbol names with the addition of a "string
+table".  \fILdgetname\fP returns the symbol name associated
+with a symbol table entry for either an object file or a
+pre-object file.  Thus, \fIldgetname\fP can be used to
+retrieve names from object files without any backward
+compatibility problems.  \fILdgetname\fP returns \fBNULL\fP
+(defined in \fB<stdio.h>\fP) for an object file if the
+name cannot be retrieved.  This occurs when:
+.sp
+.TP 8
+\-\-
+the string table cannot be found.
+.TP 8
+\-\-
+not enough memory can be allocated for the string table.
+.TP 8
+\-\-
+the string table appears not to be a string table (e.g.,
+if an auxiliary entry is handed to \fIldgetname\fP that
+looks like a reference to a name in a non-existent string
+table).
+.TP 8
+\-\-
+the name's offset into the string table is beyond the
+end of the string table.
+.sp
+.br
+.PP
+Typically, \fIldgetname\fP is called immediately after
+a successful call to \fIldtbread\fP to retrieve the
+name associated with the symbol table entry filled by
+\fIldtbread\fP.
+.PP
+The program must be loaded with the object file access
+routine library \fBlibld.a\fP.
+.SH "SEE ALSO"
+ldclose(3X), ldopen(3X), ldtbseek(3X), ldtbread(3X),
+ldfcn(4).
+.\"	@(#)ldgetname.3x	1.8	

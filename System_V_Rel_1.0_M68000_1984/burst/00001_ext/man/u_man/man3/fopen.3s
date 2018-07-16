@@ -1,0 +1,153 @@
+.TH FOPEN 3S 
+.SH NAME
+fopen, freopen, fdopen \- open a stream
+.SH SYNOPSIS
+.B #include <stdio.h>
+.PP
+.BR "\s-1FILE\s+1 \(**fopen (" "filename, type " ")"
+.br
+.BR "char \(**" "filename," " \(**" "type" ";"
+.PP
+.BR "\s-1FILE\s+1 \(**freopen (" "filename, type, stream" ")"
+.br
+.BR "char \(**" "filename," " \(**" "type" ";"
+.br
+.BR "\s-1FILE\s+1 \(**" "stream" ";"
+.PP
+.BR "\s-1FILE\s+1 \(**fdopen (" "fildes, type" ")"
+.br
+.BR "int" " fildes" ";"
+.br
+.BR "char \(**" "type" ";"
+.SH DESCRIPTION
+.I Fopen\^
+opens the file named by
+.I filename\^
+and associates a
+.I stream\^
+with it.
+.I Fopen\^
+returns a pointer to the
+.SM FILE
+structure associated with
+the
+.IR stream .
+.PP
+.I Filename\^
+points to a character string that contains
+the name of the file to be opened.
+.PP
+.I Type\^
+is a character string having one of the following values:
+.RS
+.TP 10
+.B r
+open for reading
+.ns
+.TP 10
+.B w
+truncate or create for writing
+.ns
+.TP 10
+.B a
+append; open for writing at end
+of file, or create for writing
+.ns
+.TP 10
+.B r+
+open for update (reading and writing)
+.ns
+.TP 10
+.B w+
+truncate or create for update
+.ns
+.TP 10
+.B a+
+append; open or create for
+update at end-of-file
+.RE
+.PP
+.I Freopen\^
+substitutes the named file in place
+of the open
+.IR stream .
+The original
+.I stream\^
+is closed,
+regardless of whether the open
+ultimately succeeds.
+.I Freopen\^
+returns a pointer to the
+.SM FILE
+structure associated with
+.IR stream .
+.PP
+.I Freopen\^
+is typically used to attach the preopened
+.I streams\^
+associated with
+.BR stdin ,
+.BR stdout ,
+and
+.BR stderr
+to other files.
+.PP
+.I Fdopen\^
+associates a
+.I stream\^
+with a file descriptor by formatting a file structure from the
+file descriptor.  Thus, \fIfdopen\fP can be used to access
+the file descriptors returned by
+.IR open (2),
+.IR dup (2),
+.IR creat (2),
+or
+.IR pipe (2).
+(These calls open files but do not return pointers to a
+.SM FILE 
+structure.) 
+The
+.I type\^
+of
+.I stream\^
+must agree with the mode of the open file.
+.PP
+When a file is opened for update, both input and output may be
+done on the resulting
+.IR stream .
+However, output may not be directly followed by input without an
+intervening
+.I fseek\^
+or
+.IR rewind ,
+and input may not be directly followed by output without an
+intervening
+.IR fseek ,
+.IR rewind ,
+or an input operation which encounters end-of-file.
+.PP
+When a file is opened for append (i.e., when
+.I type\^
+is "a" or "a+"), it is impossible to overwrite information
+already in the file.
+.I Fseek\^
+may be used to reposition the file pointer to any position
+in the file, but when output is written
+to the file the current file pointer is disregarded.
+All output is written at the end of the file and causes the file
+pointer to be repositioned at the end of the output.  If two separate
+processes open the same file for append, each process may write freely
+to the file without fear of destroying output being written by the
+other.  The output from the two processes will be intermixed in the
+file in the order in which it is written.
+.SH "SEE ALSO"
+open(2),
+fclose(3S).
+.SH DIAGNOSTICS
+.I Fopen\^
+and 
+.I freopen\^
+return a
+.SM NULL
+pointer on failure.
+.\"	@(#)fopen.3s	1.7	

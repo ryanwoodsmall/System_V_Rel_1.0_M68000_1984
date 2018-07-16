@@ -1,0 +1,87 @@
+.\"	%W%	%Q%
+.\"	@(#)errtitle	1.11	UNIX System V/68
+'\"ntro       To get a copy of the front matter (intro, table of contents,
+'\"	  index), on your terminal, type:
+'\"              nroff [ intro ] [ tocin ] [ ptxin ]
+'\"	  To typeset a copy via GCAT, use:
+'\"		 troff [ -rs1 ] -g [ intro ] [ tocin ] [ ptxin ] | gcat
+'\"	  ("-rs1" forces small -- 6x9 inches -- format).
+'\"	  If typesetter is online, omit the "-g" and the "| gcat".
+.if \nQ=2 .ds 5) \s-1SYSTEM V\s+1/68
+.if \nQ=1 .ds 5) \s-1UNIX\s+1
+.hw \*(5)
+.de PP
+.if n .sp
+.if t .sp .5v
+.ne 1.1v
+..
+.hw print-out photo-type-setter
+.tr ~
+.hy 0
+.if t \{.ds ` ``
+.	 ds ' ''
+.	 ds d \-
+'	 br \}
+.if n \{.ds ` ""
+.	 ds ' ""
+.	 ds d " -- \"
+.	 na
+.	 rm ad \}
+.ft
+.hy 14
+.ta .5i 1i 1.5i 2i 2.5i 3i 3.5i 4i 4.5i 5i 5.5i 6i 6.5i
+.if \n()t \{.pl 11i
+.	     ll 6.5i
+.	     lt 6.5i
+.	     po 1.0i
+.	     ps 10
+.	     vs 12 \}
+.if n \{.pl 11i
+.	 ll 6.5i
+.	 lt 6.5i
+.	 po .463i \}
+.PH ''''
+.PF ''''
+.sp 2
+.tl '''M68KUNMSG/D1'
+.tl '''December 1983'
+.sp 10
+.ce 1
+.B "SYSTEM V/68"
+.sp 2
+.ce 1
+.B "ERROR MESSAGE MANUAL"
+.sp 5
+The information in this document has been carefully checked
+and is believed to be entirely reliable.  However, no
+responsibility is assumed for inaccuracies.  Furthermore,
+Motorola reserves the right to make changes to any products
+herein to improve reliability, function, or design.  Motorola
+does not assume any liability arising out of the application
+or use of any product or circuit described herein; neither does it
+convey any license under its patent rights or the rights of others.
+.sp 5
+EXORmacs, SYSTEM V/68, and VERSAbus are trademarks
+of Motorola Inc.
+UNIX is a trademark of Bell Laboratories, Incorporated.
+PDP, VAX, DEC, and MASSBUS are trademarks of
+Digital Equipment Corporation.  LARK is a trademark of
+Control Data Corporation.
+.sp 5
+.ce 1
+First Edition
+.sp
+.ce 1
+Copyright 1983 by Motorola Inc.
+.sp
+.ce 1
+Portions of this document are reprinted
+.br
+.ce 1
+from copyrighted documents by permission of
+.br
+.ce 1
+Western Electric Company, Incorporated, 1983.
+.in -\n(}Iu
+.ll +\n(}Iu
+.bp

@@ -1,0 +1,47 @@
+.TH SIZE 1 
+.SH NAME
+size \- print section sizes of common object files
+.SH SYNOPSIS
+.BR size
+.RB [ \-o ]
+.RB [ \-d ]
+.RB [ \-V ]
+filename(s)
+.SH DESCRIPTION
+The
+.I size
+command
+produces section size information for each section in the
+common object files.  The name of the section is printed
+followed by its size in bytes, physical address, and virtual
+address.
+.PP
+Numbers are printed in
+hexadecimal unless either the
+.B \-o
+or the
+.B \-d
+option is used, in which case
+they are printed in octal or in decimal, respectively.
+.PP
+The
+.B \-V
+flag supplies the version information on the
+.I size
+command.
+.SH "SEE ALSO"
+as(1), cc(1), ld(1).
+.SH "DIAGNOSTICS"
+.PP
+.PD 0
+.TP 30
+.B "size:  name:  cannot open"
+.I Name
+cannot be read.
+.PP
+.TP 30
+.B "size:  name:  bad magic"
+.I Name
+is not an object file.
+'\" \%W\%
+.\"	@(#)size.1	1.5	

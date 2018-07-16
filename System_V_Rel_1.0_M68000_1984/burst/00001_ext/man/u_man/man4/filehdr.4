@@ -1,0 +1,70 @@
+'\" t
+.TH FILEHDR 4
+.SH NAME
+filehdr \- file header for common object files
+.SH SYNOPSIS
+.B #include <filehdr.h>
+.SH DESCRIPTION
+Every common object file begins with a 20-byte header.
+The following C
+.B struct
+declaration is used:
+.PP
+.if t .RS
+.ta \w'struct\ \ 'u +\w'unsigned'u +\w'\ short\ \ 'u +\w'f_symptr\ ;\ \ 'u
+.nf
+struct	filehdr
+{
+	unsigned short	f_magic ;	/\(** magic number \(**/
+	unsigned short	f_nscns ;	/\(** number of sections \(**/
+	long		f_timdat ;	/\(** time & date stamp \(**/
+	long		f_symptr ;	/\(** file ptr to symtab \(**/
+	long		f_nsyms ;	/\(** # symtab entries \(**/
+	unsigned short	f_opthdr ;	/\(** sizeof(opt hdr) \(**/
+	unsigned short	f_flags ;	/\(** flags \(**/
+} ;
+.fi
+.if t .RE
+.PP
+.I F_symptr
+is the byte offset into the file at which the symbol table
+can be found.
+Its value can be used as the offset in
+.IR fseek (3S)
+to position an I/O stream to the symbol table.
+See \fIaouthdr\fP(4) for the structure of the optional aout header.
+The valid magic number is:
+.if t .RS
+.PP
+.TS
+l1 l1p-1 l l.
+#define	MC68MAGIC	0520	/\(** \*(5) magic number \(**/
+.TE
+.if t .RE
+.PP
+The value in
+.I f_timdat
+is obtained from the
+.IR time (2)
+system call.
+Flag bits currently defined are:
+.PP
+.if t .RS
+.TS
+l1 l1p-1 l l.
+#define	F_RELFLG	00001	/\(** relocation entries stripped \(**/
+#define	F_EXEC	00002	/\(** file is executable \(**/
+#define	F_LNNO	00004	/\(** line numbers stripped \(**/
+#define	F_LSYMS	00010	/\(** local symbols stripped \(**/
+#define	F_MINMAL	00020	/\(** minimal object file \(**/
+#define	F_UPDATE	00040	/\(** update file, ogen produced \(**/
+#define	F_SWABD	00100	/\(** file is "pre-swabbed" \(**/
+#define	F_AR16WR	00200	/\(** 16-bit DEC host \(**/
+#define	F_AR32WR	00400	/\(** 32-bit DEC host \(**/
+#define	F_AR32W	01000	/\(** non-DEC host \(**/
+#define	F_PATCH	02000	/\(** "patch" list in opt hdr \(**/
+.TE
+.if t .RE
+.SH "SEE ALSO"
+time(2), fseek(3S), \*pa.out(4), aouthdr(4).
+.\"	@(#)filehdr.4	1.4	

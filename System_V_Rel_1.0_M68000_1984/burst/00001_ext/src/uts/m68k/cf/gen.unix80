@@ -1,0 +1,14 @@
+rm -f dfile
+m4 -DM68000 -DMEXOR -DREL -DVAM=2 -DDSK=1 -DDSK01=UDFRC3 -DNSWAP=13167 dfile.m4 > dfile
+rm -f m68kvec.s low.s conf.c
+config dfile
+as  -o m68kvec.o m68kvec.s
+as  -o low.o low.s
+rm -f conf.o
+M68000= cc -c -c -O -T -DM68000 -DMEXOR -I/usr/include conf.c
+chmod 664 conf.o
+chgrp bin conf.o
+chown bin conf.o
+rm -f ../unix80
+ld -o ../unix80  m68kvec.o ../lib2 low.o ../locore.o \
+	 conf.o linesw.o ../lib[0-9] name.o

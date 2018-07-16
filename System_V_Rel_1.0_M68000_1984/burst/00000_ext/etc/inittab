@@ -1,0 +1,16 @@
+is:s:initdefault:
+bl::bootwait:/etc/bcheckrc </dev/console >/dev/console 2>&1 #bootlog
+bc::bootwait:/etc/brc 1>/dev/console 2>&1 #bootrun command
+sl::wait:(rm -f /dev/syscon;ln /dev/systty /dev/syscon;) 1>/dev/console 2>&1
+rc::wait:/etc/rc 1>/dev/console 2>&1 #run com
+pf::powerfail:/etc/powerfail 1>/dev/console 2>&1 #power fail routines
+00:2:respawn:/etc/getty tty00 console
+01:2:respawn:/etc/getty tty01 9600155
+02:2:off:/etc/getty tty02 9600
+03:2:off:/etc/getty tty03 9600
+04:2:off:/etc/getty tty04 9600
+05:2:off:/etc/getty tty05 9600
+06:2:off:/etc/getty tty06 9600
+07:2:off:/etc/getty tty07 9600
+08:2:off:/etc/getty tty08 9600
+09:2:off:/etc/getty tty09 9600

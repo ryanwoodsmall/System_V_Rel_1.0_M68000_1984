@@ -1,0 +1,268 @@
+.TH LD 1  
+.SH NAME
+ld \- link editor for common object files
+.SH SYNOPSIS
+.B ld
+.RB [ \-a ]
+.RB [ \-e " epsym]"
+.RB [ \-f " fill]
+.RB [ \-l x]
+.RB [ \-m ]
+.RB [ \-r ]
+.RB [ \-s ]
+.RB [ \-o " outfile]"
+.RB [ \-u " symname]"
+.RB [ \-L " dir]"
+.RB [ \-N ]
+.RB [ \-V ]
+.RB [ \-VS " num]
+filenames
+.SH DESCRIPTION
+The
+.I ld
+command
+combines several
+object files into one,
+performs relocation,
+resolves external symbols,
+and supports symbol table information
+for symbolic debugging.
+In the simplest case, the names of several object
+programs are given, and
+.I ld
+combines them, producing
+an object module that can either be executed or
+used as input for a subsequent
+.I ld
+run.
+The output of
+.I ld
+is left in
+.I a.out .
+This file is executable
+if no errors occur during the load.
+If any input file,
+.IR filename ,
+is not an object file,
+.I ld
+assumes it is either a text file containing link editor directives
+or an archive library.
+.PP
+If any argument is a library, it is searched exactly once
+at the point it is encountered in the argument list.
+Only those routines defining an unresolved external
+reference are loaded.
+The library (archive) symbol table (see
+.IR ar (4))
+is searched sequentially with as many passes as are necessary to resolve external
+references that can be satisfied by library members.  Thus, the ordering
+of library members is unimportant.
+.PP
+The following options are recognized by
+.IR ld .
+.TP
+.BR \-a
+Produce an absolute file; give warnings for undefined
+references.  Relocation information is stripped from
+the output object file unless the 
+.BR  \-r
+option is given.  The 
+.BR \-r 
+option is needed only when an absolute file should
+retain its relocation information (not the normal
+case).  If neither
+.BR \-a
+nor 
+.BR \-r 
+is given,
+.BR \-a
+is assumed.
+.TP
+.BI \-e " epsym"
+Set the default entry point address for the output file to be that of
+the symbol
+.IR epsym .
+.TP
+.BI \-f " fill"
+Set the default fill pattern for ``holes'' within
+an output section as well as initialized \f3bss\f1 sections.
+The argument \fIfill\fP is a two-byte constant.
+.TP
+.BI \-l "x"
+Search a library 
+.BI lib x\c
+.BR .a ,
+where \fIx\fP is up to seven characters.  A
+library is searched when its name is encountered, so 
+the placement of a
+.BR \-l
+is significant.  By default, libraries are located
+in \f3/lib\f1.
+.TP
+.BR \-m
+Produce a map or listing of the input/output sections
+on the standard output.
+.TP
+.BI \-o " outfile"
+Produce an output object file by the name 
+.IR outfile .
+The name of the default object file is
+.BR a.out .
+.TP
+.BR \-r
+Retain relocation entries in the output object
+file.
+Relocation entries must be saved if the 
+output file is to become an input file in a
+subsequent \fIld\fP run.
+Unless 
+.BR \-a
+is also given, the link editor does not complain
+about
+unresolved references.
+.TP
+.BR \-s
+Strip line number entries and
+symbol table information
+from the output object file.
+.TP
+.BI \-u " symname"
+Enter \fIsymname\fP as an undefined symbol 
+in the symbol table.
+This is useful
+for loading entirely from a library, since initially the symbol
+table is empty and an unresolved reference is needed
+to force the loading of the first routine.
+.TP
+.BI \-L " dir"
+Change the algorithm of searching for
+.BI lib x\c
+.BR .a
+to look in
+.IR dir
+before looking in \f3/lib\f1 and \f3/usr/lib\f1.  This option
+is effective only if it precedes the
+.BR \-l " option on the command line."
+.TP
+.BR \-N
+Put the data section immediately following the text in the output file.
+.TP
+.B \-V
+Output a message giving information about the version of \fIld\fP
+being used.
+.TP
+.BI \-VS " num"
+Use \fInum\fP
+as a decimal version stamp identifying the 
+.I a.out
+file that is produced.  The version
+stamp is stored in the optional header.
+.br
+.DT
+.PP
+The following information about
+section alignment and MMU requirements should be considered
+at system installation.
+.PP
+The default section alignment action for \fIld\fR on M68000
+systems is to 
+align the code (\f3.text\f1) and data (\f3.data\f1 and \f3.bss\f1
+combined) separately 
+on 512-byte boundaries.  Since MMU requirements vary
+from system to system, 
+this alignment is not always desirable.  The version of \fIld\fR
+for M68000
+systems, therefore, provides a mechanism to allow the specification of 
+different section alignments for each system.
+.PP
+When all input files have been processed
+(and if no override is provided),
+\fIld\fR will search the list of library directories
+(as with the \fB-l\fR option)
+for a file named \fBdefault.ld\fR.  If this file is
+found, it is processed
+as an \fIld\fR instruction file (or \fBifile\fR).  The
+\fBdefault.ld\fR file should 
+specify the required alignment as outlined below.  If it does not exist, 
+the default alignment action will be taken.
+.PP
+The \fBdefault.ld\fR file should appear as follows,
+with \fI<alignment>\fR replaced
+by the alignment requirement in bytes:
+.PP
+.nf
+SECTIONS {
+	.text : {}
+	GROUP ALIGN(<alignment>) : {
+			   .data : {}
+			   .bss  : {}
+			   }
+	}
+.fi
+.PP
+For example, a \fBdefault.ld\fR file of the following
+form would provide the
+same alignment as the default (512-byte boundary):
+.PP
+.nf
+SECTIONS {
+	.text : {}
+	GROUP ALIGN(512) : {
+			   .data : {}
+			   .bss  : {}
+			   }
+	}
+.fi
+.PP
+To get alignment on 2K-byte boundaries, the
+following \fBdefault.ld\fR file
+would be specified:
+.PP
+.nf
+SECTIONS {
+	.text : {}
+	GROUP ALIGN(2048) : {
+			    .data : {}
+			    .bss : {}
+			    }
+	 }
+.fi
+.PP
+For more information about the format of \fIld\fR instruction
+files or the
+meaning of the commands, see the "Common Link Editor Reference Manual."
+.SH FILES
+.PD 0
+/lib
+.br
+/usr/lib
+.TP 25
+a.out
+output file
+.PD
+.SH "SEE ALSO"
+as(1), cc(1), a.out(4), ar(4).
+.SH WARNINGS
+Through its options and input directives, the common link editor gives
+users great flexibility;
+however, those who use the input directives must assume
+some added responsibilities.
+Input directives should insure the following properties
+for programs:
+.IP \- 5
+C defines a zero pointer as null.
+A pointer to which zero has been assigned must
+not point to any object.
+To satisfy this, users must not place any object
+at virtual address zero in the data space.
+.IP \- 5
+When the link editor is called through \fIcc\fP(1),
+a startup routine is linked with the user's program.
+This routine calls exit ( ) (see \fIexit\fP(2)) after
+execution of the main program.  If the user calls
+the link editor directly, then the user must insure
+that the program always calls exit( ) rather than 
+falling through the end of the entry routine.
+'\" \%W\%
+.\"	@(#)ld.1	1.13	
+

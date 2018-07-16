@@ -1,0 +1,131 @@
+.\"	@(#)a.out.4	1.6	
+.TH A.OUT 4
+.SH NAME
+\*pa.out \- common assembler and link editor output
+.SH DESCRIPTION
+.B \*pA.out
+is the output file from
+the assembler
+.IR \*pas "(1) and "
+the link editor
+.IR \*pld (1).
+.IR A.out
+can be executed on the target machine if there were no errors in
+assembling or linking and no unresolved
+external references.
+.PP
+The object file format supports user-defined sections and contains
+extensive information for symbolic software testing.
+A common object file consists of a file header, an optional aout header, a table of
+section headers, relocation information, (optional) line numbers, and a symbol table.
+The order is given below.
+.sp 1v
+.nf
+.RS 10
+File header.
+Optional aout header.
+Section 1 header.
+\&...
+Section n header.
+Section 1 data.
+\&...
+Section n data.
+Section 1 relocation.
+\&...
+Section n relocation.
+Section 1 line numbers.
+\&...
+Section n line numbers.
+Symbol table.
+String table.
+.sp 1v
+.fi
+.RE
+.ta
+.if t .RE
+The last four sections (relocation, line numbers, symbol table, and
+string table) may be missing
+if the program was linked
+with the
+.B \-s
+option of
+.IR ld (1)
+or if the symbol table and relocation bits were removed by
+.IR strip (1).
+Also note that if the program was linked without the
+.B \-r
+option,
+the relocation information will be absent.
+The string table exists only if necessary.
+.PP
+When an
+.B a.out
+file is loaded into memory for execution, three logical segments are
+set up: the text segment, the data segment
+(initialized data followed by uninitialized data,
+the latter actually being
+initialized to all 0's),
+and a stack.
+The text segment begins at location 0
+in the core image; the header is not loaded.
+If the magic number (the first field in the optional aout header)
+is 407 (octal), it
+indicates that the text segment is not to be write-protected or shared,
+so the data segment will be contiguous with the text segment.
+If the magic number is 410 (octal),
+the data segment begins at the next segment boundary
+following the text segment,
+and the text segment is not writable by the program.
+If other processes are executing the same
+.B a.out
+file, they will share a single text segment.
+.PP
+On the 3B20S, the stack begins at the end of the text and data sections
+and grows towards higher addresses.
+On the M68000 family of processors and the VAX,
+the stack begins at the end of memory
+and grows toward lower addresses.
+The stack is automatically extended as required.
+The data segment is extended only as requested by
+the
+.IR brk (2)
+.RI and " sbrk" (2)
+system calls.
+.PP
+The value of a word in the text or data portions that is not
+a reference to an undefined external symbol
+is exactly the value that will appear in memory
+when the file is executed.
+If a word in the text 
+involves a reference to an undefined external symbol,
+the storage class of the symbol-table entry for
+that word will be marked as an ``external symbol'', 
+and the section number will be set to 0.
+When the file is processed by the
+link editor and the external symbol becomes
+defined, the value of the symbol will
+be added to the word in the file.
+.PP
+See
+.IR aouthdr (4),
+.IR filehdr (4),
+.IR linenum (4),
+.IR scnhdr (4),
+.IR reloc "(4), and"
+.IR syms (4)
+for descriptions of the individuals parts.  Every
+section created by \fIas\fP(1) contains a multiple-of-four
+number of bytes; directives to \fIld\fP(1) can create a section
+with an odd number of bytes.
+.SH SEE ALSO
+as(1),
+cc(1),
+ld(1),
+aouthdr(4),
+filehdr(4),
+ldfcn(4),
+linenum(4),
+reloc(4),
+scnhdr(4),
+syms(4).
+'\" \%W\%

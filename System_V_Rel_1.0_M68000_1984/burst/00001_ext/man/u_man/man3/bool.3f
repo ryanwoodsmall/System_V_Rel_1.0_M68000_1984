@@ -1,0 +1,40 @@
+.TH BOOL 3F
+.SH NAME
+and, or, xor, not, lshift, rshift \- Fortran bitwise boolean functions
+.SH SYNOPSIS
+.nf
+.BR "integer" " i, j, k"
+.BR "real" " a, b, c"
+.BR "double precision" " dp1, dp2, dp3"
+.PP
+.RB "k" " = and(" "i, j" ")"
+.RB "c" " = or(" "a, b" ")"
+.RB "j" " = xor(" "i, a" ")"
+.RB "j" " = not(" "i" ")"
+.RB "k" " = lshift(" "i, j" ")"
+.RB "k" " = rshift(" "i, j" ")"
+.SH DESCRIPTION
+The generic intrinsic boolean functions
+.IR and ,
+.IR or ,
+and
+.I xor\^
+return the value of the binary operations on their arguments.
+.I Not\^
+is a unary operator returning the one's complement of its argument.
+.I Lshift\^
+and
+.I rshift\^
+return the value of the first argument shifted left or right, respectively,
+the number of times specified by the second (integer) argument.
+.P
+The boolean functions are generic, i.e., defined for all
+data types as arguments and return values.  Where required, the compiler
+generates appropriate type conversions.
+.SH NOTE
+Although defined for all data types, use of boolean functions on 
+non-integer data is not productive.
+.SH BUGS
+The implementation of the shift functions may cause large shift values
+to deliver unexpected results.
+.\"	@(#)bool.3f	1.4	

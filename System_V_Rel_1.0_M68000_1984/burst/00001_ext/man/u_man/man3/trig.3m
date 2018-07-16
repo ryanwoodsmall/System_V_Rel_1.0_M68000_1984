@@ -1,0 +1,110 @@
+.TH TRIG 3M 
+.SH NAME
+sin, cos, tan, asin, acos, atan, atan2 \- trigonometric functions
+.SH SYNOPSIS
+.B #include <math.h>
+.PP
+.BR "double sin (" x )
+.br
+.BR "double" " x" ;
+.PP
+.BR "double cos (" x )
+.br
+.BR double " x" ;
+.PP
+.BR "double tan (" x )
+.br
+.BR double " x" ;
+.PP
+.BR "double asin (" x )
+.br
+.BR double " x" ;
+.PP
+.BR "double acos (" x )
+.br
+.BR double " x" ;
+.PP
+.BR "double atan (" x )
+.br
+.BR "double" " x" ;
+.PP
+.BR "double atan2 (" "y, x" )
+.br
+.BR double " x, y" ;
+.SH DESCRIPTION
+.IR Sin ,
+.IR cos ,
+and
+.I tan\^
+return, respectively, the sine, cosine, and tangent of
+their argument, which is in radians.
+.PP
+.I Asin\^
+returns the arcsine of
+.IR x ,
+in the range \-\(*p/2 to \(*p/2.
+.PP
+.I Acos\^
+returns the arccosine of
+.IR x ,
+in the range 0 to \(*p.
+.PP
+.I Atan\^
+returns the arctangent of
+.IR x ,
+in the range \-\(*p/2 to \(*p/2.
+.PP
+.I Atan2\^
+returns the arctangent of
+.IR y / x ,
+in the range \-\(*p to \(*p,
+using the signs of both arguments
+to determine the quadrant of the return value.
+.SH DIAGNOSTICS
+.IR Sin ,
+.IR cos ,
+and
+.I tan\^
+lose accuracy when their argument is far from zero.
+For arguments sufficiently large,
+these functions return 0 when there would
+otherwise be a complete loss of significance.
+In this case a message indicating TLOSS error is printed
+on the standard error output.
+For less extreme arguments,
+a PLOSS error is generated but no message is printed.
+In both cases,
+.I errno\^
+is set to
+.SM
+.BR ERANGE .
+.PP
+.I Tan\^
+returns
+.SM
+.B HUGE
+for an argument which is near an odd multiple of \(*p/2
+when the correct value would overflow; it sets
+.I errno\^
+to
+.SM
+.BR ERANGE .
+.PP
+Arguments of magnitude greater than 1.0 cause
+.I asin\^
+and
+.I acos\^
+to return 0
+and to set
+.I errno\^
+to
+.SM
+.BR EDOM .
+In addition, a message indicating DOMAIN error is
+printed on the standard error output.
+.PP
+These error-handling procedures may be changed with the function
+.IR matherr (3M).
+.SH SEE ALSO
+matherr(3M).
+.\"	@(#)trig.3m	1.4	

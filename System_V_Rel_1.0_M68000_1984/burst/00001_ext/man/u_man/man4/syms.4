@@ -1,0 +1,163 @@
+.TH SYMS 4
+.SH NAME
+syms \- common object file symbol table format
+.SH SYNOPSIS
+.B
+#include  <syms.h>
+.SH DESCRIPTION
+Common object files contain information
+to support
+.I symbolic
+software testing (see
+.IR sdb (1).
+Line number entries,
+.IR linenum (4),
+and extensive symbolic information permit
+testing at the C
+.I source
+level.
+Every object file's symbol table is organized as shown below.
+.PP
+.RS 10
+.nf
+Filename 1.
+	Function 1.
+		Local symbols for function 1.
+	Function 2
+		Local symbols for function 2.
+	...
+	Static externs for file 1.
+
+Filename 2.
+	Function 1.
+		Local symbols for function 1.
+	Function 2.
+		Local symbols for function 2.
+	...
+	Static externs for file 2.
+\&...
+
+Defined global symbols.
+Undefined global symbols.
+.fi
+.RE
+.PP
+The entry for a symbol is a fixed-length structure.
+The members of the structure hold the name (null padded),
+its value, and other information.
+The C structure is given below.
+.PP
+.if t .RS
+.ta \w'#define\ \ 'u +\w'SYMNMLEN\ \ 'u +\w'n_numaux\ ;\ \ 'u
+.nf
+.lg 0
+#define  \s-1SYMNMLEN\s+1	8
+#define  \s-1FILNMLEN\s+1	14
+
+struct	syment
+{
+   union			/\(** ways to get a symbol name\(**/
+   {
+	char	_n_name[\s-1SYMNMLEN\s+1] ;	/\(** names less than 8 chars. \(**/
+	struct		/\(** names 8 char or more\(**/
+	{
+	    long	_n_zeroes;	/\(** == 0L when in string table\(**/
+	    long	_n_offset;	/\(** location of name in table \(**/
+	} n_n;
+	char	\(**_n_nptr[2];	/\(** allows overlaying \(**/
+   } _n;
+	long	n_value ;	/\(** value of symbol \(**/
+	short	n_scnum ;	/\(** section number \(**/
+	unsigned short	n_type ;	/\(** type and derived type \(**/
+	char	n_sclass ;	/\(** storage class \(**/
+	char	n_numaux ;	/\(** number of aux entries \(**/
+} ;
+#define	n_name	_n._n_name
+#define	n_zeroes	_n._n_n._n_zeroes
+#define	n_offset	_n._n_n._n_offset
+#define	n_nptr	_n._n_nptr[1]
+.fi
+.lg
+.if t .RE
+.PP
+Meaningful values and explanations for them are given
+in both
+.B syms.h
+.RI and " Common Object File Format" .
+Anyone who needs to interpret the entries should seek
+more information in these sources.
+Some symbols require more information than a single
+entry; they are followed by
+.I "auxiliary entries"
+that are the same size as a symbol entry.
+The format follows.
+.PP
+.if t .RS
+.ta \w'struct\ 'u +\w'struct\ 'u +\w'unsigne'u +\w'd\ short\ \ 'u +\w'unsigne'u +\w'd\ short\ \ 'u
+.nf
+.lg 0
+.ne 26
+union auxent
+{
+	struct
+	{
+		long		x_tagndx;	
+		union
+		{
+			struct
+			{
+				unsigned short	x_lnno;	
+				unsigned short	x_size;	
+			} x_lnsz;
+			long	x_fsize;	
+		} x_misc;
+		union
+		{
+			struct			
+			{
+				long	x_lnnoptr;	
+				long	x_endndx;	
+			} 	x_fcn;
+			struct			
+			{
+				unsigned short	x_dimen[\s-1DIMNUM\s+1];
+			} 	x_ary;
+		}		x_fcnary;
+		unsigned short  x_tvndx;		
+	} 	x_sym;
+	struct
+	{
+		char	x_fname[\s-1FILNMLEN\s+1];
+	} 	x_file;
+        struct
+        {
+                long    x_scnlen;          
+                unsigned short  x_nreloc;  
+                unsigned short  x_nlinno;  
+        }       x_scn;
+
+	struct
+	{
+		unsigned short	x_tvlen;	
+		unsigned short	x_tvran[2];	
+	}	x_tv;	
+};
+.fi
+.lg
+.if t .RE
+.PP
+Indexes of symbol table entries begin at
+.IR zero .
+.SH "SEE ALSO"
+\*psdb(1), \*pa.out(4), linenum(4).
+.br
+.I Common Object File Format
+by I. S. Law.
+.SH WARNING
+In machines in which longs are equivalent to ints (M68000 and
+VAX), the longs are converted to ints in the compiler to minimize the
+complexity of the compiler code generator.  Thus, the information
+about which symbols are declared as longs and which as ints cannot
+be determined from the symbol table.
+'\" \%W\%
+.\"	@(#)syms.4	1.4	

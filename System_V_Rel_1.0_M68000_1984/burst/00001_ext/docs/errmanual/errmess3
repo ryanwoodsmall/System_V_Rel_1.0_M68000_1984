@@ -1,0 +1,154 @@
+.\"	@(#)errmess3	5.3 of 6/18/82
+.\" @(#)errmess3	1.10	
+.NM "\f3Panicked\f1 \*(Do"
+.Ds
+This message is printed after a power fail condition if a panic occurred
+before or during recovery.
+Prior to this message, a system panic message \f3panic: \f2panicstr\f1
+should appear on the console.
+.Ac
+This message indicates two problems: the power failure and
+the panic.
+The first concern is the power failure.
+Refer to the ACTION section for the message \f3Power fail \f2#\f1
+for details.
+To correct the panic condition, refer to the ACTION section
+for the specified panic.
+Although it is possible that the power failure may have caused
+the panic, it is best to investigate each condition separately.
+.Rf
+io/pwr.c
+.LE
+.NM "\f3Power fail \f2#\f1 \*(Do"
+.Ds
+A power fail condition has been detected.
+If power fail recovery has been specified in the system configuration,
+the initialization process will be informed.
+The \f2#\f1 is incremented each time a power fail
+occurs and the recovery is successful.
+It is reset to zero during each system reboot.
+.Ac
+If the power parameter in the system configuration file has a value
+of 1, power fail restart is initiated.
+If its value is 0 (default), automatic restart is inhibited.
+If power fail restart is enabled and the system continues to run,
+recovery is successful and all should be fine.
+Do not halt the system, because this would be counterproductive
+to the power fail recovery.
+Determine the cause of the power failure and take the
+appropriate steps to see that it is corrected.
+If power fail restart is enabled and the system fails to recover,
+determine the cause of the problem, see that it is corrected, and
+then reboot the system.
+If power fail restart is disabled, the message \f3Stopped\f1
+appears on the console.
+Again, determine the cause of the failure, correct it, and reboot
+the system.
+.Rf
+io/pwr.c
+.LE
+.NM "\f3proc on q\f1"
+.Ds
+When making a process executable, after the occurrence of a wakeup event,
+it was found that the process was already on the system run queue.
+.Ac
+If the delivered \*(6) operating system has not been altered,
+contact your support organization.
+.Rf
+os/slp.c
+.LE
+.NM "\f3Stopped\f1 \*(Do"
+.Ds
+This message is printed after a power fail condition if power fail recovery 
+has not been specified.
+The system is halted.
+.Ac
+Determine the cause of the power failure and take 
+the appropriate steps to correct the problem.
+Reboot the system.
+.Rf
+io/pwr.c
+.LE
+.NM "\f3stray interrupt at \f2#\f1  \*(Do"
+.Ds
+A device has interrupted through an unexpected vector on the
+\s-1VERSA\s+1bus (\s-1M68000\s+1) or \s-1MASSBUS\s+1 (\s-1VAX\s+1).
+The vector will be printed in hexadecimal on an \s-1EXOR\s+1macs or \s-1VAX\s+1.
+The vector printed is usually the correct value for the device,
+unless \f2#\f1 is \f30\f1, which is a reserved location.
+.Ac
+This error can be caused by a device specified at an incorrect vector
+in the system description file.
+If this is the case, make the necessary corrections and
+boot the new system.
+If the above does not apply or the vector is \f30\f1, suspect
+hardware problems and
+contact your support organization.
+.Rf
+os/trap.c
+.LE
+.NM "\f3\*(5)/\f2release\f3: \f2sysver\f1 \*(Do" "\f3real mem = \f2#\f3 bytes" "avail mem = \f2#\f3 bytes\f1"
+.Ds
+The above messages are printed on the system console during the startup
+procedure when booting \*(5).
+The value for \f3real mem\f1 represents
+the actual size in bytes of the memory on your machine.
+The value for \f3avail mem\f1 represents
+the amount of memory available for user programs after the \*(5)
+operating system has been loaded.
+.Ac
+These messages are for information only.
+No action is necessary unless the number of bytes of memory 
+drops from a previous boot for no apparent reason.
+If this occurs, some of the memory may have become inaccessible and
+should be investigated.
+.Rf
+os/machdep.c
+.LE
+.NM "\f3WARNING: swap space running out, needed \f2#\f3 blocks\f1"
+.Ds
+Insufficient space was found on the swap device when attempting to
+swap out a given process or a copy of a pure text image.
+The number of blocks requested is given.
+After the warning is given, an attempt is made to clean up
+the swap area.
+If this is unsuccessful, the message
+\f3DANGER: out of swap space, needed \f2#\f3 blocks\f1
+will appear.
+The system may hang or crash.
+If swap space becomes available, it may recover
+and resume normal operation.
+.Ac
+If the system hangs or crashes, reboot.
+This error may be caused by an operating system or user program
+that has not been completely debugged.
+Check any such programs.
+It can also be caused by an excessive user load on the system.
+If this is the case, increase the amount of swap space specified
+in your system description file and generate a new system.
+Boot the new system.
+.Rf
+os/text.c
+.LE
+.NM "\f3xswap \f2#\f1 \*(Vo"
+.Ds
+An attempt was made to free the core and swap out the currently
+running process.
+The \f2#\f1 is the process number.
+.Ac
+This message can indicate software or hardware problems.
+Check any new device drivers which have not been completely
+debugged or any \*(5) device driver which has been modified
+without authorization.
+Also, ensure that the configuration information in the system
+description file is correct.
+If none of the above apply, suspect bad hardware and contact
+your support organization.
+.Rf
+os/text.c
+.LE
+.de TY
+.ce
+INDEX OF ERROR MESSAGES
+..
+.TC

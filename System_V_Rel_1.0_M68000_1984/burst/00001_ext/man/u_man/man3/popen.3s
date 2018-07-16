@@ -1,0 +1,84 @@
+.TH POPEN 3S
+.SH NAME
+popen, pclose \- initiate pipe to/from a process
+.SH SYNOPSIS
+.B #include <stdio.h>
+.PP
+.BR "\s-1FILE\s+1 \(**popen (" "command, type" )
+.br
+.BR "char \(**" "command," " \(**" "type" ;
+.PP
+.BR "int pclose (" stream )
+.br
+.BR "\s-1FILE\s+1 \(**" stream ;
+.SH DESCRIPTION
+The arguments to 
+.I popen\^
+are pointers to null-terminated strings; one string contains a
+shell command line and the other contains an I/O mode.  The mode may
+be either
+.B "r"
+for reading or
+.B "w"
+for writing.
+.I Popen\^
+creates a pipe between the calling program and the command to be executed.
+The value returned 
+is a stream pointer.  If the I/O mode is \fBw\fP,
+one can write to the standard input
+of the command
+by writing to the file
+.IR stream ;
+if the I/O mode is
+.BR  "r" ,
+one can read from the standard output of the command,
+by reading from the file
+.IR stream .
+.PP
+A stream opened by
+.I popen\^
+should be closed by
+.IR pclose ,
+which waits for the associated process to terminate
+and returns the exit status of the command.
+.PP
+Because open files are shared, a type
+.B "r"
+command
+may be used as an input filter
+and a type
+.B "w"
+as an output filter.
+.SH "SEE ALSO"
+pipe(2),
+wait(2),
+fclose(3S),
+fopen(3S),
+system(3S).
+.SH DIAGNOSTICS
+.I Popen\^
+returns a
+.SM NULL
+pointer
+if files or processes cannot be created or if the shell 
+cannot be accessed.
+.PP
+.I Pclose\^
+returns \-1 if
+.I stream\^
+is not associated with a
+command opened by
+.IR popen .
+.SH BUGS
+If the original processes and
+processes opened by
+.I popen\^
+concurrently read or write a common file,
+neither should use buffered I/O, because the buffering
+gets all mixed up.
+Problems with an output filter may be
+forestalled by careful buffer flushing, e.g., by using
+.IR fflush ;
+see
+.IR fclose (3S).
+.\"	@(#)popen.3s	1.5	

@@ -1,0 +1,26 @@
+.TH GETARG 3F
+.SH NAME
+getarg \- return Fortran command-line argument
+.SH SYNOPSIS
+.nf
+.BR "character\(**N" " c"
+.BR "integer" " i"
+.P
+.BR "getarg (" "i, c" ")"
+.SH DESCRIPTION
+.I Getarg\^
+returns the
+.IR i -th
+command-line argument of the current process. Thus, if a program were
+invoked via
+.P
+.DS
+	\fBfoo\fP \fIarg\fP1 \fIarg\fP2 \fIarg\fP3
+.DE
+.P
+.B getarg(2, c)
+would return the string \fIarg2\fP in the character variable
+.IR c .
+.SH SEE ALSO
+getopt(3C).
+.\"	@(#)getarg.3f	1.4	

@@ -1,0 +1,83 @@
+.\"	@(#)lrk25.7	1.4	
+'\" t
+.TH LRK25 7
+.SH NAME
+lrk25 \- 25Mb LARK Module Drive
+.SH DESCRIPTION
+The files
+.BR dk00 ", " ... ", " dk07
+refer to sections of the
+LRK25 disk drive 0.
+The files
+.BR dk10 ", " ... ", " dk17
+refer to drive 1, etc.
+This slicing allows the pack
+to be broken up
+into more manageable pieces.
+.PP
+The origin and size of the sections on each drive are
+as follows:
+.PP
+.RS
+.TS
+cI cI cI
+c n n.
+section	start	length
+0	0	39936
+1	4992	34944
+2	9984	29952
+3	14976	24960
+4	19968	19968
+5	24960	14976
+6	29952	9984
+7	34944	4992
+.TE
+.RE
+.PP
+The start address is a block address,
+with each block containing 512 bytes.
+It is extremely unwise for all of these files to be present in one installation,
+since there is overlap in addresses and protection becomes
+a problem.
+.PP
+The
+.B dk
+files
+access the disk via the system's normal
+buffering mechanism
+and may be read and written without regard to
+physical disk records.
+There is also a ``raw'' interface
+which provides for direct transmission between the disk
+and the user's read or write buffer.
+A single read or write call results in exactly
+one
+I/O
+operation
+and therefore raw
+I/O
+is considerably more efficient when
+many words are transmitted.
+The names of the raw
+.SM DK
+files
+begin with
+.B rdk
+and end with a number which selects the same disk
+section as the corresponding
+.B dk
+file.
+.PP
+In raw
+I/O
+the buffer must begin on a word boundary,
+and counts must be a multiple of 512 bytes
+(a disk block).
+Likewise
+.IR lseek (2)\^
+calls should specify a multiple of 512 bytes.
+.SH FILES
+/dev/dk\(**, /dev/rdk\(**
+.SH SEE ALSO
+ud(7), dk(7), cm16(7), cm80(7), fl8(7).
+.\"	@(#)lrk25.7	1.2	UNIX System V/68

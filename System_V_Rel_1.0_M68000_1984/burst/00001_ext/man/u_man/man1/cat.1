@@ -1,0 +1,66 @@
+.TH CAT 1
+.SH NAME
+cat \- concatenate and print files
+.SH SYNOPSIS
+.B cat
+[
+.B \-u
+]
+[
+.B \-s
+]
+file .\|.\|.
+.SH DESCRIPTION
+.I Cat\^
+reads each
+.I file\^
+in sequence
+and writes it on the standard output.
+Thus:
+.PP
+.RS
+cat file
+.RE
+.PP
+prints the file, and:
+.PP
+.RS
+cat file1 file2 >file3
+.RE
+.PP
+concatenates the first two files and places the result on the third.
+.PP
+If no input file is given,
+or if the argument
+.B \-
+is encountered,
+.I cat\^
+reads from the standard
+input file.
+Output is buffered unless the
+.B \-u
+option is specified.
+The
+.B \-s
+option makes
+.I cat\^
+silent about non-existent files.
+No input file may be the same as the output file unless it is
+a special file.
+.SH WARNING
+Command formats such as
+.sp
+.RS
+.B "cat file1 file2 >file1"
+.RE
+.sp
+cause
+the original data in \fIfile1\fP to be lost.
+To append file2 to file1, use:
+.sp
+.RS
+.BR "cat file2 >> file1" .
+.RE
+.SH SEE ALSO
+cp(1), pr(1).
+.\"	@(#)cat.1	1.4	

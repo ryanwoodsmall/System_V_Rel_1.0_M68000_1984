@@ -1,0 +1,30 @@
+.TH MKTEMP 3C 
+.SH NAME
+mktemp \- make a unique filename
+.SH SYNOPSIS
+.BR "char \(**mktemp (" template )
+.br
+.BR "char \(**" template ;
+.SH DESCRIPTION
+.I Mktemp\^
+replaces the contents of the string pointed to by
+.I template\^
+with a unique filename; it returns the
+address of
+.IR template .
+The string in
+.I template\^
+should look like a filename with six trailing
+.BR X s;
+.I mktemp\^
+replaces the
+.BR X s
+with a
+letter and the current process \s-1ID\s0.
+The letter is chosen so that the resulting
+name does not duplicate an existing file.
+.SH SEE ALSO
+getpid(2), tmpfile(3S), tmpnam(3S).
+.SH BUGS
+It is possible to run out of letters.
+.\"	@(#)mktemp.3c	1.4	

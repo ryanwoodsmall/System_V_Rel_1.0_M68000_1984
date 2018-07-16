@@ -1,0 +1,54 @@
+.TH BCOPY 1M 
+.SH NAME
+bcopy \- interactive block copy
+.SH SYNOPSIS
+.B /etc/bcopy
+.SH DESCRIPTION
+.I Bcopy\^
+copies from and to files starting at arbitrary block (512-byte) boundaries.
+.PP
+The following questions are asked:
+.PP
+.PD 0
+.RS
+.TP "\w@offset:\ \ \ @u"
+.B to:
+name the file or device to be copied to.
+.sp
+.TP
+.B offset:
+provide the starting ``to'' block number.
+.sp
+.TP
+.B from:
+name the file or device to be copied from.
+.sp
+.TP
+.B offset:
+provide the starting ``from'' block number.
+.sp
+.TP
+.B count:
+reply with the number of blocks to be copied.
+.RE
+.PD
+.PP
+After
+.B count
+is exhausted, the
+.B from
+question is repeated
+(providing the ability to concatenate blocks at the
+.BR to + offset + count
+location).
+If
+.B from
+is answered with
+a carriage return, everything starts over.
+.PP
+Two consecutive carriage returns terminates
+.IR bcopy .
+.SH SEE ALSO
+cpio(1),
+dd(1).
+.\"	@(#)bcopy.1m	1.4	

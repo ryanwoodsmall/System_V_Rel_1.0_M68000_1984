@@ -1,0 +1,66 @@
+.TH GETS 3S 
+.SH NAME
+gets, fgets \- get a string from a stream
+.SH SYNOPSIS
+.B #include <stdio.h>
+.PP
+.BR "char \(**gets (" s )
+.br
+.BR "char \(**" s ;
+.PP
+.BR "char \(**fgets (" "s, n, stream" )
+.br
+.BR "char \(**" s ;
+.br
+.BR int " n" ;
+.br
+.BR "\s-1FILE\s+1 \(**" stream ;
+.SH DESCRIPTION
+.I Gets\^
+reads characters
+from the standard input stream,
+.IR stdin,
+into the array pointed to by
+.IR s ,
+until a new-line character is read
+or an end-of-file condition is encountered.
+The new-line character is discarded
+and the string is terminated with a
+null character.
+.PP
+.I Fgets\^
+reads 
+characters from the
+.I stream\^
+into the array pointed to by
+.I s\^
+until
+.IR n \-1
+characters are read, or
+a new-line character is read and transferred to
+.IR s ,
+or an end-of-file condition is encountered.
+The string is then terminated with a
+null character.
+.SH SEE ALSO
+ferror(3S),
+fopen(3S),
+fread(3S),
+getc(3S),
+scanf(3S).
+.SH DIAGNOSTICS
+If end-of-file is encountered
+and no characters have
+been read, no characters are transferred to
+.I s\^
+and a 
+.SM NULL
+pointer is returned.
+If a read error (e.g., trying to use these functions
+on a file that has not been opened for reading) occurs, a
+.SM NULL
+pointer is returned.
+Otherwise
+.I s\^
+is returned.
+.\"	@(#)gets.3s	1.4	

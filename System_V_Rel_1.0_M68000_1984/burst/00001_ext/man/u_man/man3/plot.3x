@@ -1,0 +1,109 @@
+.TH PLOT 3X
+.SH NAME
+plot \- graphics interface subroutines
+.SH SYNOPSIS
+.nf
+.B openpl (\^)
+.PP
+.B erase (\^)
+.PP
+.BR "label (" s )
+.BR "char \(**" s ;
+.PP
+.BR "line (" "x1, y1, x2, y2" )
+.BR int " x1, y1, x2, y2" ;
+.PP
+.BR "circle (" "x, y, r" )
+.BR int " x, y, r" ;
+.PP
+.BR "arc (" "x, y, x0, y0, x1, y1" ")"
+.BR "int" " x, y, x0, y0, x1, y1" ";"
+.PP
+.BR "move (" "x, y" )
+.BR int " x, y" ;
+.PP
+.BR "cont (" "x, y" )
+.BR int " x, y" ;
+.PP
+.BR "point (" "x, y" )
+.BR int " x, y" ;
+.PP
+.BR "linemod (" s )
+.BR "char \(**" s ;
+.PP
+.BR "space (" "x0, y0, x1, y1" )
+.BR int " x0, y0, x1, y1" ;
+.PP
+.B closepl (\^)
+.SH DESCRIPTION
+These subroutines
+generate
+graphic output in a relatively
+device-independent manner.
+.I Space\^
+must be used before any of these functions to declare the
+amount of space necessary; see
+.IR plot (4).
+.I Openpl\^
+must be used before any of the others to open the
+device for writing.
+.I Closepl\^
+flushes the output.
+.PP
+.I Circle\^
+draws a circle of radius
+.I r\^
+with center at the point
+.IR "(x, y)" .
+.PP
+.I Arc\^
+draws an arc of a circle with center at the point
+.I  "(x, y)"
+between the points
+.I "(x0, y0)"
+and
+.IR "(x1, y1)" .
+.PP
+String arguments to
+.I label\^
+and
+.I linemod\^
+are terminated by nulls and do not contain new-lines.
+.PP
+See
+.IR plot (4)
+for a description
+of the effect of the remaining functions.
+.PP
+The library files listed below provide
+several variations of these routines.
+.SH FILES
+/usr/lib/libplot\f3.\fPa	produces output for
+.IR tplot (1G)
+filters
+.br
+/usr/lib/lib300\f3.\fPa	for \s-1DASI\s+1 300
+.br
+/usr/lib/lib300s\f3.\fPa	for \s-1DASI\s+1 300s
+.br
+/usr/lib/lib450\f3.\fPa	for \s-1DASI\s+1 450
+.br
+/usr/lib/lib4014\f3.\fPa	for Tektronix 4014
+.SH WARNINGS
+To compile a program containing these functions
+in
+.IR file.c ,
+use
+.BI cc file.c \-lplot\c
+\.
+.PP
+To execute it, use
+.BR "a.out | tplot" .
+.PP
+The above routines use \f3<stdio.h>\f1. Therefore,
+the size of programs
+not otherwise using standard I/O is increased more
+than might be expected.
+.SH SEE ALSO
+graph(1G), stat(1G), tplot(1G), plot(4).
+.\"	@(#)plot.3x	1.5	

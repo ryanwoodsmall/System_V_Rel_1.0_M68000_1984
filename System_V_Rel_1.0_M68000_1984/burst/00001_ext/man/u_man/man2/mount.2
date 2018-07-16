@@ -1,0 +1,98 @@
+.TH MOUNT 2 
+.SH NAME
+mount \- mount a file system
+.SH SYNOPSIS
+.BR "int mount (" "spec, dir, rwflag" )
+.br
+.BR "char \(**" "spec," " \(**" "dir" ;
+.br
+.BR "int" " rwflag" ;
+.SH DESCRIPTION
+.I Mount\^
+requests that a removable file system contained on the
+block special file identified by
+.I spec\^
+be mounted on the directory identified by
+.IR dir .
+.I Spec\^
+and
+.I dir\^
+are pointers to
+pathnames.
+.PP
+Upon successful completion, references to the file
+.I dir\^
+refer to the root directory on the mounted file system.
+.PP
+The low-order bit of
+.I rwflag\^
+is used to control write permission on the mounted file system.
+If the low-order bit is
+.BR 1 ,
+writing is forbidden;
+otherwise writing is permitted according to individual file accessibility.
+.PP
+.I Mount\^
+may be invoked only by the superuser.
+.PP
+.I Mount\^
+fails if one or more of the following are true:
+.IP
+The effective user
+.SM ID
+is not superuser.
+.SM
+\%[EPERM]
+.IP
+Any of the named files does not exist.
+.SM
+\%[ENOENT]
+.IP
+A component of a
+path prefix
+is not a directory.
+.SM
+\%[ENOTDIR]
+.IP
+.I Spec\^
+is not a block special device.
+.SM
+\%[ENOTBLK]
+.IP
+The device associated with
+.I spec\^
+does not exist.
+.SM
+\%[ENXIO]
+.IP
+.I Dir\^
+is not a directory.
+.SM
+\%[ENOTDIR]
+.IP
+.I Spec\^
+or
+.I dir\^
+points outside the process's allocated address space.
+.SM
+\%[EFAULT]
+.IP
+.I Dir\^
+is currently mounted on, is someone's current working directory,
+or is otherwise busy.
+.SM
+\%[EBUSY]
+.IP
+The device associated with
+.I spec\^
+is currently mounted.
+.SM
+\%[EBUSY]
+.SH "RETURN VALUE"
+Upon successful completion a value of 0 is returned.
+Otherwise, a value of \-1 is returned and
+.I errno\^
+is set to indicate the error.
+.SH "SEE ALSO"
+umount(2).
+.\"	@(#)mount.2	1.4	

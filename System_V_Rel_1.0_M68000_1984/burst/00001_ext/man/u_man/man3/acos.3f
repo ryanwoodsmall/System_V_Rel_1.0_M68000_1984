@@ -1,0 +1,25 @@
+.TH ACOS 3F
+.SH NAME
+acos, dacos \- Fortran arccosine intrinsic function
+.SH SYNOPSIS
+.nf
+.BR "real" " r1, r2"
+.BR "double precision" " dp1, dp2"
+.P
+.RB "r2" " = acos(" "r1" ")"
+.P
+.RB "dp2" " = dacos(" "dp1" ")"
+.RB "dp2" " = acos(" "dp1" ")"
+.SH DESCRIPTION
+.I Acos\^
+returns the real arccosine of its real argument.
+.I Dacos\^
+returns the double-precision arccosine of its double-precision argument.
+The generic form
+.I acos\^
+may be used with impunity because
+its argument
+determines the type of the returned value.
+.SH SEE ALSO
+trig(3M).
+.\"	@(#)acos.3f	1.4	

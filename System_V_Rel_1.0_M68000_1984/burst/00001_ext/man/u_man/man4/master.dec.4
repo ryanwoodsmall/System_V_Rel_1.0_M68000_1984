@@ -1,0 +1,142 @@
+.TH MASTER 4
+.SH NAME
+master \- master device information table
+.SH DESCRIPTION
+This file is used by the
+.IR config (1M)
+program to obtain device information that enables
+it to generate the
+configuration
+files.
+The file consists of 3 or 4 parts, each separated by a line with
+a dollar sign
+.RB ( $ )
+in column 1.
+Part 1 contains device information; part 2 contains
+names
+of devices that have aliases;
+part 3 contains tunable parameter information.
+Part 4 is optional and contains information related to configuring
+the \s-1M68000\s+1 family systems only.
+Any line with an asterisk
+.RB ( \(** )
+in column 1 is treated as a comment.
+.PP
+Part 1 contains lines consisting of at least 10 fields
+and at most 13 fields.
+The fields are delimited by tabs and/or blanks.
+.PP
+.TS
+l l.
+Field 1: 	device name (8 chars. maximum).
+.sp
+Field 2: 	interrupt vector size (decimal, in bytes).
+.sp
+Field 3: 	T{
+.nf
+device mask (octal)\-each ``on'' bit
+indicates that the handler exists:
+\^\^\^000100  initialization handler
+\^\^\^000040  power-failure handler
+\^\^\^000020  open handler
+\^\^\^000010  close handler
+\^\^\^000004  read handler
+\^\^\^000002  write handler
+\^\^\^000001  ioctl handler
+.fi
+T}
+.sp
+Field 4: 	T{
+.nf
+device type indicator (octal):
+\^\^\^000200  allow only one of these devices
+\^\^\^000100  suppress count field in the \f3conf.c\f1 file
+\^\^\^000040  suppress interrupt vector
+\^\^\^000020  required device
+\^\^\^000010  block device
+\^\^\^000004  character device
+\^\^\^000002  interrupt driven device other than block or char. device
+.fi
+T}
+.sp
+Field 5: 	handler prefix (4 chars. maximum).
+.sp
+Field 6: 	device address size (decimal).
+.sp
+Field 7: 	major device number for block-type device.
+.sp
+Field 8: 	T{
+.nf
+major device number for
+character-type device.
+.fi
+T}
+.sp
+Field 9: 	T{
+.nf
+maximum number of devices per
+controller (decimal).
+.fi
+T}
+.sp
+Field 10: 	maximum bus request level (1 through 7).
+.sp
+Fields 11-13: 	T{
+.nf
+optional configuration table structure declarations (8 chars. maximum)
+.fi
+T}
+.TE
+.PP
+Part 2 contains lines with 2 fields each:
+.PP
+.TS
+l l.
+Field 1: 	alias name of device (8 chars. maximum).
+.sp
+Field 2: 	T{
+.nf
+reference name of device (8 chars. maximum; specified in part 1).
+.fi
+T}
+.TE
+.PP
+Part 3 contains lines with 2 or 3 fields each:
+.PP
+.TS
+l l.
+Field 1: 	T{
+.nf
+parameter name (as it appears in description file; 30 chars. maximum)
+.fi
+T}
+.sp
+Field 2: 	T{
+.nf
+parameter name (as it appears in the \f3conf.c\f1 file; 30 chars. maximum)
+.fi
+T}
+.sp
+Field 3: 	T{
+.nf
+default parameter value (30 chars. maximum; parameter specification 
+is required if this field is omitted)
+.fi
+T}
+.TE
+.PP
+Part 4 contains M68000-specific lines exactly like those for
+the M68000-specific portion of the \fBdfile\fP.  See \fIconfig\fP
+(1M) for a description of these lines.
+.PP
+Devices that are not interrupt-driven
+have an interrupt vector size of zero.
+The 040 bit in Field 4 causes
+.IR config (1M)
+to record the interrupt vectors although the
+.B m68kvec.s
+file will show no interrupt vector assignment at those
+locations (interrupts here will be treated as strays).
+.SH SEE ALSO
+config(1M).
+.\"	@(#)master.dec.4	1.6	

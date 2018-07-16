@@ -1,0 +1,23 @@
+.TH ACIA 7
+.SH NAME
+acia \- Asynchronous Communications Interface Adapter 
+.SH DESCRIPTION
+Each line attached to an
+.I acia
+behaves as described in
+.IR termio (7).
+The EXORmacs debug module, and up to five
+quad communications modules (M68KV7) are supported.
+The line speed of the EXORmacs debug module can be changed
+under software control (output speed = input speed), while
+the line speed of the quad communications modules can be
+changed by hardware strapping.  Eight
+combinations of data bit, stop bit, and parity
+bit options are supported (refer to 
+.IR stty (1)).
+.SH FILES
+/dev/console /dev/tty*
+.SH "SEE ALSO"
+stty(1),
+termio(7).
+.\"	@(#)acia.7	1.3	

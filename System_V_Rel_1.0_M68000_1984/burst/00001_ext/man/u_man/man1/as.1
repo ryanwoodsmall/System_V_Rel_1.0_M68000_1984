@@ -1,0 +1,99 @@
+.TH AS 1 
+.SH NAME
+\*pas, ljas \- common assembler
+.SH SYNOPSIS
+.BR \*pas
+.if '\*p'm32' .BR \-v type
+.RB "[" \-o " objfile]"
+.if '\*p'x86' .RB \-x
+.if '\*p'3b' .RB "[" \-Q "]"
+.RB "[" \-n "]"
+.RB "[" \-m "]"
+.RB "[" \-R "]"
+.RB "[" \-V "]"
+filename
+.br
+.BR ljas
+.RB "[" \-o " objfile]"
+.RB "[" \-n "]"
+.RB "[" \-m "]"
+.RB "[" \-R "]"
+.RB "[" \-V "]"
+filename
+.SH DESCRIPTION
+The 
+.I \*pas
+command
+assembles the named file.
+The following flags may be specified in any order.
+.TP \w'\fB\-o\fP\ \fIobjfile\fP\ \ 'u
+.BI \-o " objfile"
+Put the output of assembly in
+.IR objfile .
+By default, the output filename is formed by
+removing the 
+.B .s
+suffix, if there is one, from the input filename
+and appending a 
+.B .o
+suffix.
+.TP
+.B \-n
+Turn off long/short address optimization.
+By default, address optimization takes place.
+.TP
+.B \-m
+Run the 
+.I m4
+macro pre-processor
+on the input to the assembler.
+.TP
+.B \-R
+Remove (unlink) the input file after assembly is completed.
+This option is off by default.
+.TP
+.B \-V
+Write the version number of the assembler being run on 
+the standard error output.
+.PP
+The
+.I ljas
+command is a special version of the
+.I as 
+assembler.  
+.I Ljas
+produces "long jump" instructions rather than
+(short) branch instructions.
+.SH FILES
+.RI /usr/tmp/\*pas[1-6] XXXXXX
+temporary files
+.SH "SEE ALSO"
+.if '\*p'b16' .nr C 1
+.if '\*p'x86' .nr C 1
+.br
+\*pld(1),
+m4(1),
+\*pnm(1),
+\*pstrip(1),
+a.out(4).
+.SH WARNING
+If the 
+.B \-m
+(
+.I m4
+macro pre-processor invocation) option is used,
+keywords for
+.I m4
+.RI "(see " m4 (1))
+cannot be used as symbols (variables, functions, labels)
+in the input file because
+.I m4
+cannot determine which are assembler symbols and 
+which are real 
+.I m4
+macros.
+.SH BUGS
+Arithmetic expressions are permitted to have only 
+one forward referenced symbol per expression.
+'\" \%W\%
+.\"	@(#)as.1	1.10	

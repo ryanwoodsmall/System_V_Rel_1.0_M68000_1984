@@ -1,0 +1,67 @@
+.TH SETJMP 3C
+.SH NAME
+setjmp, longjmp \- non-local goto
+.SH SYNOPSIS
+.nf
+.B #include <setjmp.h>
+.PP
+.BR "int setjmp (" env )
+.BR "jmp_buf" " env" ;
+.PP
+.BR "void longjmp (" "env, val" )
+.BR jmp_buf " env" ;
+.BR int " val" ;
+.SH DESCRIPTION
+These functions are useful for dealing with errors 
+and interrupts encountered in
+a low-level subroutine of a program.
+.PP
+.I Setjmp\^
+saves its stack environment in
+.I env\^
+for later use by
+.IR longjmp .
+The environment type
+.I jmp_buf
+is defined in the
+.B <setjmp.h>\^
+header file.
+.I Setjmp\^
+returns the value 0.
+.PP
+.I Longjmp\^
+restores the environment saved by the last call of
+.I setjmp
+with the corresponding
+.I env
+argument.
+After
+.I longjmp\^
+is completed, program execution
+continues as if the corresponding call of 
+.I setjmp\^
+(which must not itself have returned in the interim)
+had just returned the value
+.IR val\^ .
+.I Longjmp\^
+cannot cause
+.I setjmp\^
+to return the value 0.  If
+.I longjmp\^
+is invoked with a second argument of 0,
+.I setjmp\^
+will return 1.
+All accessible data have values as of the time
+.I longjmp\^
+was called.
+.SH SEE ALSO
+signal(2).
+.SH WARNING
+.I Longjmp\^
+fails if it
+is called when
+.I env\^
+was never primed by a call to
+.I setjmp\^
+or when the last such call is in a function which has since returned.
+.\"	@(#)setjmp.3c	1.7	

@@ -1,0 +1,229 @@
+.tr ~
+.TH CRASH 8 
+.SH NAME
+crash \- what to do when the system crashes
+.SH DESCRIPTION
+This entry gives at least a few clues about how to proceed if the
+system crashes.
+It can't pretend to be complete.
+.PP
+In restarting after a crash,
+always bring up the system single-user,
+as specified in
+.IR bo (8), 
+as modified for your particular installation.
+Then
+perform an
+.IR fsck (1M)
+on all file systems which could have been in use at the time
+of the crash.
+If any serious file system problems are found, they should be repaired.
+When you are satisfied with the health of your disks,
+check and set the date if necessary,
+then come up multi-user.
+.PP
+To even boot the \*(5) at all,
+three files (and the directories leading to them)
+must be intact.
+First,
+the initialization program
+.B /etc/init
+must be present and executable.
+For
+.I init\^
+to work correctly,
+.B /dev/console
+and
+.B /bin/sh
+must be present.
+If either does not exist, the symptom is best described as thrashing.
+.I Init\^
+goes into a
+.I fork/exec\^
+loop trying to create a
+shell with proper standard input and output.
+.PP
+If you cannot get the system to boot,
+a runnable system must be obtained from
+a backup medium.
+The root file system may then be doctored as
+a mounted file system as described below.
+If there are any problems with the root
+file system,
+it is probably prudent to go to a
+backup system to avoid working on a
+mounted file system.
+.PP
+.IR "Repairing disks" .
+The first rule to keep in mind is that a disk
+in need of repair should be treated gently;
+it shouldn't be mounted unless necessary,
+and if it is very valuable yet
+in quite bad shape, perhaps it should be copied before
+trying surgery on it.
+.PP
+.IR Fsck (1M)
+is adept at diagnosing and repairing file system problems.
+It first identifies all of the files
+that contain bad (out of range) blocks or
+blocks that appear in more than one file.
+Any such files are then identified by
+name and
+.I fsck\^
+requests permission to remove them from the
+file system.
+Files with bad blocks should be removed.
+In the case of duplicate blocks, all of the
+files except the most recently modified
+should be removed. The contents of the survivor
+should be checked after the file system is repaired
+to ensure that it contains the proper data.
+(Note that running
+.I fsck\^
+with the
+.B \-n
+option causes it to report all problems
+without attempting any repair.)
+.PP
+.I Fsck\^
+also reports on incorrect link counts and
+requests permission to adjust any that are
+erroneous. In addition, it reconnects any
+files or directories that are allocated but have
+no file system references to a ``lost+found'' directory.
+Finally, if the free list is bad (out of range,
+missing, or duplicate blocks)
+.I fsck\^
+constructs a new one, with the operator's concurrence.
+.PP
+.IR "Why did it crash" ?
+\*(5) types a message
+on the console when a crash occurs.
+Here is the current list of such messages,
+with enough information to provide
+a possible remedy.
+The message has the form ``panic:\ .\|.\|.'',
+usually accompanied by other information.
+Left unstated in all cases
+is the possibility that hardware or software
+error produced the message in some unexpected way.
+.TP 5
+.B blkdev
+The
+.I getblk\^
+routine was called with a nonexistent major device as argument.
+Definitely hardware or software error.
+.TP
+.B devtab
+Null device table entry for the major device used as argument to
+.IR getblk .
+Definitely hardware or software error.
+.TP
+.B iinit
+An I/O error reading the superblock for the root file system
+during initialization.
+.TP
+.B no fs
+A device has disappeared from the mounted-device table.
+Definitely hardware or software error.
+.TP
+.B no imt
+Similar to ``no fs'', but produced elsewhere.
+.TP
+.B no clock
+During initialization,
+neither the line nor programmable clock was found to exist.
+.TP
+.B "I/O error in swap"
+An unrecoverable I/O error during a swap.
+This shouldn't be a panic,
+but it is hard to fix.
+.TP
+.B "out of swap space"
+A program needs to be swapped out, and there is no more swap space.
+It has to be increased.
+This shouldn't be a panic, but there is no easy fix.
+.TP
+.B trap~~~~~~~~~~    
+An unexpected trap has occurred within the system.
+This is accompanied by three numbers:
+a ``ps'', which is the user's stack pointer;
+``pc'', which is the user's program counter;
+and a ``trap type'' that encodes
+which trap occurred.
+The trap types are:
+.RS
+.TP 7
+.B 2
+bus error
+.TP
+.B 3
+address error
+.TP
+.B 4
+illegal instruction
+.TP
+.B 5
+zero divide fault
+.TP
+.B 6
+CHK instruction fault
+.TP
+.B 7
+TRAPV instruction fault
+.TP
+.B 8
+privileged instruction fault
+.TP
+.B 9
+trace trap
+.TP
+.B 10
+line 1010 emulator
+.TP
+.B 11
+line 1111 emulator
+.TP
+.B 24
+spurious interrupt 
+.TP
+.B 32
+TRAP 0 - system call
+.TP
+.B 33
+TRAP 1 - breakpoint
+.TP
+.B 34
+TRAP 2 - simulate DEC IOT instruction
+.TP
+.B 35
+TRAP 3 - simulate DEC EMT instruction
+.TP
+.B 36
+TRAP 4 - floating point exception
+.RE
+.PP
+In some of these cases it is
+possible for hexadecimal 200 to be added into the trap type;
+this indicates that the processor was in user mode when the
+trap occurred. If you wish to examine the stack after such a trap,
+dump the system.
+.PP
+.IR "Interpreting dumps" .
+All file system problems
+should be taken care of before attempting to look at dumps.
+The dump should be read into the file
+.BR /usr/tmp/core ;
+.IR cp (1)
+can be used.
+At this point, you should execute
+.B "ps \-el \-c /usr/tmp/core\^"
+and
+.B who\^
+to print the process table and a list of the users who were on
+at the time of the crash.
+.PP
+.SH SEE ALSO
+fsck(1M), bo(8), m68kops(8).
+.tr ~~
+.\"	@(#)crash.m68.8	1.4	

@@ -1,0 +1,45 @@
+.TH IOCTL 2 
+.SH NAME
+ioctl \- control device
+.SH SYNOPSIS
+.BR "ioctl (" "fildes, request, arg" )
+.SH DESCRIPTION
+.I Ioctl\^
+performs a variety of functions
+on character special files (devices).
+The descriptions of various devices
+in Section 7 of the
+.I "\*(6) Administrator's Manual"
+discuss how
+.I ioctl\^
+applies to them.
+.PP
+.I Ioctl\^
+fails if one or more of the following are true:
+.IP
+.I Fildes\^
+is not a valid open file descriptor.
+.SM
+\%[EBADF]
+.IP
+.I Fildes\^
+is not associated with a character special device.
+.SM
+\%[ENOTTY]
+.IP
+.I Request\^
+or
+.I arg\^
+is not valid.
+See Section 7.
+.SM
+\%[EINVAL]
+.SH RETURN VALUE
+If an error has occurred,
+a value of \-1 is returned and
+.I errno\^
+is set to indicate the error.
+.SH "SEE ALSO"
+termio(7) in the
+.IR "\*(6) Administrator's Manual" .
+.\"	@(#)ioctl.2	1.4	

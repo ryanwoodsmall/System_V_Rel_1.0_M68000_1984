@@ -1,0 +1,336 @@
+.\"	@(#)m68kops.8	1.8	
+.TH M68KOPS 8
+.SH NAME
+m68kops \- EXORmacs operations
+.SH DESCRIPTION
+The procedures described include the major operational
+sequences involved in running \*(5) on the EXORmacs.
+.PP
+.SH "SYSTEM TESTS"
+.PP
+The EXORmacs uses controls and indicators,
+located on the chassis, to provide system
+reset, test, and abort functions as well as to display system
+status.  Refer to Chapter 2 (``Panel Assemblies'') of the
+.I "EXORmacs Chassis User's Guide" 
+(M68KCHAS) for information on the functions
+of panel controls.
+.PP
+.SH "INSTALLATION BOOT PROCEDURES"
+.PP
+1.  When the system is turned on, the front panel status should
+be 01.  Perform the system self-test by holding the system reset
+and the system test buttons depressed.  Release first the system
+reset button and then release the system test button.  The status
+will change to
+.B EA
+while memory is initialized, then to 01 when the
+test is complete.  The prompt
+.B "P*"
+appears on the terminal
+after the Return key is
+pressed.  After receiving the prompt, type:
+.B "bo 1"
+(drive 1 is accessed to locate the object file
+.B "/stand/unix" ).
+The CRT displays:
+.PP
+.ti +3
+.B INIT SINGLE USER MODE
+.ti +3
+.B #
+.PP
+At this point, the system administrator must determine which of the
+two disks, removable or fixed, is to be used as the system base.
+The following procedures apply to
+these selections:
+.PP
+REMOVABLE DISK.  Enter:
+.B "init 2"
+(refer to part 2 of this section for 
+a continuation of the boot procedure).
+.PP
+FIXED DISK.  The administrator must:
+.br
+.in +3
+1.  enter:
+.B sync
+three times (for safety)
+.br
+2.  copy file:
+.B "dd if=/dev/rdk10 of=/dev/rdk00 bs=8192"
+.br
+3.  mount fixed:
+.B "mount /dev/dk00 /d0"
+.br
+4.  enter:
+.B "ln -f /d0/dev/dk06 /d0/dev/swap"
+.br
+5.  enter:
+.B "echo /dev/dk00 > /d0/etc/checklist"
+.br
+6.  unmount fixed:
+.B "umount /dev/dk00"
+.br
+7.  enter:
+.B sync
+three times
+.br
+8.  depress the Reset button on the chasis
+.br
+9.  enter:
+.B bo
+.br
+10. enter:
+.B "init 2"
+(refer to part 2 of this section for a
+continuation of the boot procedure).
+.in -3
+.PP
+NOTE: The EXORmacs must be equipped with quad communications modules
+(M68KV7) in order to use
+.BR "/dev/tty0[2-9]" .
+Also,
+.B "bs=8192"
+is the current value for block size. 
+.P
+.ti 21
+CAUTION
+.PP
+IF THE SYSTEM IS TO BE BASED ON THE FIXED DISK, SAVE ANYTHING 
+NEEDED THAT IS CURRENTLY ON THAT DISK.  ITS CONTENTS WILL BE
+DESTROYED BY THE ACTIONS TAKEN TO CREATE A FIXED DISK BASED
+\*(5).
+.PP
+2.  The CRT displays:
+.PP
+.DS
+.B "INIT: New run level: 2"
+.br
+.B "Is the date <day> <month> <date> <time> <year> correct? (y or n)"
+.DE
+.PP
+If the date is incorrect, type:
+.B n
+and set the date and time.  For the correct date and time, the following
+format is required:
+.IR "mmddhhmm[yy]" ,
+where  
+mm=month, dd=day, hh=hour, mm=minute, yy=year (refer to 
+.IR date (1)).  
+For example:
+.PP
+.ti +3
+Sept. 28, 1983 at 7:30am is
+.B 0928073083
+.PP
+If the date is correct, type:
+.B y
+; the CRT displays:
+.PP
+.ti +3
+.B "Do you want to check the file system? (y or n)"
+.PP
+To prevent possible system damage, a file system check is recommended.
+Enter:
+.B y .
+The following is an example of a file system check display:
+.PP
+.ti +3
+.B "/dev/dk10"
+.ti +3
+.B "File System: /d0 Volume: fixed"
+.ti +5
+.B "** Phase 1 - Check Blocks and Sizes"
+.ti +5
+.B "** Phase 2 - Check Pathnames"
+.ti +5
+.B "** Phase 3 - Check Connectivity"
+.ti +5
+.B "** Phase 4 - Check Reference Counts"
+.ti +5
+.B "** Phase 5 - Check Free List"
+.ti +5
+.B "<n> files <n> blocks <n> free"
+.PP
+.B "***SYSTEM MULTI-USER <day> <month> <date> <time> <year>***"
+.PP
+If a file system check is not required, enter: 
+.B n
+; the ``SYSTEM MULTI-USER'' display is printed.
+.PP
+A login prompt now appears on activated CRT terminals.
+.sp
+.SH DAILY PROCEDURES
+.PP
+.B "DISK BOOT"
+.P       
+For system restart, see:
+.IR bo (8).
+.PP
+.B "BRINGING THE SYSTEM DOWN"
+.PP
+The shutdown procedure is designed to turn off all processes
+and bring the system back to single user state with all
+buffers flushed.  To do this the operator should execute
+.IR "shutdown" (1M).
+If
+.I "shutdown"
+is not successful, use the following
+sequence of commands:
+.PP
+.in +5
+.B killall
+.br
+.B sync
+.br
+.B telinit S
+.br
+.BR "fsck " (optional)
+.br
+.B sync
+.br
+.B sync
+.in -5
+.PP
+The system may then be halted by pressing the 
+Reset button on the chassis.
+.PP
+.B "SYSTEM DUMPS"
+.PP
+After a crash, the following procedure should be used to get
+a system dump:
+.PP
+1.  Press the Software Abort button on the EXORmacs
+(pressing the System Reset button also works,
+but it destroys all of the system interrupt vectors).  The prompt
+.B "P*"
+appears.
+.PP
+2.  Enter:
+.PP
+.ti +3 
+.B g 400
+.PP
+This starts the dump.  After a short period of time, the system
+responds with:
+.PP
+.ti +3
+.BI "Dump complete.  dd skip="xxx ", dd count=""yyy"
+.PP
+where
+.I "xxx"
+and
+.I "yyy"
+are decimal numbers (of blocks) to
+be used later.
+.PP
+If the system responds instead with:
+.PP
+.ti +3
+.B "I/O error during dump"
+.PP
+then some type of I/O error has occurred.  Try pressing
+the System Reset button and re-enter
+.hw "g 400"
+.B "g 400" .
+If the error
+message appears a second time, consult local lab support 
+personnel.
+.PP
+3.  Press the System Reset button and boot the system (see
+.IR bo "(8))."
+DO NOT enter
+.B "init 2"
+when the system comes up;
+remain in Single User mode.
+.PP
+Should the system not come up, refer to
+.IR "crash" (8)
+for
+additional information.
+.PP
+4.  If the root file system does not have sufficient room for
+the core dump (at least
+.I "yyy"
+blocks free), then a file
+system with enough room has to be mounted.  Refer to 
+.IR mount (1M).
+.PP
+5.  If the number
+.I "yyy"
+from Step 2 is larger than 2048,
+then the maximum writable file size has to be increased in
+order to save the system dump.  To increase file size, enter:
+.BI "ulimit " "n"
+where
+.I "n"
+= whatever size is sufficient.  For example:
+.PP
+.ti +3
+.B "ulimit 32768"
+.PP
+The size should be at least
+.I "yyy" .
+.PP
+6.  Since the dump was written to the system swap area, it must
+be saved in a file for later analysis.  To save the dump in a
+file, enter:
+.PP
+.in +3
+.BI "dd if=/dev/swap of=" filename " skip=" xxx " count=""yyy"
+.in -3
+.PP
+where
+.I "name"
+is the name of the file that receives the dump;
+.I "xxx"
+and
+.I "yyy"
+are the numbers from Step 2.  If
+.I "xxx"
+is 0, then the
+.I "skip"
+parameter does not have to be
+included on the
+.B "dd"
+command line. 
+.PP
+7.  If a file system was mounted in Step 4, unmount it now.
+Refer to
+.I "umount"
+in
+.IR "mount" (1M).
+.PP
+8.  Check the file system by running
+.IR "fsck" (1M).
+.PP
+9.  Boot the system normally (see
+.IR bo (8)),
+assuming 
+.I fsck
+completed normally.
+.PP
+10. Once the system is back up, the following command starts
+.IR crash (1M)
+so that the dump can be analyzed:
+.PP
+.ti +3
+\f3/etc/crash /fixed/\f2filename\f1
+.sp
+.B "SYSTEM FAULTS"
+.PP
+Refer to  
+.I "MACSbug Monitor Reference Manual"
+(M68KMACSBG).
+.PP
+.SH FILES
+/etc/shutdown
+/stand/*
+.SH SEE ALSO
+date(1), dd(1), fsck(1M), init(1M),
+shutdown(1M), sync(1), bo(8),
+.IR "EXORmacs Chassis User's Guide" (M68KCHAS),
+.IR "MACSbug Monitor Reference Manual" (M68KMACSBG),
+``Setting Up \*(5)'' in the
+.IR "\*(6) Administrator's Guide" .

@@ -1,0 +1,133 @@
+.TH DIS 1 
+.SH NAME
+dis \-  disassembler
+.SH SYNOPSIS
+.B dis
+.RB [ \-o ]
+.RB [ \-V ]
+.RB [ \-L ]
+.RB [ \-d " sec]"
+.RB [ \-da " sec]"
+.RB [ \-F " function]"
+.RB [ \-t " sec]"
+.RB [ \-l " string]"
+files
+.SH DESCRIPTION
+The 
+.I dis
+command
+produces an assembly language listing
+of each of its
+object
+.IR file
+arguments.
+The listing includes
+assembly
+statements
+and the binary that
+produced those statements.
+.PP
+The following options are
+interpreted by the disassembler and may be specified in any order.
+.PP
+.TP 12
+.B \-o
+Print numbers in octal.
+Default is hexadecimal.
+.PP
+.TP 12
+.B \-V
+Write the version number of the disassembler to standard error.
+.PP
+.TP 12
+.B \-L
+Invoke a lookup of C source labels in the symbol table for
+subsequent printing.
+.PP
+.TP 12
+.BI \-d " sec\^"
+Disassemble the 
+named section as data,
+printing the offset of
+the data from the
+beginning of the section.
+.PP
+.TP 12
+.BI \-da " sec\^"
+Disassemble the 
+named section as data,
+printing the actual 
+address of the data.
+.PP
+.TP 12
+.BI \-t " sec\^"
+Disassemble the
+named section as text.
+.PP
+.TP 12
+.BI \-l " string\^"
+Disassemble the
+library file specified
+as
+.IR string .
+For example,
+one would issue the
+command
+.B "dis \-l x \-l z"
+to disassemble
+.B libx.a
+and
+.B libz.a\c
+\&.
+All libraries are
+assumed to be in
+.BR /lib .
+.PP
+If the
+.BR \-d ,
+.BR \-da ,
+or
+.BR \-t
+options are specified,
+only those named
+sections from each
+user supplied filename
+are disassembled.
+Otherwise, all sections
+containing text 
+are disassembled.
+.PP
+If the
+.BR \-F
+option is specified, only those named functions from
+each user supplied filename are disassembled.
+.PP
+On output, a number enclosed in brackets
+at the beginning of a line,
+such as 
+.BR [5] ,
+represents that the C breakpointable line number
+starts with the following instruction.
+An expression such as
+.B <40>
+in the operand field,
+following a relative displacement
+for control transfer instructions,
+is the computed address
+within the section to which
+control will be transferred.
+A C function name
+will appear in the first column,
+followed by
+.BR (\|) .
+.SH "SEE ALSO"
+.IR as (1),
+.IR cc (1),
+.IR ld (1).
+.SH "DIAGNOSTICS"
+The self-explanatory diagnostics
+indicate errors in
+the command line or problems
+encountered with the
+specified files.
+.\"	@(#)dis.1	1.8	

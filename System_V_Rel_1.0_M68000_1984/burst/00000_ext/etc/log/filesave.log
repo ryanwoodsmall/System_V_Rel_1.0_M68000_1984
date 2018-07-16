@@ -1,0 +1,4 @@
+/dev/rdk10;usr;usr -> /dev/rdk01;usr;bilbo
+
+/dev/rdk10;usrsrc;usrsrc -> /dev/rdk02;urts;bilbo
+

@@ -1,0 +1,83 @@
+.\"	@(#)cm16.7	1.3	
+'\" t
+.TH CM16 7
+.SH NAME
+cm16 \- 16Mb Cartridge Module Drive
+.SH DESCRIPTION
+The files
+.BR dk00 ", " ... ", " dk07
+refer to sections of the
+CM16 disk drive 0.
+The files
+.BR dk10 ", " ... ", " dk17
+refer to drive 1, etc.
+This slicing allows the pack
+to be broken up
+into more manageable pieces.
+.PP
+The origin and size of the sections on each drive are
+as follows:
+.PP
+.RS
+.TS
+cI cI cI
+c n n.
+section	start	length
+0	0	26336
+1	3292	23044
+2	6584	19752
+3	9876	16460
+4	13168	13168
+5	16460	9876
+6	19752	6584
+7	23044	3292
+.TE
+.RE
+.PP
+The start address is a block address,
+with each block containing 512 bytes.
+It is extremely unwise for all of these files to be present in one installation,
+since there is overlap in addresses and protection becomes
+a problem.
+.PP
+The
+.B dk
+files
+access the disk via the system's normal
+buffering mechanism
+and may be read and written without regard to
+physical disk records.
+There is also a ``raw'' interface
+which provides for direct transmission between the disk
+and the user's read or write buffer.
+A single read or write call results in exactly
+one
+I/O
+operation
+and therefore raw
+I/O
+is considerably more efficient when
+many words are transmitted.
+The names of the raw
+.SM DK
+files
+begin with
+.B rdk
+and end with a number which selects the same disk
+section as the corresponding
+.B dk
+file.
+.PP
+In raw
+I/O
+the buffer must begin on a word boundary,
+and counts must be a multiple of 512 bytes
+(a disk block).
+Likewise
+.IR lseek (2)\^
+calls should specify a multiple of 512 bytes.
+.SH FILES
+/dev/dk\(**, /dev/rdk\(**
+.SH SEE ALSO
+ud(7), dk(7), cm80(7), lrk25(7), fl8(7).
+.\"	@(#)cm16.7	1.3	UNIX System V/68

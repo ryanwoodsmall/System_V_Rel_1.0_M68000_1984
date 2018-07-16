@@ -1,0 +1,202 @@
+.\"	@(#)errmess1	5.2 of 5/14/82
+.\" @(#)errmess1	1.13	
+.NM "\f2string\f3 on bad dev \f2#\f3(8)\f1  \*(Do"
+.Ds
+A problem has been detected with a file system on a block-type device
+whose major device number exceeds the number of block device drivers
+generated in the system.
+The \f2string\f1 may be one of the following:
+\f3bad block\f1, \f3bad count\f1, \f3bad free count\f1, \f3no space\f1, or \f3out of inodes\f1.
+The \f2#\f1 represents the minor device number.
+.Ac
+The main concern is that the major device number exceeds the number of
+block device drivers generated in the system.
+Probable causes for this include both software and hardware problems.
+Check any new device drivers which have not been completely debugged
+or any \*(5) device driver which has been modified without authorization.
+Also, ensure that the configuration information in the system description
+file is correct.
+If none of the above apply, suspect bad hardware and contact your support
+organization.
+The corrective action for the file system problem can be found in the
+ACTION section for message:
+.DS
+	\f2string\f3 on \f2device-type\f3 drive \f2#\f1 [\f3, ctl \f2#\f3,\f1] [\f3slice \f2#\f1]
+.DE
+where \f2string\f1 is one of the following:
+\f3bad block\f1, \f3bad count\f1, \f3bad free count\f1, \f3no space\f1,
+or \f3out of inodes\f1.
+.Rf
+os/prf.c
+.LE
+.NM "\f3bad block on \f2device-type\f3 drive \f2#\f1 [\f3, ctl \f2#\f3,\f1] [\f3slice \f2#\f1] \*(Do"
+.Ds
+A block number not in the valid range of available free blocks on a
+file system has been detected.
+\f2Device-type\f1 may be one of the following:
+\f3cm16\f1, \f3cm80\f1, \f3fl8\f1, and \f3lrk25\f1.
+A controller (ctl) number appears only if more than one controller is
+generated in your system and you are using the
+universal disk (ud) driver.
+A slice number appears if \f2device-type\f1 is
+\f3cm16\f1, \f3cm80\f1, \f3fl8\f1, or \f3lrk25\f1.
+.Ac
+Determine the offending drive and corresponding file system from
+the controller (\f3ctl\f1) \f2#\f1, \f3drive \f2#\f1, and \f3slice \f2#\f1
+given in the message.
+Unmount the file system.
+If it is the root file system, go to single-user mode.
+Check the file system using the \f2fsck\f1(1M) command.
+If the offending file system is beyond repair, restore it from
+backup disk or tape.
+.Rf
+io/gd.c,
+io/hp.c,
+io/rp.c,
+io/rk.c,
+io/rl.c,
+io/rf.c,
+io/hs.c,
+io/ht.c,
+io/hu.c,
+io/gt.c,
+io/tm.c,
+io/ud.c,
+os/alloc.c
+.LE
+.NM "\f3bad count on \f2device-type\f3 drive \f2#\f1 [\f3, ctl \f2#\f3,\f1] [\f3slice \f2#\f1]  \*(Do"
+.Ds
+The superblock parameters for free blocks and inodes are corrupted
+for this file system.
+\f2Device-type\f1 may be one of the following:
+\f3cm16\f1, \f3cm80\f1, \f3fl8\f1, and \f3lrk25\f1.
+A controller (ctl) number appears only if more than one controller is
+generated in your system and you are using the
+universal disk (ud) driver.
+The slice number appears if \f2device-type\f1 is
+\f3cm16\f1, \f3cm80\f1, \f3fl8\f1, or \f3lrk25\f1.
+.Ac
+Determine the offending drive and corresponding file system from
+the controller (\f3ctl\f1) \f2#\f1, \f3drive \f2#\f1, and \f3slice \f2#\f1
+given in the message.
+Unmount the file system.
+If it is the root file system, go to single-user mode.
+Check the file system using the \f2fsck\f1(1M) command.
+If the offending file system is beyond repair, restore it from
+backup disk or tape.
+.Rf
+io/gd.c,
+io/hp.c,
+io/rp.c,
+io/rk.c,
+io/rl.c,
+io/rf.c,
+io/hs.c,
+io/ht.c,
+io/hu.c,
+io/gt.c,
+io/tm.c,
+io/ud.c,
+os/alloc.c
+.LE
+.NM "\f3Bad free count on \f2device-type\f3 drive \f2#\f1 [\f3, ctl \f2#\f3,\f1] [\f3slice \f2#\f1]  \*(Do"
+.Ds
+A corrupted free list block has been detected while attempting to
+allocate a new block for a file.
+\f2Device-type\f1 may be one of the following:
+\f3cm16\f1, \f3cm80\f1, \f3fl8\f1, and \f3lrk25\f1.
+A controller (ctl) number appears only if more than one controller is
+generated in your system and you are using the
+universal disk (ud) driver.
+A slice number appears if \f2device-type\f1 is
+\f3cm16\f1, \f3cm80\f1, \f3fl8\f1, or \f3lrk25\f1.
+.Ac
+Determine the offending drive and corresponding file system from
+the controller (\f3ctl\f1) \f2#\f1, \f3drive \f2#\f1, and \f3slice \f2#\f1
+given in the message.
+Unmount the file system.
+If it is the root file system, go to single-user mode.
+Check the file system using the \f2fsck\f1(1M) command.
+If the offending file system is beyond repair, restore it from
+backup disk or tape.
+.Rf
+io/gd.c,
+io/hp.c,
+io/rp.c,
+io/rk.c,
+io/rl.c,
+io/rf.c,
+io/hs.c,
+io/ht.c,
+io/hu.c,
+io/gt.c,
+io/tm.c,
+io/ud.c,
+os/alloc.c
+.LE
+.NM "\f3Can't allocate message buffer\f1"
+.Ds
+At system initialization time, it was found that too much memory
+was being allocated for messages.
+Messages are currently unusable.
+.Ac
+Check the MSGSEG and MSGSSZ entries in the system description file.
+MSGSEG is the number of segments to allocate, and MSGSSZ is the size
+each segment should be.
+The product of these two numbers, therefore, is the amount of memory
+to allocate for messages.
+When this amount exceeds the amount of memory currently
+available in the machine,
+the above message will appear during system
+booting.
+The system size must be reduced either by modifying the above
+entries or by other means.
+Then a new system must be generated and booted.
+If the above solutions are not acceptable, more memory must
+be added to the machine.
+For further information on message parameters, see
+the \*(Sb section of the \*(Ag.
+.Rf
+os/msg.c
+.LE
+.NM "\f3DANGER: mfree map overflow \f2#\f3, lost \f2#\f3 items at \f2#\f1"
+.Ds
+One of the tables, mapped through the system \f2malloc\f1(3C) mechanism,
+has overflowed.
+The first number indicates the address of the table.
+By searching for this address in the system namelist, the name of
+the offending table can be discovered.
+The second number is the number of items lost, and the last number
+is the starting address of the above items.
+.Ac
+Increase the number of entries currently allocated for the offending
+table in your system description file
+and generate a new system.
+Boot the new system.
+.Rf
+os/malloc.c
+.LE
+.NM "\f3DANGER: out of swap space, needed \f2#\f3 blocks\f1"
+.Ds
+Insufficient space was found on the swap device when attempting
+to swap out a given process or a copy of a pure text image.
+The number of blocks requested is given.
+Preceding this will be the message:
+\f3WARNING: swap space running out, needed \f2#\f3 blocks\f1.
+After this warning an attempt is made to clean up the swap area.
+If this action is unsuccessful, the \f3DANGER\f1 message will appear.
+The system may hang or crash.
+If swap space becomes available,
+it may recover and resume normal operation.
+.Ac
+If the system hangs or crashes, reboot.
+This error may be caused by an operating system or user program
+that has not been completely debugged.
+Check any such programs.
+It can also be caused by an excessive user load on the system.
+If this is the case, increase the amount of swap space specified
+in your system description file and generate a new system.
+Boot the new system.
+.Rf
+os/text.c
+.LE

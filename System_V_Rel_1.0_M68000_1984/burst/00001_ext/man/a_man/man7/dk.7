@@ -1,0 +1,15 @@
+.TH DK 7 
+.SH NAME
+dk \- disk device special files
+.SH DESCRIPTION
+At least one disk device is assumed to exist on the 
+system.  To accomodate controllers which support more
+than one type of disk unit and multiple partitions, the
+special file designation
+.I dkDP
+refers to disk device D and partition P.  Raw access
+to the same device uses special file
+.I rdkDP.
+.SH FILES
+/dev/dk* /dev/rdk*
+.\"	@(#)dk.7	1.4	

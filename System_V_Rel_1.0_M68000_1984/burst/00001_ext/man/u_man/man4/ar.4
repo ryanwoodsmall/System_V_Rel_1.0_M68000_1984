@@ -1,0 +1,104 @@
+.TH AR 4
+.SH NAME
+ar \-  common archive file format
+.SH DESCRIPTION
+The archive command
+.I ar\^
+is used to combine several files into
+one.
+Archives are used mainly as libraries to be searched
+by the link editor
+.IR ld (1).
+.PP
+Each archive begins with the archive magic string.
+.PP
+.nf
+\f3#define  ARMAG  "!<arch>\en"\f1	/\(** magic string \(**/
+\f3#define  SARMAG  8\f1	        /\(** length of magic string \(**/
+.fi
+.PP
+Each archive which contains common object files (see \f2a.out\f1(4))
+includes an archive symbol table.  This symbol table is used 
+by the link editor \f2ld\f1(1) to determine which archive members
+must be loaded during the link edit process.  The archive symbol
+table (if it exists) is always the first file in the archive
+(but is never listed) and is automatically created and/or updated by
+\f2ar\f1.
+.PP
+Following the archive magic string are the archive file members.
+Each file member is preceded by a file member header which is of
+the following format:
+.PP
+.nf
+
+\f3#define  ARFMAG  "\(ga\en"\f1	/\(** header trailer string \(**/
+
+\f3struct	ar_hdr\f1		/\(** file member header \(**/
+\f3{\f1
+	\f3char	ar_name[16];\f1	/\(** '/' terminated file member name \(**/
+	\f3char	ar_date[12];\f1	/\(** file member date \(**/
+	\f3char	ar_uid[6];\f1	/\(** file member user identification \(**/
+	\f3char	ar_gid[6];\f1	/\(** file member group identification \(**/
+	\f3char	ar_mode[8];\f1	/\(** file member mode \(**/
+	\f3char	ar_size[10];\f1	/\(** file member size \(**/
+	\f3char	ar_fmag[2];\f1	/\(** header trailer string \(**/
+\f3};\f1
+
+.fi
+.PP
+All information in the file member headers is in printable ASCII.
+The numeric information contained in the headers is stored as
+decimal numbers (except for \f2ar_mode\f1 which is in octal).
+Thus, if the archive contains printable files, the archive itself is
+printable.
+.PP
+The \f2ar_name\f1 filed is blank-padded and slash (/) terminated.
+The \f2ar_date\f1 field is the modification date of the file at
+the time of its insertion into the archive.  Common format archives
+can be moved from system to system as long as the portable archive
+command \f2ar\f1(1) is used.
+.PP
+Each archive file member begins on an even byte boundary; a newline
+is inserted between files if necessary.  Nevertheless, the
+size given reflects the actual size of the file exclusive of
+padding.
+.PP
+Notice there is no provision for empty areas in an archive file.
+.PP
+If the archive symbol table exists, the first file in the archive has
+a zero length name (i.e., \f3ar_name[0] \= '/'\f1).  The contents
+of this file are as follows:
+.TP 4
+\(bu
+The number of symbols.  Length:  4 bytes.
+.TP 4
+\(bu
+The array of offsets into the archive file.  Length:  4 bytes \(** ``the
+number of symbols''.
+.TP 4
+\(bu
+The name string table.  Length:  \f2ar_size\f1 \- (4 bytes \(** (``the
+number of symbols'' +1)).
+The number of symbols and the array of offsets are managed with
+\f2sgetl\f1 and \f2sputl\f1.  The string table contains exactly as many
+null terminated strings as there are elements in the offsets array.
+Each offset from the array is associated with the corresponding name
+from the string table (in order).  The names in the string table are
+all the defined global symbols found in the common object files
+in the archive.  Each offset is the location of the archive header
+for the associated symbol.
+.SH SEE ALSO
+ar(1),
+ld(1),
+strip(1),
+sputl(3X),
+a.out(4).
+.SH "WARNINGS"
+.IR Strip (1)
+will remove all archive symbol
+entries from the header.  The archive symbol
+entries must be restored via the \fBs\fR option of the
+.IR ar (1)
+command before the archive can be used with the link editor
+.IR ld (1).
+.\"	@(#)ar.4	1.7	

@@ -1,0 +1,52 @@
+.TH CHDIR 2 
+.SH NAME
+chdir \- change working directory
+.SH SYNOPSIS
+.BR "int chdir (" path )
+.br
+.BR "char \(**" path ;
+.PP
+.SH DESCRIPTION
+.I Path\^
+points to the
+pathname
+of a directory.
+.I Chdir\^
+causes the named directory to become the current working directory.
+The starting point for
+\fIpath\fP searches for
+pathnames that do
+not begin with
+.BR / .
+.PP
+.I Chdir\^
+fails and the current working directory remains unchanged if
+one or more of the following are true:
+.IP
+A component of the
+pathname
+is not a directory.
+.SM
+\%[ENOTDIR]
+.IP
+The named directory does not exist.
+.SM
+\%[ENOENT]
+.IP
+Search permission is denied for any component of the
+pathname.
+.SM
+\%[EACCES]
+.IP
+.I Path\^
+points outside the process's allocated address space.
+.SM
+\%[EFAULT]
+.SH "RETURN VALUE"
+Upon successful completion, a value of 0 is returned.
+Otherwise, a value of \-1 is returned and
+.I errno\^
+is set to indicate the error.
+.SH "SEE ALSO"
+chroot(2).
+.\"	@(#)chdir.2	1.5	

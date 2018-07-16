@@ -1,0 +1,17 @@
+.TH CONJG 3F
+.SH NAME
+conjg, dconjg \- Fortran complex conjugate intrinsic function
+.SH SYNOPSIS
+.nf
+.BR "complex" " cx1, cx2"
+.BR "double complex" " dx1, dx2"
+.P
+.RB "cx2" " = conjg(" "cx1" ")"
+.P
+.RB "dx2" " = dconjg(" "dx1" ")"
+.SH DESCRIPTION
+.I Conjg\^
+returns the complex conjugate of its complex argument.
+.I Dconjg\^
+returns the double-complex conjugate of its double-complex argument.
+.\"	@(#)conjg.3f	1.3	

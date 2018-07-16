@@ -1,0 +1,20 @@
+.\"	@(#)ud.7	1.5	
+.TH UD 7
+.SH NAME
+ud \- general driver for all disk units supported by the M68KVM21 disk controller
+.SH DESCRIPTION
+.I Ud
+provides a general interface to M68KHDS32-1 (32Mb Cartridge Module
+Drive), M68KHDS50-1 (50Mb Lark Module Drive), and the
+M68KHDS96-1 (Cartridge Module Drive).
+The driver can be modified to support other disk units compatible
+with the M68KVM21 controller.
+.P
+Drive dependent partitioning must be selected when the system is
+configured (\fIconfig\fP(1M)).  Also, manual entries describing the
+above disk drives should be referred to for information regarding those
+particular drives.
+.SH FILES
+/dev/dk, /dev/rdk
+.SH SEE  ALSO
+config(1M), master(4), dk(7), cm16(7), cm80(7), fl8(7), lrk25(7).

@@ -1,0 +1,37 @@
+.TH MIN 3F
+.SH NAME
+min, min0, amin0, min1, amin1, dmin1 \- Fortran minimum-value functions
+.SH SYNOPSIS
+.nf
+.BR "integer" " i, j, k, l"
+.BR "real" " a, b, c, d"
+.BR "double precision" " dp1, dp2, dp3"
+.P
+.RB "l" " = min(" "i, j, k" ")"
+.RB "c" " = min(" "a, b" ")"
+.RB "dp" " = min(" "a, b, c" ")"
+.RB "k" " = min0(" "i, j" ")"
+.RB "a" " = amin0(" "i, j, k" ")"
+.RB "i" " = min1(" "a, b" ")"
+.RB "d" " = amin1(" "a, b, c" ")"
+.RB "dp3" " = dmin1(" "dp1, dp2" ")"
+.SH DESCRIPTION
+The minimum-value functions return the minimum of their
+arguments.  There may be any number of arguments.
+.I Min\^
+is the generic form which can be used for all data types.  It
+takes its return type from that of its
+arguments, which must all be of the same type.
+.I Min0\^
+returns the integer form of the minimum value of its integer arguments;
+.IR amin0 ,
+the real form of its integer arguments;
+.IR min1 ,
+the integer form of its real arguments;
+.IR amin1 ,
+the real form of its real arguments; and
+.IR dmin1 ,
+the double-precision form of its double-precision arguments.
+.SH SEE ALSO
+max(3F).
+.\"	@(#)min.3f	1.4	

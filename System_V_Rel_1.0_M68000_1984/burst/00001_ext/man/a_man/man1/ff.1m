@@ -1,0 +1,126 @@
+.tr ~ 
+.TH FF 1M  
+.SH NAME
+f\&f \- list filenames and statistics for a file system
+.SH SYNOPSIS
+.B /etc/f\&f
+[options] special 
+.SH DESCRIPTION
+.I Ff\^
+reads the ilist and directories of the 
+.I special\^ 
+file, assuming it to be a file system,
+saving inode data for files which match the selection criteria.
+Output consists of the pathname for each saved inode, plus 
+any other file information requested
+using the print options below.
+Output fields are positional.
+The output is produced in inode order; fields are separated by tabs.
+The default line produced by
+.I f\&f
+is:
+.P
+.RS
+.I "pathname \|i-number"
+.RE
+.P
+With all options enabled, output
+fields would be:
+.P
+.RS
+.I "pathname \|i-number \|size \|uid"
+.RE
+.PP
+The argument
+.I n
+in the option descriptions that follow is used 
+as a decimal integer (optionally signed), where
+.BI + n\^
+means more than
+.IR n ,
+.BI \- n\^
+means less than
+.IR n ,
+and 
+.I n\^
+means exactly
+.IR n \.
+A day is defined as a 24 hour period.
+.TP 15
+.B \-I
+Do not print the inode number after each pathname.
+.TP
+.B \-l
+Generate a supplementary list of all pathnames for multiple linked
+files.
+.TP
+.BI \-p ~prefix\^
+The specified
+.I prefix\^
+is added to each generated pathname.
+The default is
+.BR \&. . 
+.TP
+.B \-s
+Print the file size, in bytes, after each pathname.
+.TP
+.B \-u
+Print the owner's login name after each pathname.
+.TP
+.BI \-a ~n
+Select if the inode has been accessed in
+.I n\^
+days.
+.TP
+.BI \-m ~n\^
+Select if the inode has been modified in
+.I n\^
+days.
+.TP
+.BI \-c ~n\^
+Select if the inode has been changed in 
+.I n\^
+days.
+.TP
+.BI \-n ~file\^
+Select if the inode has been modified more recently than the argument
+.IR file .
+.TP
+.BI \-i "~inode-list"
+Generate names for only those inodes specified in
+.IR "inode-list" .
+.SH EXAMPLES
+To generate a list of the names of all files on a specified file system:
+.RS
+.B "f\&f \|\-I \|/dev/diskroot"
+.RE
+.P
+To produce an index of files and i-numbers which are on a
+file system and have been modified in the last 24 hours:
+.RS
+.B "f\&f \|\-m \|\-1 \|/dev/diskusr \|> \|/log/incbackup/usr/tuesday"
+.RE
+.P
+To obtain the pathnames for inodes 451 and 76 on 
+a specified file system:
+.RS
+.B "f\&f \|\-i \|451,76 \|/dev/rdk10"
+.RE
+.SH "SEE ALSO"
+finc(1M), find(1), frec(1M), ncheck(1M).
+.SH BUGS
+Only a single pathname is generated for a multiple
+linked inode, unless the
+.B \-l
+option is specified.
+When
+.B \-l
+is specified, no selection criteria applies to the names generated;
+all possible names for every linked file on the file system are included
+in the output.
+.P
+On very large file systems, memory may run out before
+.I f\&f
+does.
+.tr ~~
+.\"	@(#)ff.1m	1.7	

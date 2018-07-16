@@ -1,0 +1,44 @@
+.TH GETPASS 3C 
+.SH NAME
+getpass \- read a password
+.SH SYNOPSIS
+.BR "char \(**getpass (" prompt )
+.br
+.BR "char \(**" prompt ;
+.SH DESCRIPTION
+.I Getpass\^
+reads up to a
+newline
+or
+.SM
+.B EOF\^
+from the file
+.BR /dev/tty ,
+after prompting on
+the standard error output
+with the null-terminated string
+.I prompt\^
+and disabling echo.
+A pointer is returned to a null-terminated string
+of at most 8 characters.
+If
+.B /dev/tty
+cannot be opened, a
+.SM
+.B NULL
+pointer is returned.
+An interrupt terminates input and sends
+an interrupt signal to the calling program before returning.
+.SH FILES
+/dev/tty
+.SH "SEE ALSO"
+crypt(3C).
+.SH WARNING
+The above routine uses \f3<stdio.h>\f1. This causes 
+the size of programs
+not otherwise using standard I/O to increase more
+than might be expected.
+.SH BUGS
+The return value points to static data
+whose content is overwritten by each call.
+.\"	@(#)getpass.3c	1.5	

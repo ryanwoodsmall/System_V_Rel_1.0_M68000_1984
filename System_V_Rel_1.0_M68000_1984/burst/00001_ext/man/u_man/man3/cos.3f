@@ -1,0 +1,31 @@
+.TH COS 3F
+.SH NAME
+cos, dcos, ccos \- Fortran cosine intrinsic function
+.SH SYNOPSIS
+.nf
+.BR "real" " r1, r2"
+.BR "double precision" " dp1, dp2"
+.B" "complex" " cx1, cx2"
+.P
+.RB "r2" " = cos(" "r1" ")"
+.P
+.RB "dp2" " = dcos(" "dp1" ")"
+.RB "dp2" " = cos(" "dp1" ")"
+.P
+.RB "cx2" " = ccos(" "cx1" ")"
+.RB "cx2" " = cos(" "cx1" ")"
+.SH DESCRIPTION
+.I Cos\^
+returns the real cosine of its real argument.
+.I Dcos\^
+returns the double-precision cosine of its double-precision argument.
+.I Ccos\^
+returns the complex cosine of its complex argument.
+The generic form
+.I cos\^
+may be used with impunity because its returned type
+is determined by that of
+its argument.
+.SH SEE ALSO
+trig(3M).
+.\"	@(#)cos.3f	1.4	

@@ -1,0 +1,92 @@
+.TH MONITOR 3C 
+.SH NAME
+monitor \- prepare execution profile
+.SH SYNOPSIS
+.nf
+.BR "void monitor (" "lowpc, highpc, buffer, bufsize, nfunc" ")"
+.BR "int (\(**" lowpc ")( ), (\(**" highpc ")( );"
+.BR "short \(**" buffer ;
+.BR int " bufsize, nfunc" ;
+.SH DESCRIPTION
+An executable program created by
+.B cc \-p
+automatically includes calls for
+.I monitor\^
+with default parameters;
+.I monitor\^
+needn't be called explicitly
+except to gain fine control over profiling.
+.PP
+.I Monitor\^
+is an interface to
+.IR profil (2).
+.I Lowpc\^
+and
+.I highpc\^
+are the addresses of two functions;
+.I buffer\^
+is the address of a (user supplied)
+array of
+.I bufsize\^
+short integers.
+.I Monitor\^
+arranges to record a histogram in the buffer.
+This histogram shows periodically sampled values of the program counter
+and counts of calls
+of certain functions.
+The lowest address sampled
+is that of
+.IR lowpc ;
+the highest address is
+just below
+.IR highpc .
+.I Lowpc\^
+may not equal 0 for this use of
+.IR monitor .
+.I Nfunc\^
+is the maximum number of call counts that can be kept;
+only calls of functions
+compiled with the profiling option
+.B \-p
+of
+.IR cc (1)
+are recorded.
+(The C Library and Math Library supplied when
+.B cc -p
+is used also have call counts recorded.)
+For the results to be significant,
+especially where there are small, heavily
+used routines,
+it is suggested that the buffer be no more
+than a few times smaller than the range
+of locations sampled.
+.PP
+To profile the entire program,
+it is sufficient to use
+.PP
+	extern etext;
+.br
+	...
+.br
+	monitor ((int (\(**)())2, etext, buf, bufsize, nfunc);
+.PP
+.I Etext\^
+lies just above all the
+program text; see
+.IR end (3C).
+.PP
+To stop execution monitoring and write the results
+on the file
+.BR mon.out ,
+use
+.PP
+	monitor ((int (\(**)())NULL, 0, 0, 0, 0);
+.PP
+.IR Prof (1)
+can then be used
+to examine the results.
+.SH FILES
+mon.out
+.SH SEE ALSO
+cc(1), prof(1), profil(2), end(3C).
+.\"	@(#)monitor.3c	1.4	

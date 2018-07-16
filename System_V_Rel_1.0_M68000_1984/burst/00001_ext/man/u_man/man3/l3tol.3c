@@ -1,0 +1,43 @@
+.TH L3TOL 3C 
+.SH NAME
+l3tol, ltol3 \- convert between 3-byte integers and long integers
+.SH SYNOPSIS
+.BR "void l3tol (" "lp, cp, n" ) 
+.br
+.BR "long \(**" lp ;
+.br
+.BR "char \(**" cp ;
+.br
+.BR int " n" ;
+.PP
+.BR "void ltol3 (" "cp, lp, n" )
+.br
+.BR "char \(**" cp ;
+.br
+.BR "long \(**" lp ;
+.br
+.BR int " n" ;
+.SH DESCRIPTION
+.I L3tol\^
+converts a list of
+.I n\^
+3-byte integers (packed into a character string
+pointed to by 
+.IR cp )
+into a list of long integers pointed to by
+.IR lp .
+.PP
+.I Ltol3\^
+performs the reverse conversion from long integers
+.RI ( lp )
+to 3-byte integers
+.RI ( cp ).
+.PP
+These functions are useful for file system maintenance
+where the block numbers are 3 bytes long.
+.SH SEE ALSO
+fs(4).
+.SH BUGS
+Because of possible differences in byte ordering,
+the numerical values of the long integers are machine-dependent.
+.\"	@(#)l3tol.3c	1.4	

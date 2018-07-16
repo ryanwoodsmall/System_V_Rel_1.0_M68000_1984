@@ -1,0 +1,119 @@
+.\"	@(#)bo.8	1.16	
+.TH BO 8 
+.SH NAME
+bo \- bootstrap operating procedure for system restart 
+.SH SYNOPSIS
+.B bo 
+.RB "[\<device>\]"
+.RB "[\,\<controller>\]"
+.RB "[\,\<string>\]"
+.SS Options
+.TP 14
+device	
+a single hexadecimal digit (0-F) specifying
+the device to be used (default = 0).
+.TP 14
+controller
+a single hexadecimal digit (0-F) specifying
+the controller to which the device is 
+connected (default = 0).
+.TP 14
+string
+an optional ASCII character string (maximum
+of 18 characters) that is passed to the 
+program being loaded from the specified 
+device and controller.  This string may
+be the pathname of the \*(5) program to
+be booted (default =
+.BR "/stand/unix" ")."   
+.SH DESCRIPTION
+When the system is turned on, the front panel status should be
+.BR "01". 
+Perform the system self-test by holding the system reset
+and the system test buttons depressed.  Release first the system
+reset button and then release the system test button.  The status
+changes to
+.B EA
+while memory is initialized, then to
+.B "01"
+when the test is complete.  The prompt
+.B "P*"
+appears after the Return key is pressed.
+After receiving the prompt, type:
+.B bo
+(drive 0 is the default and accesses the fixed media).  If the system
+resides on the removable media, type:
+.B "bo 1"
+(drive 1 is accessed).
+The CRT displays:
+.sp
+.ti +3
+.B INIT SINGLE USER MODE
+.ti +3
+.B #
+.sp
+Enter:
+.B "init 2"   
+.sp
+The CRT displays:
+.DS
+.B "INIT: New run level: 2"
+.br
+.B "Is the date <day> <month> <date> <time> <year> correct? (y or n)"
+.DE
+If the date is incorrect, type:
+.B n
+and set the date and time.  For the correct date and time, the following
+format is required: \f2mmddhhmm[yy]\f1, where
+mm=month, dd=day, hh=hour, mm=minute, yy=year (refer to 
+.IR date (1)).  
+For example:
+.sp
+.ti +3
+Sept. 28, 1983 at 7:30am is
+.B 0928073083
+.sp
+If the date is
+correct, type:
+.B y
+; the CRT displays:
+.sp
+.ti +3
+.B "Do you want to check the file system? (y or n)"
+.sp
+To prevent possible system damage, a file system check is recommended.
+Enter:
+.B "y" .
+The following is an example of a file system check display:
+.sp
+.ti +3
+.B "/dev/dk10"
+.ti +3
+.B "File System: /d0 Volume: fixed"
+.ti +5
+.B "** Phase 1 - Check Blocks and Sizes"
+.ti +5
+.B "** Phase 2 - Check Pathnames"
+.ti +5
+.B "** Phase 3 - Check Connectivity"
+.ti +5
+.B "** Phase 4 - Check Reference Counts"
+.ti +5
+.B "** Phase 5 - Check Free List"
+.ti +5
+.B "<n> files <n> blocks <n> free"
+.sp
+.B "***SYSTEM MULTI-USER <day> <month> <date> <time> <year>***"
+.sp
+If a file system check is not required, enter: 
+.B n
+; the "SYSTEM MULTI-USER" display is printed.
+.sp
+A login prompt now appears on activated CRT terminals.
+.SH FILES  
+/stand/unix
+.SH SEE ALSO
+date(1), fsck(1M), init(1M), m68kops(8).
+.SH WARNINGS
+Memory initialization must be completed before this boot
+procedure is used.

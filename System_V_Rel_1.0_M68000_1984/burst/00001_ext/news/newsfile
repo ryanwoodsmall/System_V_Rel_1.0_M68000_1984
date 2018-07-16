@@ -1,0 +1,25 @@
+SYSTEM V/68, Release 1, Version 2.1
+
+This is SYSTEM V/68 (a trademark of Motorola, Inc.), derived from UNIX
+System V, M68000 Version, which is a jointly developed product of AT&T
+Technologies and Motorola.
+
+This is the release of SYSTEM V/68 as validated by AT&T Bell Laboratories.
+It is targeted at the Motorola EXORmacs development computer system.
+However, it is also the "generic port" as contracted by AT&T Technologies.
+
+The User's and Administrator's Manuals are on-line, accessible via the
+man(1) command.  External, and more complete, documentation is supplied
+with this product.  Additional copies are available through Motorola's
+Literature Distribution Center.
+
+You are encouraged to read the customer letter accompanying this product
+in some detail.  It contains much pertinent information that, although
+present in the on-line and external documentation, is often missed during
+preliminary examination.
+
+Motorola has made every effort to ensure that the contents of this product,
+including documentation, is up-to-date and complete.  However, no
+responsibility is assumed for omissions or inaccuracies.  Furthermore,
+Motorola reserves the right to make changes to any products herein to
+improve reliability, function, or design.

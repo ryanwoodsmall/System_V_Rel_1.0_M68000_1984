@@ -1,0 +1,63 @@
+.TH CALENDAR 1 
+.SH NAME
+calendar \- reminder service
+.SH SYNOPSIS
+.B calendar
+[ \- ]
+.SH DESCRIPTION
+.I Calendar\^
+consults the file
+.B calendar\^
+in a user's current directory
+and prints out lines containing today's or
+tomorrow's date.  
+.I Calendar
+uses
+.I calprog
+to figure out today's and tomorrow's
+dates.  The date read by
+.I calprog
+may appear
+anywhere in a line, and most reasonable date
+representations are recognized, although the month must
+appear first.  For example, "Dec. 7," "december 7," and
+"12/7" are recognized;  "7 Dec" or "seven december" are not.
+On weekends "tomorrow" extends through Monday.  If the
+.I calendar
+command is run on a Friday, lines containing the dates for
+Friday, Saturday, Sunday, and Monday are selected.
+.PP
+When 
+an argument is present,
+.I calendar\^
+does its job for all users
+who have a file
+.B calendar\^
+in their login directory
+and sends them any positive results by
+.IR mail (1).
+Normally this is done daily by facilities in the 
+operating system.
+.SH FILES
+calendar
+.br
+/usr/lib/calprog     
+.br
+/etc/passwd
+.br
+/tmp/cal\(**
+.SH "SEE ALSO"
+mail(1).
+.SH BUGS
+The
+.B calendar\^
+file must be public information for a user
+to get reminder service.
+.br
+.I Calendar's\^
+extended idea of ``tomorrow'' does not account for
+holidays.
+.br
+Numeric dates must be in the form month/day.  Separators
+other than a slash prevent recognition of the date.
+.\"	@(#)calendar.1	1.7	

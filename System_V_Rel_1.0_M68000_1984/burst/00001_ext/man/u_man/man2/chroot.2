@@ -1,0 +1,66 @@
+.TH CHROOT 2
+.SH NAME
+chroot \- change root directory
+.SH SYNOPSIS
+.BR "int chroot (" path )
+.br
+.BR "char \(**" path ;
+.PP
+.SH DESCRIPTION
+.I Path\^
+points to a
+pathname
+naming a directory.
+.I Chroot\^
+causes the named directory to become the root directory.
+The starting point for \fIpath\fP searches for
+pathnames that
+begin with
+.BR / .
+.PP
+The effective user
+.SM ID
+of the process must be superuser
+to change the root directory.
+.PP
+The
+.B ..
+entry in the root directory is interpreted to mean the root directory
+itself.
+Thus,
+.B ..
+cannot be used to access files outside the subtree rooted at the root
+directory.
+.PP
+.I Chroot\^
+fails and the root directory remains unchanged if
+one or more of the following are true:
+.IP
+Any component of the
+pathname
+is not a directory.
+.SM
+\%[ENOTDIR]
+.IP
+The named directory does not exist.
+.SM
+\%[ENOENT]
+.IP
+The effective user
+.SM ID
+is not superuser.
+.SM
+\%[EPERM]
+.IP
+.I Path\^
+points outside the process's allocated address space.
+.SM
+\%[EFAULT]
+.SH "RETURN VALUE"
+Upon successful completion, a value of 0 is returned.
+Otherwise, a value of \-1 is returned and
+.I errno\^
+is set to indicate the error.
+.SH "SEE ALSO"
+chdir(2).
+.\"	@(#)chroot.2	1.6	

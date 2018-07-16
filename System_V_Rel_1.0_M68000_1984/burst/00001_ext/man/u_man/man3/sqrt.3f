@@ -1,0 +1,32 @@
+.TH SQRT 3F
+.SH NAME
+sqrt, dsqrt, csqrt \- Fortran square root intrinsic function
+.SH SYNOPSIS
+.nf
+.BR "real" " r1, r2"
+.BR "double precision" " dp1, dp2"
+.BR "complex" " cx1, cx2"
+.P
+.RB "r2" " = sqrt(" "r1" ")"
+.P
+.RB "dp2" " = dsqrt(" "dp1" ")"
+.RB "dp2" " = sqrt(" "dp1" ")"
+.P
+.RB "cx2" " = csqrt(" "cx1" ")"
+.RB "cx2" " = sqrt(" "cx1" ")"
+.SH DESCRIPTION
+.I Sqrt\^
+returns the real square root of its real argument.
+.I Dsqrt\^
+returns the double-precision square root of its double-precision arguement.
+.I Csqrt\^
+returns the complex square root of its complex argument.
+.IR Sqrt ,
+the generic form, will become
+.I dsqrt\^
+or
+.I csqrt\^
+as required by its argument type.
+.SH SEE ALSO
+exp(3M).
+.\"	@(#)sqrt.3f	1.3	

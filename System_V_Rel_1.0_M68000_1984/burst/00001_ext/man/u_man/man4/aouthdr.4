@@ -1,0 +1,32 @@
+.TH AOUTHDR 4
+.SH NAME
+aouthdr \- optional aout header
+.SH SYNOPSIS
+.B "#include <aouthdr.h>"
+.SH DESCRIPTION
+An object file may contain an optional header, following
+the file header described in \fIfilehdr\fP(4).
+Object files that have been completely linked by \fIld\fP(1)
+contain this header; others do not.
+The format
+of the optional header is:
+.sp
+.nf
+.ta .75i 1.5i 2.75i
+typedef struct aouthdr  {
+	short	magic;	/* magic number */
+	short	vstamp;	/* version stamp */
+	long	tsize;	/* text size in bytes, padded (\fI.text\fP) */
+	long	dsize;	/* initialized data (\fI.data\fP) */
+	long	bsize;	/* uninitialized data (\fI.bss\fP) */
+	long	entry;	/* entry point */
+	long	text_start;	/* base of text used for this file */
+	long	data_start;	/* base of data used for this file */
+} AOUTHDR;
+.fi
+.ta
+.SH "SEE ALSO"
+a.out(4), filehdr(4).
+.\"	@(#)aouthdr.4	1.4	
+
+

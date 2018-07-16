@@ -1,0 +1,118 @@
+.TH LPD 1C
+.SH NAME
+lpd \-  line printer daemon
+.SH SYNOPSIS
+.B /usr/lib/lpd
+.SH DESCRIPTION
+.I Lpd\^
+is the daemon for a line printer and uses the directory
+.BR /usr/spool/lpd .
+The file
+.B lock
+in either directory
+is used
+to prevent two daemons from becoming active simultaneously.
+After the program has successfully set the lock,
+it forks and the main path exits, thus
+spawning the daemon.
+The directory is scanned for files
+beginning with
+``df''.
+Each such file is submitted as a job.
+Each line of a job file must begin with a key
+character to specify what to do with the remainder
+of the line.
+.PP
+.PD 0
+.TP 7
+.B L
+specifies that the remainder of the line is to
+be sent as a literal.
+.TP 7
+.B I
+is the same as
+.BR L ,
+but signals the $
+.SM IDENT
+card
+which is to be mailed back by the mail option.
+.TP 7
+.B B
+specifies that the rest of the line
+is a filename.
+That file is to
+be sent as binary cards.
+.TP 7
+.B F
+is the same as
+.B B
+except a form-feed is prepended to the file.
+.TP 7
+.B U
+specifies that the rest of the line
+is a filename.
+After the job has been transmitted,
+the file is unlinked.
+.TP 7
+.B M
+is followed by a user \s-1ID\s+1; after the job is sent,
+a message is
+mailed to the user via the
+.IR mail (1)
+command
+to verify the sending of the job.
+.TP 7
+.B N
+is followed by a user filename, to be sent back
+under the mail option.
+.PD
+.PP
+Any error encountered causes the daemon to
+drop the call,
+wait up to 10 seconds,
+and start over.
+This means that an improperly constructed
+``df''
+file may cause the same job to be submitted
+every 10 seconds.
+.PP
+.I Lpd\^
+is automatically initiated by the line printer command,
+.IR lpr .
+.PP
+To restart
+.I lpd\^
+(in the case of hardware or software malfunction),
+it is necessary to first kill the old
+daemon
+(if it is still alive),
+and remove the lock file
+(if present),
+before initiating
+the new daemon.
+This can be done automatically
+by
+.B /etc/rc
+when the system is brought up,
+in the event there were jobs left in the spooling directory
+when the system last went down.
+.SH FILES
+.PD 0
+.TP 20
+/usr/spool/lpd/\(**
+spool area for line printer daemon.
+.TP
+/etc/passwd
+to get the user's name.
+.TP
+/dev/lp
+line printer device.
+.PD
+.SH SEE ALSO
+lpr(1).
+.SH BUGS
+If a
+.IR umask (1)
+of 077 is used, the print jobs may be spooled but cannot
+be printed.
+.\"	@(#)lpd.1c	1.3	

@@ -1,0 +1,63 @@
+.TH UNAME 2
+.SH NAME
+uname \- get name of current operating system
+.SH SYNOPSIS
+.B #include <sys/utsname.h>
+.PP
+.BR "int uname (" name )
+.br
+.BR "struct utsname \(**" name ;
+.SH DESCRIPTION
+.I Uname\^
+stores
+information identifying the current
+system in the structure pointed to by
+.IR name .
+.PP
+.I Uname\^
+uses the structure
+defined in \f3<sys/utsname.h>\fP whose members are:
+.PP
+.RS
+char	sysname[9];
+.br
+char	nodename[9];
+.br
+char	release[9];
+.br
+char	version[9];
+.br
+char	machine[9];
+.RE
+.PP
+.I Uname\^
+returns
+a null-terminated character string naming the current
+system in the character array
+.IR sysname .
+Similarly,
+.I nodename\^
+contains the name that the system is known by on a communications
+network.
+.I Release\^
+and
+.I version\^
+further identify the operating system.
+.I Machine\^
+contains a standard name that identifies the hardware that the
+system is running on.
+.PP
+.I Uname\^
+fails if
+.I name\^
+points to an invalid address.
+.SM
+\%[EFAULT]
+.SH "RETURN VALUE"
+Upon successful completion, a non-negative value is returned.
+Otherwise, \-1 is returned and
+.I errno\^
+is set to indicate the error.
+.SH SEE ALSO
+uname(1).
+.\"	@(#)uname.2	1.4	

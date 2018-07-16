@@ -1,0 +1,23 @@
+.TH COSH 3F
+.SH NAME
+cosh, dcosh \- Fortran hyperbolic cosine intrinsic function
+.SH SYNOPSIS
+.nf
+.BR "real" " r1, r2"
+.BR "double precision" " dp1, dp2"
+.P
+.RB "r2" " = cosh(" "r1" ")"
+.P
+.RB "dp2" " = dcosh(" "dp1" ")"
+.RB "dp2" " = cosh(" "dp1" ")"
+.SH DESCRIPTION
+.I Cosh\^
+returns the real hyperbolic cosine of its real argument.
+.I Dcosh\^
+returns the double-precision hyperbolic cosine of its double-precision argument.
+The generic form
+.I cosh\^
+may be used to return the hyperbolic cosine in the type of its argument.
+.SH SEE ALSO
+sinh(3M).
+.\"	@(#)cosh.3f	1.3	

@@ -1,0 +1,177 @@
+.\"	@(#)errintro	1.16	
+.af P i
+.de PP
+.if n .sp
+.if t .sp .5v
+.ne 1.1v
+..
+.hw print-out photo-type-setter
+.tr ~
+.if t \{.ds ` ``
+.	 ds ' ''
+.	 ds d \-
+'	 br \}
+.if n \{.ds ` ""
+.	 ds ' ""
+.	 ds d " -- \"
+.	 na
+.	 rm ad \}
+.hy 14
+.ta .5i 1i 1.5i 2i 2.5i 3i 3.5i 4i 4.5i 5i 5.5i 6i 6.5i
+.if \n()s \{.pl 9i
+.	     ll 4.75i
+.	     lt 4.75i
+.	     po .75i
+.	     ps 9
+.	     vs 10 \}
+.if \n()t \{.pl 11i
+.	     ll 6.5i
+.	     lt 6.5i
+.	     po 1.0i
+.	     ps 10
+.	     vs 12 \}
+.if n \{.pl 11i
+.	 ll 6.5i
+.	 lt 6.5i
+.	 po .463i \}
+.de TP
+.tl \\*(}t
+..
+.PH ''''
+.PF ''''
+.hy 14
+.ta .5i 1i 1.5i 2i 2.5i 3i 3.5i 4i 4.5i 5i 5.5i 6i 6.5i
+.de TP
+.sp 6
+.tl \\*(}t
+..
+.PH ''''
+.PF ''''
+.OF ''\\\\nP''
+.EF ''\\\\nP''
+.ce
+\f3INTRODUCTION\fP
+.sp 1v
+Two document types provide information about \*(5):  manuals
+and guides.
+The manuals describe commands, facilities, features, and
+error messages of the system.  The guides provide supplemental
+details and instructions for system implementation,
+administration, and use.
+.P
+\f3General.\fP
+This manual is designed to
+provide a description of all \*(5)
+error messages
+which appear on the \s-1EXOR\s+1macs Development System.
+Corrective actions and additional references for each message
+are also included.
+.P
+Hardware references used in this manual are defined as follows:
+.sp .5v
+.in +2m
+cm16	16Mb Cartridge Module Drive
+.br
+cm80	80Mb Cartridge Module Drive
+.br
+fl8	8-inch Floppy Disk Drive
+.br
+lrk25	25Mb LARK Module Drive
+.in -2m
+.P
+Many of the error message entries refer to the system
+description file and its contents.
+For more information on this file, see 
+the ``Setting Up \*(5)'' section of the \*(Ag.
+.P
+The term ``support organization'' appears frequently throughout this
+manual.
+It refers to the local lab support personnel in your own
+organization.
+.P
+\f3Document Conventions\fP.
+All \*(5) error messages are included in this manual.
+Messages which begin with variables are listed first, followed by
+alphabetical entries of the remaining messages.
+One entry appears per page.
+An index is included in the rear of this manual for easy reference.
+The format of each error message entry follows the template below.
+.Nm "Error Message  \*(Eo"
+.Ds
+This section includes a detailed description of the error message.
+It may also reference documents in which further information on the
+error can be found.
+.Ac
+This section contains probable causes for each error, if applicable,
+and/or corrective action(s) that should be taken to alleviate the
+problem.
+Messages that require no action are denoted as information-only
+messages.
+.Rf
+This section contains the name(s) of the \*(5) source code module(s)
+that produce the error message.
+.P
+(Processor(s)) appears if the error message does not pertain
+equally to \s-1M68000\s+1, \s-1PDP\s+1-11,
+and \s-1VAX\s+1-11 processors.
+It is in the form:
+.DS
+	(processor-type(s) only)
+.DE
+where \fIprocessor-type\fP is the name(s) of the
+processor(s) on which the error can occur. 
+General categories such as \s-1M68000\s+1 and
+\s-1VAX\s+1-11 refer to any of the processors
+in the specified series.
+The category of DEC refers to all \s-1PDP\s+1-11
+and \s-1VAX\s+1-11 processors.  
+References to processors other than \s-1M68000\s+1 have been
+included only for purposes of
+comparison and transition.
+.in -13
+.P
+Messages which appear in this manual use the following
+language conventions.
+.sp .5v
+.in +2m
+.B Boldface
+strings are literals and are to be typed just as they appear.
+.sp .5v
+.I Italic
+strings represent substitutable argument prototypes and
+program names found elsewhere in the manual.
+.sp .5v
+.ne 2
+Square brackets [] around an argument prototype indicate that the
+argument is optional.  When an argument prototype is given as 
+.I name
+or
+.IR file ,
+it always refers to a
+.IR file name.
+.sp .5v
+Ellipses ... are used to show that the previous argument prototype
+may be repeated.
+.sp .5v
+A final convention is used by the commands themselves.  An argument
+beginning with a minus -, plus +, or equal sign = is often taken
+to be some type of flag argument, even if it appears in a position
+where a filename could appear.  Therefore, it is unwise to have
+files whose names begin with -, +, or =.
+.in -2m
+.P
+\*(5) manuals are organized as alphabetized entries within tabbed
+sections.  The \fI\*(6) User's Manual\fP contains sections 1 through 6.
+The \*(Am contains sections 1M, 7, and 8.
+Throughout this documentation, references to these manuals are
+given as \fIname\fP(section).  For example, 
+\fIchroot\fP(1M) is a reference to the \fIchroot\fP entry in
+section 1M of the \*(Am.
+.P
+\f3Operator Notes\fP.
+An operational difference exists between execution of \*(5) 
+on the \s-1EXOR\s+1macs and \s-1DEC\s+1 machines.
+System dumps are written to disk on the \s-1EXOR\s+1macs.
+On \s-1DEC\s+1 processors, system dumps are written to tape.
+Procedures for taking system dumps can be found in 
+\fIcrash\fP(8).

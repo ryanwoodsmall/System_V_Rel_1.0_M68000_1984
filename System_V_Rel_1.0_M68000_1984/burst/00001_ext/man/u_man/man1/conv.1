@@ -1,0 +1,78 @@
+.\"	@(#)conv.1	1.6	
+.TH CONV 1
+.SH NAME
+conv \- object file converter
+.SH SYNOPSIS
+.BR "conv [\-] [\-a] [\-o] [\-p] [\-s] \-t " "target files"
+.SH DESCRIPTION
+The
+.I conv\^
+command converts object files from their current format
+to the format of the
+.I target\^
+machine.  The converted file is written to 
+.BR file.v .
+.PP
+Command line options are:
+.TP 14
+.B \-
+read
+.I files\^
+from
+.IR stdin .
+.TP 14
+.B \-a
+If the input file is an archive, produce the output file in the
+old archive format.
+.TP 14
+.B \-o
+If the input file is 
+an archive, produce the output file in the
+\s-1UNIX\s+1 6.0 portable archive format.
+.TP 14
+.B \-p
+\s-1UNIX\s+1 5.0 random access archive format.  This is the default.
+.TP 14
+.B \-s
+Function exactly as 3bswab, i.e., ``preswab'' all characters in
+the object file.  This is useful only for 3B20 object files
+which are to be ``swab-dumped'' from a DEC machine to a 3B20.
+.TP 14
+.BI \-t " target"
+Convert the object file to the byte ordering of the machine
+(target) to which the object file is being shipped.  This may
+be another host or a target machine.  Legal values for
+.I target\^
+are:  pdp, vax, ibm, i80, x86, b16, n3b, m32, and mc68.
+.PP
+.I Conv\^
+can be used to convert all object files in common object file
+format.  It can be used on either the source ("sending") or
+target ("receiving") machine.
+.PP
+.I Conv\^
+is meant to ease the problems created by a multi-host cross-compilation
+development environment.  
+.I Conv\^
+is best used within a procedure for shipping object files from one
+machine to another.
+.PP
+.I Conv\^
+will recognize and produce archive files in three formats:  the
+\s-1UNIX\s+1 pre-5.0 format, the 5.0 random access format, and the
+6.0 portable \s-1ASCII\s+1
+.SH "EXAMPLE"
+\f3*ship object files from pdp11 to ibm\f1
+.br
+\f3$echo *.out | conv \-t ibm \-$OFC/foo.o\f1
+.br
+\f3$uucp *.v my370!~/rje/\f1
+.SH "DIAGNOSTICS"
+All diagnosics for the \f2conv\f1 command are intended to
+be self-explanatory.  Fatal diagnostics on the command lines
+cause termination.  Fatal diagnostics on an input file cause the
+program to continue to the next input file.
+.SH "WARNINGS"
+\f2Conv\f1 does not convert archives from one format to
+another if both the source and target machines have the
+same byte ordering.

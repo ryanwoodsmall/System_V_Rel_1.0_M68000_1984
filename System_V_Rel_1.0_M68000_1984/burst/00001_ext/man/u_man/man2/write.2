@@ -1,0 +1,124 @@
+.TH WRITE 2 
+.SH NAME
+write \- write on a file
+.SH SYNOPSIS
+.BR "int write (" "fildes, buf, nbyte" )
+.br
+.BR int " fildes" ;
+.br
+.BR "char \(**" buf ;
+.br
+.BR unsigned " nbyte" ;
+.SH DESCRIPTION
+.I Fildes\^
+is a
+file descriptor
+obtained from a
+.IR creat (2),
+.IR open (2),
+.IR dup (2),
+.IR fcntl (2),
+or
+.IR pipe (2)
+system call.
+.PP
+.I Write\^
+attempts to write
+.I nbyte\^
+bytes from the buffer pointed to by
+.I buf\^
+to the file associated with the
+.IR fildes .
+.PP
+On devices capable of seeking,
+the actual writing of data proceeds from the position in the file
+indicated by the file pointer.
+Upon return from 
+.IR write ,
+the file pointer is incremented by the number of bytes actually written.
+.PP
+On devices incapable of seeking,
+writing always takes place starting at the current position.
+The value of a file pointer associated with such a device is
+undefined.
+.PP
+If the
+.SM O_APPEND
+file status flag is set,
+the file pointer is set to the end of the file prior to each write.
+.PP
+.I Write\^
+fails and the file pointer remains unchanged if one or more of the
+following are true:
+.IP
+.I Fildes\^
+is not a valid file descriptor open for writing.
+.SM
+\%[EBADF]
+.IP
+An attempt is made to write to a pipe that is not open
+for reading by any process.
+.SM
+\%[EPIPE
+and
+.SM
+SIGPIPE
+signal]
+.IP
+An attempt is made to write a file that exceeds the
+process's file size limit or the maximum file size.
+See 
+.IR ulimit (2).
+.SM
+\%[EFBIG]
+.IP
+.I Buf\^
+points outside the process's allocated address space.
+.SM
+\%[EFAULT]
+.PP
+If a
+.I write\^
+requests that more bytes be written than there is room for
+(e.g., the
+.I ulimit\^
+(see
+.IR ulimit (2))
+or the physical end of a medium),
+only as many bytes as there is room for are written.
+For example,
+if there is space for 20 bytes more in a file before
+reaching a limit,
+a write of 512  bytes returns 20.
+The next write of a non-zero number of bytes gives a failure return
+(except as noted below).
+.PP
+If the file being written is a pipe (or
+.SM FIFO\*S),
+no partial writes are permitted.
+Thus, the write fails if a write of
+.I nbyte\^
+bytes would exceed a limit.
+.PP
+If the file being written is a pipe (or
+.SM FIFO\*S)
+and the
+.SM O_NDELAY
+flag of the file flag word is set,
+then write to a full pipe (or
+.SM FIFO\*S)
+returns a count of 0.
+If
+.SM O_NDELAY
+is clear, writes to a full pipe (or
+.SM FIFO\*S)
+block until space becomes available.
+.SH "RETURN VALUE"
+Upon successful completion the number of bytes actually written
+is returned.
+Otherwise, \-1 is returned and
+.I errno\^
+is set to indicate the error.
+.SH "SEE ALSO"
+creat(2), dup(2), lseek(2), open(2), pipe(2), ulimit(2).
+.\"	@(#)write.2	1.4	

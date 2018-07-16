@@ -1,0 +1,37 @@
+.TH MAX 3F
+.SH NAME
+max, max0, amax0, max1, amax1, dmax1 \- Fortran maximum-value functions
+.SH SYNOPSIS
+.nf
+.BR "integer" " i, j, k, l"
+.BR "real" " a, b, c, d"
+.BR "double precision" " dp1, dp2, dp3"
+.P
+.RB "l" " = max(" "i, j, k" ")"
+.RB "c" " = max(" "a, b" ")"
+.RB "dp" " = max(" "a, b, c" ")"
+.RB "k" " = max0(" "i, j" ")"
+.RB "a" " = amax0(" "i, j, k" ")"
+.RB "i" " = max1(" "a, b" ")"
+.RB "d" " = amax1(" "a, b, c" ")"
+.RB "dp3" " = dmax1(" "dp1, dp2" ")"
+.SH DESCRIPTION
+The maximum-value functions return the largest of their
+arguments; there may be any number of arguments.
+.I Max\^
+is the generic form which can be used for all data types and takes its
+return type from that of its arguments.  All arguments must be
+of the same type.
+.I Max0\^
+returns the integer form of the maximum value of its integer arguments;
+.IR amax0 ,
+the real form of its integer arguments;
+.IR max1 ,
+the integer form of its real arguments;
+.IR amax1 ,
+the real form of its real arguments; and
+.IR dmax1 ,
+the double-precision form of its double-precision arguments.
+.SH SEE ALSO
+min(3F).
+.\"	@(#)max.3f	1.4	

@@ -1,0 +1,256 @@
+.TH CC 1
+.SH NAME
+cc\- C compiler
+.SH SYNOPSIS
+.B cc
+[ options ] ... files ...
+.SH DESCRIPTION
+The
+.I cc\^
+command
+is the C compiler.
+It generates assembly instructions.
+.I Cc\^
+accepts the following types of arguments:
+.PP
+Arguments whose names end with
+.B .c\^
+are taken to
+be C source programs; they are compiled, and
+each object program is left on the file
+whose name is that of the source, with
+.B .o\^
+substituted
+for
+.BR .c .
+The
+.B .o\^
+file is normally deleted; however, if a
+single C program is compiled and loaded all at one go,
+no
+.B .o\^
+is produced.  In the same way, arguments
+whose names end with
+.B .s\^
+are taken to be assembly
+source programs and are assembled to produce a
+.B .o\^
+file.
+.PP
+The following flags are interpreted by
+.I cc\^.
+See
+.IR ld (1)
+for link editor options and
+.IR as (1)
+for assembler options.
+.TP 8
+.B \-c
+Suppress the link-editing phase of the compilation, and force
+an object file to be produced even if only one program is compiled.
+.TP
+.B \-p
+Arrange for the compiler to produce code which counts the
+number of times each routine is called.  Also, if link editing
+takes place, replace the standard startoff routine by one
+which automatically calls \f2monitor\f1(3C) at the start and
+arranges to write out a \f3mon.out\f1 file at normal termination
+of execution of the object program.
+.TP
+.B \-g
+Cause the compiler
+to generate additional information
+needed for the use of
+.IR sdb (1).
+.TP
+.B \-O
+Invoke an
+object-code optimizer.
+The optimizer moves, merges, and deletes code,
+so symbolic debugging with line numbers could be
+confusing when the optimizer is used.
+.TP
+.BI \-W c,arg1[,arg2...]
+Hand off the argument[s]
+.I argi
+to pass
+.IR c ,
+where
+.I c
+is one of
+.RB [ p012al ]
+indicating preprocessor,
+compiler first pass,
+compiler second pass,
+optimizer,
+assembler,
+or link editor, respectively.  For example:
+.TP
+.BI \-W a,-m
+Invoke the
+.B m4\^
+macro preprocessor on the input
+to the assembler.  This must be done for a source file
+that contains assembler escapes.
+.TP
+.B \-S
+Compile the named C programs, and leave the
+assembler-language output on corresponding files suffixed \f3.s\fP.
+.TP
+.B \-E
+Run only
+.IR cpp (1)
+on the named C programs, and send the result to the
+standard output.
+.TP
+.B \-P
+Run only
+.IR cpp (1)
+on the named C programs, and leave the result
+on corresponding files suffixed \f3.i\fP.
+.TP
+.BI \-D symbol\^
+Define 
+.I symbol
+to the preprocessor.  This mechanism is
+useful with the conditional statements in 
+the preprocessor by allowing symbols to be
+defined external to the source file.
+.TP
+.BI \-U symbol\^
+Undefine
+.I symbol
+to the preprocessor.
+.TP
+.BI \-I dir\^
+Change the algorithm for searching for
+.I \#include\^
+files whose names do not begin with
+.B \/\^
+to look in
+.I dir
+before looking in the directories on the standard
+list.  Thus, \fI\#include\fP files whose names
+are enclosed in double quotes
+are searched for first in the directory of the
+.I file
+argument, then in directories named in
+.I -I
+options, and last in directories on a standard 
+list.  For \fI\#include\fP files whose names are
+enclosed in
+.BR <> ,
+the directory of the
+.I file\^
+argument is not searched.
+.TP
+.BI \-B string\^
+Construct pathnames for substitute preprocessor, compiler,
+assembler, and link editor passes by concatenating
+.I string\^
+with the suffixes
+.BR cpp ,
+.BR comp ,
+.BR optim ,
+.BR as ,
+and
+.BR ld .
+If 
+.I string\^
+is empty it is taken to be
+.BR /lib/o .
+.PP
+Other arguments
+are taken
+to be either link editor option arguments 
+or C-compatible
+object programs, typically produced by an earlier
+.I cc\^
+run,
+or perhaps libraries of C-compatible routines.
+These programs, together with the results of any
+compilations specified, are link-edited (in the order
+given) to produce an executable program with the name
+.BR a.out 
+unless the
+.BR -o
+option of the link editor is used.
+.PP
+The C language standard was extended after UNIX 5.0
+to allow arbitrary length variable names.  This 
+standard is supported on the M68000 family of processors.  The
+.BR -T
+option causes
+.I cc\^
+to truncate variable names to provide backward
+compatibility with earlier systems.
+.SH FILES
+.PD 0
+.TP 20
+file.c
+input file
+.TP
+file.o
+object file
+.TP
+file.s
+assembly language file
+.TP
+a.out
+link-edited output
+.TP
+/usr/tmp/mc68?
+temporary
+.TP
+LIBDIR/cpp
+preprocessor
+.TP
+LIBDIR/ccom
+compiler
+.TP
+LIBDIR/optim
+optimizer
+.TP
+BINDIR/as
+assembler,
+.IR as (1)
+.TP
+BINDIR/ld
+link editor,
+.IR ld (1)
+.TP
+/lib/libc.a
+standard library, see (3)
+.PD
+.SH SEE ALSO
+as(1),  
+dis(1),
+ld(1).
+.br
+"The C Programming Language"
+by B. W. Kernighan and D. M. Ritchie,
+Prentice\-Hall, 1978.
+.br
+"Programming in C \- A Tutorial"
+by B. W. Kernighan.
+.br
+"C Reference Manual"
+by D. M. Ritchie.
+.br
+"The C Programming Language" in the
+.IR "\*(6) Programming Guide" .
+.SH DIAGNOSTICS
+The diagnostics produced by the C compiler are sometimes
+cryptic.  
+Occasional messages may be produced by the assembler or link editor.
+.SH WARNING
+By default, the return value from a C program is
+completely random.  The only two guaranteed ways
+to return a specific value are to explicitly call
+.IR exit (2)
+or to leave the function 
+.BR main ()
+with a 
+.I "return expression;" 
+construct.
+.\"	@(#)cc.1	1.13	

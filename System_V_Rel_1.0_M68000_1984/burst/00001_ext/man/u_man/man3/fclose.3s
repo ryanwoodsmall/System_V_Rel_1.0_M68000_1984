@@ -1,0 +1,48 @@
+.TH FCLOSE 3S 
+.SH NAME
+fclose, fflush \- close or flush a stream
+.SH SYNOPSIS
+.B #include <stdio.h>
+.PP
+.BR "int fclose (" stream )
+.br
+.BR "\s-1FILE\s+1 \(**" stream ;
+.PP
+.BR "int fflush (" stream )
+.br
+.BR "\s-1FILE\s+1 \(**" stream ;
+.SH DESCRIPTION
+.I Fclose\^
+causes any buffered data
+for the named
+.I stream\^
+to be written out
+and the
+.I stream\^
+to be closed.
+.PP
+.I Fclose\^
+is performed automatically for all open files upon
+calling
+.IR exit (2).
+.PP
+.I Fflush\^
+causes any buffered data for the named
+.I stream\^
+to be 
+written to that file.
+The
+.I stream\^
+remains open.
+.SH DIAGNOSTICS
+These functions return 0 for success, and
+.SM
+.B EOF
+if any error (such as trying to write to a file that has not been opened
+for writing) was detected.
+.SH "SEE ALSO"
+close(2),
+exit(2),
+fopen(3S),
+setbuf(3S).
+.\"	@(#)fclose.3s	1.5	

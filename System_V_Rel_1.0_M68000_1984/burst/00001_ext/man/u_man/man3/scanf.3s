@@ -1,0 +1,305 @@
+.TH SCANF 3S
+.SH NAME
+scanf, fscanf, sscanf \- convert formatted input
+.SH SYNOPSIS
+.B #include <stdio.h>
+.PP
+.BR "int scanf (" "format" " [ ," " pointer" " ] .\|.\|. )"
+.br
+.BR "char \(**" format ;
+.PP
+.BR "int fscanf (" "stream, format" " [ ," " pointer" " ] .\|.\|. )"
+.br
+.BR "\s-1FILE\s+1 \(**" stream ;
+.br
+.BR "char \(**" format ;
+.PP
+.BR "int sscanf (" "s, format" " [ ," " pointer" " ] .\|.\|. )"
+.br
+.BR "char \(**" "s" ", \(**" "format" ";"
+.SH DESCRIPTION
+.I Scanf\^
+reads from the standard input stream
+.IR stdin .
+.I Fscanf\^
+reads from the named input
+.IR stream .
+.I Sscanf\^
+reads from the character string
+.IR s .
+Each function reads characters, interprets
+them according to \fIformat\fP, and stores the results in its arguments.
+Each function expects two arguments: a control string
+.I format\^
+(described below) and a set of
+.I pointer\^
+arguments
+indicating where the converted input should be stored.
+.PP
+The control string usually contains conversion specifications,
+which are used to direct interpretation of input sequences.
+The control string may contain:
+.PP
+.PD 0
+.TP 3
+1.
+White-space characters (blanks and tabs)
+which, except in two cases described below,
+cause input to be read up to the next
+non-white-space character.
+.TP
+2.
+An ordinary character (not
+.BR % ),
+which must match the next character of the input stream.
+.TP
+3.
+Conversion specifications, consisting of the character
+.BR % ,
+an optional assignment suppression character
+.BR \(** ,
+an optional numerical maximum field width, an optional
+.BR l
+or
+.BR h
+indicating the size of the receiving variable, and a conversion code.
+.PD
+.PP
+A conversion specification directs the conversion of the next input
+field; the result is placed in the variable pointed to by the
+corresponding argument, unless assignment suppression has been
+indicated by
+.BR \(** .
+The suppression of assignment provides a way of describing an
+input field which is to be skipped.
+An input field is defined as a string of non-white-space characters;
+it extends to the next inappropriate character or until the field
+width, if specified, is exhausted.
+.PP
+The conversion code indicates the interpretation of the
+input field; the corresponding pointer argument must
+usually be of a restricted type.
+For a suppressed field, no pointer argument should be given.
+The following conversion codes are legal:
+.PP
+.PD 0
+.TP
+.B %
+A single
+.B %
+is expected in the input at this point; no assignment is done.
+.TP
+.B d
+A decimal integer is expected;
+the corresponding argument should be an integer pointer.
+.TP
+.B u
+An unsigned decimal integer is expected;
+the corresponding argument should be an unsigned integer pointer.
+.TP
+.B o
+An octal integer is expected;
+the corresponding argument should be an integer pointer.
+.TP
+.B x
+A hexadecimal integer is expected;
+the corresponding argument should be an integer pointer.
+.TP
+\f3e\fP,\f3f\fP,\f3g\fP
+A floating point number is expected;
+the next field is converted accordingly and stored through the
+corresponding argument, which should be a pointer to a
+.IR float .
+The input format for floating point numbers is an optionally signed
+string of digits, possibly containing a decimal point, followed by
+an optional exponent field consisting of an
+.B E
+or an
+.BR e ,
+followed by an optionally signed integer.
+.TP
+.B s
+A character string is expected; the corresponding argument should be
+a character pointer to an array of characters large enough
+to accept the string and a terminating
+.BR \e0 ,
+which will be added automatically.
+The input field is terminated by a white-space character.
+.TP
+.B c
+A character is expected; the
+corresponding argument should be a character pointer.
+The normal skip over white space is suppressed in this case;
+to read the next non-space character, use
+.BR %1s .
+If a field width is given, the corresponding argument
+should refer to a character array; the
+indicated number of characters is read.
+.TP
+.B [
+String data and the normal skip over leading white space
+is suppressed.  The left bracket is followed by a set of characters
+(the
+.IR scanset )
+and a right bracket; the input field is the maximal
+sequence of input characters consisting entirely of
+characters in the \fIscanset\fP.
+The circumflex,
+.RB ( \|^\| ),
+when it appears as the first character in the \fIscanset\fP,
+serves as a complement operator and redefines the \fIscanset\fP as
+the set of all characters
+.IR not
+contained in the remainder of the \fIscanset\fP string.
+There are some conventions used in the construction of
+the \fIscanset\fP.
+A range of characters may be represented by the construct
+.IR first-last ;
+thus, \fB[0123456789]\fP may be expressed \fB[0-9]\fP.
+Using this convention,
+.IR first
+must be lexically less than or equal to
+.IR last ,
+or else the dash will stand for itself.  The dash will also stand for
+itself whenever it is the first or the last character
+in the \fIscanset\fP.
+To include the right square bracket as an element of the \fIscanset\fP,
+it must appear as the first character (possibly preceded by a
+circumflex) of the \fIscanset\fP; otherwise it will 
+be interpreted syntactically as the closing bracket.
+The corresponding argument must point to a character array large
+enough to hold the data field and the terminating
+.BR \e0 ,
+which will be added automatically.
+.PD
+.PP
+The conversion characters
+.BR d ,
+.BR u ,
+.BR o ,
+and
+.B x
+may be preceded by
+.B l
+or
+.B h
+to indicate that a pointer to
+.B long
+or
+.BR short ,
+rather than
+.BR int ,
+is in the argument list.  Similarly, the conversion characters
+.BR e ,
+.BR f ,
+and
+.B g
+may be preceded by
+.B l
+to indicate that a pointer to
+.BR double ,
+rather than
+.BR float ,
+is in the argument list.
+.PP
+.I Scanf\^
+conversion terminates at
+.SM
+.BR EOF ,
+at the end of the control string,
+or when an input character conflicts with
+the control string.
+In the latter case, the offending character
+is left unread in the input stream.
+.PP
+.I Scanf\^
+returns the number of successfully matched
+and assigned input items; this number can be zero
+when an early conflict between an input
+character and the control string occurs.
+If the input ends before the first conflict or conversion,
+.SM
+.B EOF
+is returned.
+.SH EXAMPLES
+The call
+.PP
+.RS
+.B "int \|i; \|float \|x; \|char \|name[50];"
+.br
+.B scanf \|("%d%f%s", \|&i, \|&x, \|name);
+.RE
+.PP
+with the input line
+.PP
+.RS
+.B "25 \|54.32E\(mi1 \|thompson"
+.RE
+.PP
+will assign
+the value
+.B 25
+to
+.IR i ,
+and
+the value
+.B 5.432
+to
+.IR x ;
+.I name\^
+will contain
+.BR thompson\e0 .
+.sp
+The call
+.PP
+.RS
+.B "int \|i; \|float \|x; \|char \|name[50];"
+.br
+.B scanf \|("%2d%f%\(**d %[0-9]", \|&i, \|&x, \|name);
+.RE
+.PP
+with input
+.PP
+.RS
+.B "56789 \|0123 \|56a72"
+.RE
+.PP
+will assign
+.B 56
+to
+.IR i ,
+.B 789.0
+to
+.IR x ,
+skip
+.BR 0123 ,
+and place the string
+.B 56\e0
+in
+.IR name .
+The next call to
+.I getchar\^
+(see
+.IR getc (3S))
+will return
+.BR a .
+.SH SEE ALSO
+atof(3C),
+getc(3S),
+printf(3S),
+strtol(3C).
+.SH NOTE
+Trailing white space
+is left unread unless matched in the control string.
+.SH DIAGNOSTICS
+These
+functions return
+.SM
+.B EOF
+on end of input
+and a short count for missing or illegal data items.
+.SH BUGS
+The success of literal matches and suppressed
+assignments is not directly
+determinable.
+.\"	@(#)scanf.3s	1.5	

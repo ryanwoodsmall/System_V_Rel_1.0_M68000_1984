@@ -1,0 +1,644 @@
+.tr ~
+.TH CONFIG 1M 
+.SH NAME
+config \- configure \*(5)
+.SH SYNOPSIS
+.B /etc/config
+[
+.B \-t
+]
+[
+.B \-v     
+file ] [
+.B \-l
+file ] [
+.B \-c
+file ] [
+.B \-m
+file ] dfile
+.SH DESCRIPTION
+.I Config\^
+is a program that takes a description of 
+\*(5) and
+generates two files.
+One file provides information regarding the interface between
+the hardware and device handlers.
+The other file is a C program defining the configuration tables
+for the various devices on the system.
+.PP
+The
+.B \-v
+option specifies the name of the exception vector file;     
+.B "m68kvec.s"
+is the default name.
+.PP
+The
+.B \-l
+option specifies the name of the hardware interface file;
+.B "low.s"
+is the default name.  
+.PP
+The
+.B \-c
+option specifies the name of the configuration table file;
+.B conf.c
+is the default name.
+.PP
+The
+.B \-m
+option specifies the name of the file that contains
+all the information regarding supported devices;
+.B /etc/master
+is the default name.
+This file is supplied with 
+\*(5) and should not
+be modified unless the user fully
+understands its construction.
+.PP
+The
+.B \-t
+option requests a short table of major device numbers for
+character and block type devices.
+This can facilitate the creation of special files.
+.PP
+The user must supply
+.BR dfile ;
+it must contain device information
+for the user's system.
+This file is divided into three parts.
+The first part contains physical device specifications.
+The second part contains system-dependent information.
+The third part contains microprocessor-specific information.
+The first two parts are required, the third part is
+optional.
+Any line with an asterisk (\fB\(**\fR) in column 1 is a comment.
+.PP
+.SS First Part of \f2dfile\fR
+Each line contains four or five fields, delimited by blanks and/or tabs
+in the following format:
+.PP
+.RS
+devname    vector    address    bus    number
+.RE
+.PP
+where
+.I devname\^
+is the name of the device (as it appears in the
+.B "/etc/master"
+device table),
+.I vector\^
+is
+the interrupt vector location (hexadecimal),
+.I address\^
+is the device address (hexadecimal),
+.I bus\^
+is the bus request level (1 through 7),
+and
+.I number\^
+is the number (decimal) of devices associated with the
+corresponding controller;
+.I number\^
+is optional, and if omitted, a default
+value which is the maximum value for that controller is used.
+.PP
+There are certain drivers which may be provided with the system
+that are actually pseudo-device drivers,
+that is, there is no real hardware associated with the driver.
+Drivers of this type are identified on their respective manual entries.
+When these devices are specified in the description file, the
+interrupt
+.IR vector ,
+device
+.IR address ,
+and
+.I bus\^
+request level must all be zero.
+.PP
+.if \n()s .bp
+.SS Second Part of \f2dfile\fR
+The second part contains three different types of lines.
+Note that
+all specifications of this part
+are required, although their order is arbitrary.
+.PP
+1.
+.I "Root\^/\^pipe\^/\^dump device specification\^"
+.PP
+.ti +4
+Three lines of three fields each:
+.PP
+.RS
+.in +3
+\f3root\f2	devname	minor [,minor...]\f1
+.br
+\f3pipe\f2	devname	minor [,minor...]\f1
+.br
+\f3dump\f2	devname	minor [,minor...]\f1
+.in -3
+.RE
+.PP
+.in +4
+where
+.I minor\^
+is the minor device number (in octal).  For certain Motorola Inc.
+disk controllers, e.g., the Universal Disk, it is possible, and
+often desirable, to have a single UNIX System capable of 
+executing on any device on the controller.  For such devices,
+.I minor
+can be repeated (separated by commas).  The first reference to
+.I minor
+specifies the \f3root\f1 (\f3pipe\f1, \f3dump\f1) to be used for
+disk 0, the second \f2minor\f1 for disk 1, etc.  The same number
+of \f2minor\f1 references must be present for 
+\f3root\f1, \f3pipe\f1, \f3dump\f1, and \f3swap\f1.
+.in -4
+.PP
+2.
+.I "Swap device specification\^"
+.PP
+.ti +4
+One line that contains five fields as follows:
+.PP
+.RS
+\f3swap\f2	devname	minor	swplo	nswap	[,minor swplo nswap...]
+.RE
+.PP
+.in +4
+where
+.I swplo\^
+is the lowest disk block (decimal) in the swap area and
+.I nswap\^
+is the number of disk blocks (decimal) in the swap area.
+Similar to the 
+.BR root , " pipe" ", and" " dump"
+specifications above, the
+.BR minor , " swplo" ", and" " nswap"
+references can be repeated for certain Motorola Inc. controllers.
+.in -4
+.PP
+3.
+.I "Parameter specification\^"
+.PP
+.in +4
+Several lines of two fields each as follows
+(number is decimal):
+.in -4
+.RS
+.PP
+.PD 0
+.TP 18
+.ti +3
+.B buffers
+number
+.TP
+.ti +3
+.B inodes
+number
+.TP
+.ti +3
+.B files
+number
+.TP
+.ti +3
+.B mounts
+number
+.TP
+.ti +3
+.B coremap
+number
+.TP
+.ti +3
+.B swapmap
+number
+.TP
+.ti +3
+.B calls
+number
+.TP
+.ti +3
+.B procs
+number
+.TP
+.ti +3
+.B maxproc
+number
+.TP
+.ti +3
+.B texts
+number
+.TP
+.ti +3
+.B clists
+number
+.TP
+.ti +3
+.B hashbuf
+number
+.TP
+.ti +3
+.B physbuf
+number
+.TP
+.ti +3
+.B power
+0 or 1
+.TP
+.ti +3
+.B mesg
+0 or 1
+.TP
+.ti +3
+.B sema
+0 or 1
+.TP
+.ti +3
+.B shmem
+0 or 1
+.in -3
+.PD
+.RE
+.SS Third Part of \f2dfile\fR
+The third part contains lines identified by a keyword.
+The format of each line differs for each keyword.
+The ordering of the third part is significant.
+.PP
+1.
+.I "Microprocessor specification"
+.PP
+.ti +4
+One line of two fields:
+.PP
+.RS
+.in +3
+.B mpu
+number
+.in -3
+.RE
+.PP
+.in +4
+where number is 68000, 68010, or 68020.
+The default \fImpu\fR number is 68000.
+.in -4
+.PP
+2.
+.I "Non-unique driver specifications"
+.PP
+.ti +4
+Several lines of two fields:
+.PP
+.RS
+.in +3
+.B force
+identifier
+.in -3
+.RE
+.PP
+.in +4
+where  
+.I identifier
+is the name of a unique identifier defined within a driver,
+located in the kernel I/O library file.  This forces the correct
+linking of non-table driven drivers, such as those for the
+clock, console, and mmu.
+.in -4
+.PP
+3.
+.I "Memory probe specifications"
+.PP
+.ti +4
+Several lines of three fields:
+.PP
+.RS
+.in +3
+\fBprobe\fR	address	value
+.in -3
+.RE
+.PP
+.in +4
+where  
+.I address
+is the hexadecimal number specifying a memory-mapped I/O location,
+which must be reset for \*(5) to execute properly.
+The intent is to provide a means by which non-standard (or
+unsupported) devices can be set to a harmless state.
+.I Value
+is a hexadecimal number (0X00-0XFF) to be written in \fIaddress\fR, or
+.IR "-1" ,
+indicating that the address is to be "read only".
+.in -4
+.PP
+4.
+.I "Alien handler entry specifications"
+.PP
+.ti +4
+Several lines of three fields:
+.PP
+.RS
+.in +3
+\fBalien\fR	<vector address>	<alien address>
+.in -3
+.RE
+.PP
+.in +4
+where  
+.I "vector address"
+is the hexadecimal address of the normal exception vector for
+the alien entry point, and \fIalien address\fR is the
+hexadecimal entry point for the non-UNIX handler. 
+If no UNIX handler
+is associated with the \fIvector address\fR, then \fIalien address\fR
+is entered into the vector.  Otherwise, code is
+produced in \fIlow.s\fR so that the alien handler
+is entered only when the
+exception occurs in the processor's supervisor state.
+.in -4
+.PP
+5.
+.I "Multiple handler specifications"
+.PP
+.ti +4
+Several lines of four or five fields:
+.PP
+.RS
+.in +3
+\fBdup\fR	flag	<vector address>	handler	[argument]
+.in -3
+.RE
+.PP
+.in +4
+where  
+.I flag
+is a bit mask.  The bits are interpreted as:
+.PP
+.RS
+.in +3
+1 - if \f2handler\f1 returns 0, go to the normal interrupt
+    return point ("intret").
+.sp
+2 - if \f2handler\f1 returns 0, go to the normal trap
+    return point ("alltraps").
+.sp
+4 - if \f2handler\f1 returns 0, go to the quick return point ("return").
+.sp
+10 - \f2argument\f1 is to be passed to \f2handler\f1.
+.in -3
+.RE
+.PP
+.in +4
+\f2Vector address\f1 is the hexadecimal address of the normal
+exception vector for the firmware entry point.  \f2Handler\f1 is
+the name of an exception handling routine, with the optional
+\f2argument\f1 passed to it.  The intent is to provide a means
+of specifying multiple handlers for a single exception.  These
+handlers are called in the order given in \f2dfile\f1;
+then, the normal handler is called.  If bits 1, 2 or 4 of \f2flag\f1
+are set and the handler returns zero, then the remainder
+of the handlers are not called.
+.in -4
+.PP
+6.
+.I "Memory configuration specifications"
+.PP
+.ti +4
+Several lines of four of five fields:
+.PP
+.RS
+.in +3
+\fBram\fR	flag	low	high	[size]
+.in -3
+.RE
+.PP
+.in +4
+where  
+.I flag
+is an octal bit mask, which is interpreted as follows:
+.PP
+.RS
+.in +3
+1 - memory has no parity check and, therfore,
+    need not be initialized after power up.
+.sp
+2 - a single memory block may exist, ranging from
+    \fIlow\fR through \fIhigh\fR -1.
+.sp
+4 - multiple memory blocks may be located in the 
+    range and are of \fIsize\fR bytes.
+.in -3
+.RE
+.PP
+.in +5
+\fILow\fR and \fIhigh\fR are hexadecimal
+memory addresses, and \fIsize\fR is a hexadecimal number.
+The intent is to provide information to \*(5) about 
+noncontiguous memory.  \fILow\fR specifies the low memory
+address where memory may be located, and which may extend
+through \fIhigh\fR-1.  If the range consists of multiple boards,
+which may or may not be present, they are of \fIsize\fR
+bytes. 
+.PP
+.in +5
+For flag 2 ranges, UNIX writes sequential memory locations,
+starting at low, until a memory fault occurs.  For
+flag 4 ranges, UNIX performs a test for each \fIsize\fR-sized
+subrange.  If memory need not be initialized, only the first
+byte of the range (flag 2) or subrange (flag 4) is tested to
+determine the presence of the memory.
+.PP
+.in +5
+It is essential that \fIram\fR lines be ordered in ascending
+\fIlow\fR addresses.  If two \fIlow\fRs are equal (more than
+one size memory block may be located within a range), they
+must be ordered in ascending \fIsize\fRs.
+.in -5
+.PP
+.in +5
+If no \fBram\fR specifier is present, the default is:
+.sp
+.RS
+.ti +4
+\fBram\fR	2	0	F00000
+.RE
+.in -5
+.SH EXAMPLE
+To configure the system on an EXORmacs and with the following devices:
+.sp
+.ti +5
+one Universal disk controller:
+.in +10
+CMD disks as devices 0 & 1; 16MB each
+.br
+Lark disks as devices 2 & 3; 25MB each
+.in -5
+one Centronics line printer
+.br
+one console board with two ports
+.br
+two VAM boards with four ports each
+.br
+one clock
+.sp
+.in -5
+the following information must be specified:
+.sp
+.in +5
+root device is CMD removable disk device 1, partition 0
+.br
+swap device is CMD removable disk device 1, partition 7
+.br
+pipe device is CMD removable disk device 1, partition 0
+.br
+.in +5
+with a swplo of 1 and an nswap of 3292
+.in -5
+.br
+dump device is CMD removable disk device 1, partition 7
+.br
+number of buffers is 50
+.br
+number of calls is 50
+.br
+number of inodes is 90
+.br
+number of files is 90
+.br
+number of mounts is 8
+.br
+number of procs is 50
+.br
+number of texts is 40
+.br
+number of character buffers is 150
+.br
+number of system addressable buffers is 0
+.br
+maximum number of processes per user ID is 15
+.br
+number of coremap entries is 100
+.br
+number of swapmap entries is 75
+.br
+number of hashbuf is 64
+.br
+number of physbuf is 4
+.br
+power fail recovery is not to be included
+.br
+messages are to be included
+.br
+semaphores are to be included
+.br
+shared memory is to be included
+.br
+one pseudo device for the operating system profiler.
+.sp
+.in -5
+.bp
+The actual system configuration table would be specified as follows
+(comments may be inserted by preceding the comment with an asterisk 
+(*)):
+.sp
+* Devices
+.TS
+l c c c n.
+acia	22c	fee011	5	2
+acia	070	ff3801	4	4
+acia	270	ff3901	4	4
+disk	3fc	ff0001	4	64
+lp	0	fee009	0	1
+clock	230	0	6	1
+.TE
+* Pseudo Devices
+.TS
+l n c c c.
+prf	0	0 	0	1
+.TE
+* Traps - Not to be modified
+.TS
+l c c c c.
+buserr	8	0	5	1
+adderr	c	0	5	1
+insterr	10	0	5	1
+zeroerr	14	0	5	1
+chkerr	18	0	5	1
+trapv	1c	0	5	1
+priverr	20	0	5	1
+trce	24	0	5	1
+em1010	28	0	5	1
+em1111	2c	0	5	1
+syscall	80	0	5	1
+brkpt	84	0	5	1
+sigiot	88	0	5	1
+sigemt	8c	0	5	1
+sigfpe	90	0	5	1
+.TE
+* System Devices
+.TS
+l l l l l.
+root	disk	10
+swap	disk	17	1	3292
+pipe	disk	10
+dump	disk	17
+.TE
+* Tunable Parameters
+.TS
+l n.
+buffers	 50
+calls	50
+inodes	90
+files	90
+mounts	  8
+procs	 50
+texts	 40
+clists	150
+sabufs	  0
+maxproc	 15
+coremap	100
+swapmap	 75
+hashbuf	 64
+physbuf	  4
+power	  0
+mesg	  1
+sema	  1
+shmem	  1
+.TE
+* Universal Disk Configurations:
+.br
+* disk01 specifies devices 0 and 1;
+.br
+* disk23 specifies devices 2 & 3.
+.br
+* See
+\fB<sys/io.h>\fR
+for the definitions of UDFRC1, UDFRC3,
+.br
+* UDFRL1 & UDFRL3.
+.br
+disk01		UDFRC1
+.br
+disk23		UDFRC1
+.SH FILES
+.PD 0
+.TP 15
+/etc/master
+default input master device table
+.TP
+m68kvec.s
+default output exception vector file for m68k
+.TP
+low.s
+default output hardware interface file for m68k
+.TP
+conf.c
+default output configuration table file
+.PD
+.SH "SEE ALSO"
+sysdef(1M),
+master(4).
+.br
+``Setting up \*(5)''
+in the 
+.IR "\*(6) Administrator's Guide" .
+.SH DIAGNOSTICS
+Diagnostics are routed to the standard output and are
+self-explanatory.
+.\"	@(#)config.68.1m	1.10	
